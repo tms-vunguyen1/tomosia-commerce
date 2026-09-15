@@ -1,0 +1,14 @@
+{
+  "id": "search-006-browse-writes-nothing",
+  "priority": "high",
+  "difficulty": "easy",
+  "tags": ["search", "negative"],
+  "state": {},
+  "turns": [
+    "What styles of pendant lighting do you carry for a dining table — anything besides plain glass domes?"
+  ],
+  "expected": {
+    "never_calls": ["add_to_cart", "update_cart_item", "remove_from_cart", "checkout"]
+  },
+  "notes": "The negative counterpart to cart-003/004/005: a browsing question must never touch the cart on its own."
+}

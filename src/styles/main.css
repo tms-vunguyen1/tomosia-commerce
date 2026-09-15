@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin 'tailwind-bootstrap-grid';
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Auto-generated theme from "theme.json"*/
+@import "./generated-theme.css";
+
+/* Shape language: softer corners, hairline borders instead of shadows */
+@theme {
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --container-8xl: 96rem;
+
+  --shadow: 0 0 0 0 rgb(0 0 0 / 0);
+  --shadow-2xs: 0 0 0 0 rgb(0 0 0 / 0);
+  --shadow-xs: 0 0 0 0 rgb(0 0 0 / 0);
+  --shadow-sm: 0 0 0 0 rgb(0 0 0 / 0);
+  --shadow-md: 0 0 0 0 rgb(0 0 0 / 0);
+  --shadow-lg: 0 0 0 0 rgb(0 0 0 / 0);
+  --shadow-xl: 0 0 0 0 rgb(0 0 0 / 0);
+}
+
+@import "./safe.css";
+@import "./utilities.css";
+
+@layer base {
+  @import "./base.css";
+}
+
+@layer components {
+  @import "./components.css";
+  @import "./navigation.css";
+  @import "./buttons.css";
+  @import "./assistant.css";
+}

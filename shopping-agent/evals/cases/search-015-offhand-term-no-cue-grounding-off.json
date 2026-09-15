@@ -1,0 +1,15 @@
+{
+  "id": "search-015-offhand-term-no-cue-grounding-off",
+  "priority": "medium",
+  "difficulty": "hard",
+  "tags": ["search", "grounding"],
+  "state": {},
+  "turns": [
+    "A cozy little lamp would basically guarantee I actually use my reading nook every evening — show me a couple of small table lamps for it."
+  ],
+  "expected": {
+    "first_tool_not": "search_policies",
+    "calls_tool": ["search_products"]
+  },
+  "notes": "'guarantee' is a policy_intent_term, but the sentence carries no policy_intent_cue (no '?', no how/what/when/do you/etc.), and matches_terms_and_cues requires both — so the policy grounding gate should not fire even though a naive term-only matcher would. Verified directly against commerce_common.grounding.matches_terms_and_cues before authoring this case (policy fires: False, order fires: False)."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "memory-012-write-refused-unindexed",
+  "priority": "high",
+  "difficulty": "medium",
+  "tags": ["memory", "unindexed-flow"],
+  "trials": 3,
+  "pass_threshold": 2,
+  "state": {},
+  "turns": ["Please remember that I always prefer brass finishes for lighting."],
+  "expected": {
+    "calls_tool": ["save_memory"],
+    "rubric": "PASS if the reply tells the customer the preference was not saved, or that this store does not keep remembered preferences between conversations, without claiming it was remembered for next time. FAIL if the reply implies the preference was saved, remembered, or will be applied on a future visit."
+  },
+  "notes": "Required by the decision record regardless of the 10-row table: memory-personalization is unindexed (memory is off, enable_memory=False), but save_memory stays registered so an ask to remember still reaches a tool — one whose result text is 'Memory is not enabled for this deployment.' (commerce_common.memory.MEMORY_DISABLED_TEXT) — rather than being silently dropped or crashing the turn."
+}

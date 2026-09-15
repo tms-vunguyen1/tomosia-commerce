@@ -1,0 +1,317 @@
+{
+  "case_id": "cart-004-update-quantity-make-it-three",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01VaDBMhQdYYZbpiNiMyvCfk",
+            "input": {
+              "query": "bedside lamp"
+            },
+            "label": "Looking for bedside lamps"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01VaDBMhQdYYZbpiNiMyvCfk",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 2 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"bedside lamp\", \"result_count\": 2, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_01VPVAv6qxY5HFg8uDRtoRcH",
+            "input": {
+              "product_id": "gid://shopify/ProductVariant/47643685159074"
+            },
+            "label": "Adding the Bedside Lamp to your cart"
+          },
+          "turn": 0
+        },
+        {
+          "type": "cart_update",
+          "data": {
+            "cart": {
+              "items": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685159074",
+                  "title": "Bedside Lamp",
+                  "price": 69.99,
+                  "quantity": 1,
+                  "image_url": null,
+                  "line_total": 69.99
+                }
+              ],
+              "item_count": 1,
+              "subtotal": 69.99,
+              "currency": "USD"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_01VPVAv6qxY5HFg8uDRtoRcH",
+            "summary": "Added gid://shopify/ProductVariant/47643685159074 x1. Cart now has 1 item(s), subtotal 69.99 USD.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Added"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " the Bedside Lamp ($69.99) to your cart\u2014your subtotal is now $69.99."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_014gteqw34rKZPCmRHMHazK3",
+            "input": {
+              "suggestions": [
+                "View cart",
+                "Add a matching shade or bulb",
+                "Check out"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "View cart",
+                "Add a matching shade or bulb",
+                "Check out"
+              ]
+            },
+            "stream_id": "toolu_014gteqw34rKZPCmRHMHazK3"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_014gteqw34rKZPCmRHMHazK3",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 224,
+              "output_tokens": 331,
+              "cache_read_input_tokens": 19690,
+              "cache_creation_input_tokens": 10322
+            },
+            "elapsed_ms": 6692,
+            "results_cleared": 0
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "update_cart_item",
+            "id": "toolu_01BwkcUKtEsXQ6Rwx2woE7c8",
+            "input": {
+              "product_id": "gid://shopify/ProductVariant/47643685159074",
+              "quantity": 3
+            },
+            "label": "Updating quantity to three"
+          },
+          "turn": 1
+        },
+        {
+          "type": "cart_update",
+          "data": {
+            "cart": {
+              "items": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685159074",
+                  "title": "Bedside Lamp",
+                  "price": 69.99,
+                  "quantity": 3,
+                  "image_url": null,
+                  "line_total": 209.97
+                }
+              ],
+              "item_count": 3,
+              "subtotal": 209.97,
+              "currency": "USD"
+            }
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "update_cart_item",
+            "id": "toolu_01BwkcUKtEsXQ6Rwx2woE7c8",
+            "summary": "Updated quantity. Cart now has 3 item(s), subtotal 209.97 USD.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Upd"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ated to 3 "
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Bedside Lamps\u2014"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "your"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " sub"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "total is now $209."
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "97."
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01TPmgkNUrAjAGYCTvFUu4t8",
+            "input": {
+              "suggestions": [
+                "View cart",
+                "Check out",
+                "Add a matching shade or bulb"
+              ]
+            }
+          },
+          "turn": 1
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "View cart",
+                "Check out",
+                "Add a matching shade or bulb"
+              ]
+            },
+            "stream_id": "toolu_01TPmgkNUrAjAGYCTvFUu4t8"
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01TPmgkNUrAjAGYCTvFUu4t8",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 1
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 4,
+              "output_tokens": 226,
+              "cache_read_input_tokens": 20036,
+              "cache_creation_input_tokens": 1137
+            },
+            "elapsed_ms": 3723,
+            "results_cleared": 0
+          },
+          "turn": 1
+        }
+      ],
+      "replies": [
+        "Added the Bedside Lamp ($69.99) to your cart\u2014your subtotal is now $69.99.",
+        "Updated to 3 Bedside Lamps\u2014your subtotal is now $209.97."
+      ],
+      "reply_text": "Added the Bedside Lamp ($69.99) to your cart\u2014your subtotal is now $69.99.\nUpdated to 3 Bedside Lamps\u2014your subtotal is now $209.97.",
+      "final_cart": {
+        "items": [
+          {
+            "product_id": "gid://shopify/ProductVariant/47643685159074",
+            "title": "Bedside Lamp",
+            "price": 69.99,
+            "quantity": 3,
+            "image_url": null,
+            "line_total": 209.97
+          }
+        ],
+        "item_count": 3,
+        "subtotal": 209.97,
+        "currency": "USD"
+      }
+    }
+  ]
+}

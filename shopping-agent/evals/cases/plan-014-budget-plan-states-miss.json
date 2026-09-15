@@ -1,0 +1,17 @@
+{
+  "id": "plan-014-budget-plan-states-miss",
+  "priority": "critical",
+  "difficulty": "medium",
+  "tags": ["planning-goals", "rubric", "ui"],
+  "trials": 3,
+  "pass_threshold": 2,
+  "state": {},
+  "turns": [
+    "I'm setting up a small reading nook and my budget is $90 total — I need a lamp and a pendant light above it."
+  ],
+  "expected": {
+    "ui_components": ["plan"],
+    "rubric": "PASS if the plan states a total near $99.98 (Bedside Lamp $69.99 + Cotton Novelty Pendant $29.99, the only real in-stock lamp+pendant pair fitting the request) and explicitly says this is over the stated $90 budget. FAIL if the reply claims the total fits within $90, invents a lower total or different items, or never compares the total to the budget at all."
+  },
+  "notes": "A real, uncontrived miss: Bedside Lamp ($69.99) + Cotton Novelty Pendant ($29.99) is the natural pick for 'a lamp and a pendant' from this fixture's catalog and comes to $99.98, $9.98 over the stated $90 budget — tests that the sum is both computed and the miss is said, not glossed over. ui_components asserts the rendered component name ('plan', from shopping_agent.enrichment.PRESENTATION_COMPONENTS), not the tool name ('present_plan') — the two differ for every presentation tool."
+}

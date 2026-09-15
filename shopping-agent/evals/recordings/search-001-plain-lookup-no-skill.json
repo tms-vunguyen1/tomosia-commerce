@@ -1,0 +1,125 @@
+{
+  "case_id": "search-001-plain-lookup-no-skill",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01KMAK9zGr7zBXd2vBrhqkNY",
+            "input": {
+              "query": "Bedside Lamp"
+            },
+            "label": "Checking bedside lamp availability"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01KMAK9zGr7zBXd2vBrhqkNY",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 2 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"Bedside Lamp\", \"result_count\": 2, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Yes, the Bedside"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Lamp "
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "($69.99) is currently"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " in stock."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_013jMoxCpSTnzcbp4DPJcNJc",
+            "input": {
+              "suggestions": [
+                "Add it to cart",
+                "See more bedside lamps",
+                "Check delivery estimate"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Add it to cart",
+                "See more bedside lamps",
+                "Check delivery estimate"
+              ]
+            },
+            "stream_id": "toolu_013jMoxCpSTnzcbp4DPJcNJc"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_013jMoxCpSTnzcbp4DPJcNJc",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 223,
+              "output_tokens": 218,
+              "cache_read_input_tokens": 19056,
+              "cache_creation_input_tokens": 633
+            },
+            "elapsed_ms": 4111,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "Yes, the Bedside Lamp ($69.99) is currently in stock."
+      ],
+      "reply_text": "Yes, the Bedside Lamp ($69.99) is currently in stock.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      }
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "case_id": "cart-003-add-with-quantity",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01Q4gnWnJ7gEr6zWyKzrJEcN",
+            "input": {
+              "query": "Bedside Lamp"
+            },
+            "label": "Looking up bedside lamps"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01Q4gnWnJ7gEr6zWyKzrJEcN",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 2 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"Bedside Lamp\", \"result_count\": 2, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_016mEWeKHAqaaqRz78XEPoXH",
+            "input": {
+              "product_id": "gid://shopify/ProductVariant/47643685159074",
+              "quantity": 2
+            },
+            "label": "Adding two bedside lamps to your cart"
+          },
+          "turn": 0
+        },
+        {
+          "type": "cart_update",
+          "data": {
+            "cart": {
+              "items": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685159074",
+                  "title": "Bedside Lamp",
+                  "price": 69.99,
+                  "quantity": 2,
+                  "image_url": null,
+                  "line_total": 139.98
+                }
+              ],
+              "item_count": 2,
+              "subtotal": 139.98,
+              "currency": "USD"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_016mEWeKHAqaaqRz78XEPoXH",
+            "summary": "Added gid://shopify/ProductVariant/47643685159074 x2. Cart now has 2 item(s), subtotal 139.98 USD.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Added"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " two"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Bedside Lamps to"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " your cart \u2014 sub"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "total is now $139."
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "98."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01Ehf1sAGnxh1jzQHLvE4JVQ",
+            "input": {
+              "suggestions": [
+                "View cart",
+                "Check out",
+                "Find matching nightstands",
+                "Add a shade upgrade"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "View cart",
+                "Check out",
+                "Find matching nightstands",
+                "Add a shade upgrade"
+              ]
+            },
+            "stream_id": "toolu_01Ehf1sAGnxh1jzQHLvE4JVQ"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01Ehf1sAGnxh1jzQHLvE4JVQ",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 227,
+              "output_tokens": 348,
+              "cache_read_input_tokens": 19690,
+              "cache_creation_input_tokens": 10343
+            },
+            "elapsed_ms": 7391,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "Added two Bedside Lamps to your cart \u2014 subtotal is now $139.98."
+      ],
+      "reply_text": "Added two Bedside Lamps to your cart \u2014 subtotal is now $139.98.",
+      "final_cart": {
+        "items": [
+          {
+            "product_id": "gid://shopify/ProductVariant/47643685159074",
+            "title": "Bedside Lamp",
+            "price": 69.99,
+            "quantity": 2,
+            "image_url": null,
+            "line_total": 139.98
+          }
+        ],
+        "item_count": 2,
+        "subtotal": 139.98,
+        "currency": "USD"
+      }
+    }
+  ]
+}

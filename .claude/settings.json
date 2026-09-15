@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "commerce-builder@claude-commerce-agents": true
+  }
+}

@@ -1,0 +1,574 @@
+{
+  "case_id": "search-006-browse-writes-nothing",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01PVXdhJB16S4kXPRg92zkYT",
+            "input": {
+              "query": "pendant light dining table",
+              "filters": {
+                "category": "pendant"
+              },
+              "limit": 8
+            },
+            "label": "Looking at pendant light styles for dining tables"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01PVXdhJB16S4kXPRg92zkYT",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 4 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"pendant light dining table\", \"result_count\": 4, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685519522\", \"title\": \"Cotton Novelty Pendant\", \"price\": 29.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A small cotton-shade pendant for a hallway or nook.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\":"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01KkJFEzVoscdraRpsLCcuyF",
+            "input": {
+              "query": "pendant light",
+              "filters": {},
+              "limit": 8
+            },
+            "label": "Broadening the pendant light search"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01KkJFEzVoscdraRpsLCcuyF",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"pendant light\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685519522\", \"title\": \"Cotton Novelty Pendant\", \"price\": 29.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A small cotton-shade pendant for a hallway or nook.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "We"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " only have two"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " p"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "endant sty"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "les in stock be"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "yond gl"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ass dom"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "es: the Cotton"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Novelty Pendant ("
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "a small cotton-shade"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " f"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ix"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ture, better"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " suited to a"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " hallway or nook than a"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " full"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " dining table) and the Light"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Drum Pendant ("
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "a large statement drum sh"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ade, in"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " stock but"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " a prem"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ium pi"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ece at $2,567). We"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " don't carry other"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " p"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "endant styles like lin"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ear,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " s"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "put"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "nik, or r"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "attan/"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "wo"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ven design"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "s right"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " now."
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643684798626",
+                    "title": "Light Drum Pendant",
+                    "price": 2567.0,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A large statement drum pendant.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ]
+            },
+            "stream_id": "toolu_011itBKd1w2kzyNsLMuLQB3L"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643684798626",
+                    "title": "Light Drum Pendant",
+                    "price": 2567.0,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A large statement drum pendant.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "A large statement drum pendant, well-suited as a dining table centerpiece"
+                },
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ]
+            },
+            "stream_id": "toolu_011itBKd1w2kzyNsLMuLQB3L"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643684798626",
+                    "title": "Light Drum Pendant",
+                    "price": 2567.0,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A large statement drum pendant.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "A large statement drum pendant, well-suited as a dining table centerpiece"
+                },
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "A smaller cotton-shade pendant, though sized more for a nook than a full table"
+                }
+              ],
+              "title": "Pendant styles beyond glass domes"
+            },
+            "stream_id": "toolu_011itBKd1w2kzyNsLMuLQB3L"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_011itBKd1w2kzyNsLMuLQB3L",
+            "input": {
+              "picks": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643684798626",
+                  "reason": "A large statement drum pendant, well-suited as a dining table centerpiece"
+                },
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685519522",
+                  "reason": "A smaller cotton-shade pendant, though sized more for a nook than a full table"
+                }
+              ],
+              "title": "Pendant styles beyond glass domes"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "products",
+            "payload": {
+              "title": "Pendant styles beyond glass domes",
+              "layout": "carousel",
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643684798626",
+                    "title": "Light Drum Pendant",
+                    "price": 2567.0,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A large statement drum pendant.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "A large statement drum pendant, well-suited as a dining table centerpiece"
+                },
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "A smaller cotton-shade pendant, though sized more for a nook than a full table"
+                }
+              ]
+            },
+            "stream_id": "toolu_011itBKd1w2kzyNsLMuLQB3L"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_011itBKd1w2kzyNsLMuLQB3L",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01U6UpHFDSDnkoU44cJkRPtb",
+            "input": {
+              "suggestions": [
+                "See details on the drum pendant",
+                "Look for a multi-light linear fixture",
+                "Search a different price range",
+                "Add one to cart"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "See details on the drum pendant",
+                "Look for a multi-light linear fixture",
+                "Search a different price range",
+                "Add one to cart"
+              ]
+            },
+            "stream_id": "toolu_01U6UpHFDSDnkoU44cJkRPtb"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01U6UpHFDSDnkoU44cJkRPtb",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 241,
+              "output_tokens": 777,
+              "cache_read_input_tokens": 40482,
+              "cache_creation_input_tokens": 1803
+            },
+            "elapsed_ms": 12392,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "We only have two pendant styles in stock beyond glass domes: the Cotton Novelty Pendant (a small cotton-shade fixture, better suited to a hallway or nook than a full dining table) and the Light Drum Pendant (a large statement drum shade, in stock but a premium piece at $2,567). We don't carry other pendant styles like linear, sputnik, or rattan/woven designs right now."
+      ],
+      "reply_text": "We only have two pendant styles in stock beyond glass domes: the Cotton Novelty Pendant (a small cotton-shade fixture, better suited to a hallway or nook than a full dining table) and the Light Drum Pendant (a large statement drum shade, in stock but a premium piece at $2,567). We don't carry other pendant styles like linear, sputnik, or rattan/woven designs right now.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      }
+    }
+  ]
+}

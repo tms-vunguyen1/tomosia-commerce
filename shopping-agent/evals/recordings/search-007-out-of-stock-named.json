@@ -1,0 +1,640 @@
+{
+  "case_id": "search-007-out-of-stock-named",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01CMfSwMJL5AQqKSiwM7LSN5",
+            "input": {
+              "query": "Copper Light table lamp"
+            },
+            "label": "Checking on that lamp for you"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01CMfSwMJL5AQqKSiwM7LSN5",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"Copper Light table lamp\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Copper Light table"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " lamp is still out"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " of stock."
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " If you'd like, the"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Bedside Lamp"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " is a simil"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ar compact style"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " that"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "'s currently available"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01BHJ7sJSyf7fcPebK4XDF3v",
+            "input": {
+              "suggestions": [
+                "Show the Bedside Lamp",
+                "Find other table lamps",
+                "Notify me when Copper Light restocks"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Show the Bedside Lamp",
+                "Find other table lamps",
+                "Notify me when Copper Light restocks"
+              ]
+            },
+            "stream_id": "toolu_01BHJ7sJSyf7fcPebK4XDF3v"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01BHJ7sJSyf7fcPebK4XDF3v",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 225,
+              "output_tokens": 257,
+              "cache_read_input_tokens": 19056,
+              "cache_creation_input_tokens": 731
+            },
+            "elapsed_ms": 4926,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Copper Light table lamp is still out of stock. If you'd like, the Bedside Lamp is a similar compact style that's currently available."
+      ],
+      "reply_text": "The Copper Light table lamp is still out of stock. If you'd like, the Bedside Lamp is a similar compact style that's currently available.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "8f3d03faf13b3cf5",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The reply states the Copper Light table lamp is 'still out of stock' without giving any specific restock date or timeframe, satisfying the PASS criteria."
+      }
+    },
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_019BpSBM9Xv2L6MJVi7syUbp",
+            "input": {
+              "query": "Copper Light table lamp"
+            },
+            "label": "Checking availability"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_019BpSBM9Xv2L6MJVi7syUbp",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"Copper Light table lamp\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Copper Light table lam"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "p is still out of stock."
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " If"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " you'd like, the"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Bedside Lamp"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " is"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " a similar compact option"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " that"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "'s currently available"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "."
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685159074",
+                    "title": "Bedside Lamp",
+                    "price": 69.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A compact bedside lamp with a soft fabric shade.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ]
+            },
+            "stream_id": "toolu_01DZHy8YoakF2fZCgDTXi5KL"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685159074",
+                    "title": "Bedside Lamp",
+                    "price": 69.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A compact bedside lamp with a soft fabric shade.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "In stock now and a similar compact table lamp style"
+                }
+              ],
+              "title": "In-stock alternative"
+            },
+            "stream_id": "toolu_01DZHy8YoakF2fZCgDTXi5KL"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01DZHy8YoakF2fZCgDTXi5KL",
+            "input": {
+              "picks": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685159074",
+                  "reason": "In stock now and a similar compact table lamp style"
+                }
+              ],
+              "title": "In-stock alternative"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01EvJiJcqWJWW6P63z9Jp3Tu",
+            "input": {
+              "suggestions": [
+                "Add Bedside Lamp to cart",
+                "Show other table lamps",
+                "Notify me when Copper Light restocks"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "products",
+            "payload": {
+              "title": "In-stock alternative",
+              "layout": "carousel",
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685159074",
+                    "title": "Bedside Lamp",
+                    "price": 69.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A compact bedside lamp with a soft fabric shade.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "In stock now and a similar compact table lamp style"
+                }
+              ]
+            },
+            "stream_id": "toolu_01DZHy8YoakF2fZCgDTXi5KL"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01DZHy8YoakF2fZCgDTXi5KL",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Add Bedside Lamp to cart",
+                "Show other table lamps",
+                "Notify me when Copper Light restocks"
+              ]
+            },
+            "stream_id": "toolu_01EvJiJcqWJWW6P63z9Jp3Tu"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01EvJiJcqWJWW6P63z9Jp3Tu",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 225,
+              "output_tokens": 360,
+              "cache_read_input_tokens": 19056,
+              "cache_creation_input_tokens": 710
+            },
+            "elapsed_ms": 6417,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Copper Light table lamp is still out of stock. If you'd like, the Bedside Lamp is a similar compact option that's currently available."
+      ],
+      "reply_text": "The Copper Light table lamp is still out of stock. If you'd like, the Bedside Lamp is a similar compact option that's currently available.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "8f3d03faf13b3cf5",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant correctly stated the Copper Light lamp is still out of stock and offered an alternative, without giving any specific restock date or timeframe."
+      }
+    },
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01DCkKdS56r168oZafpuwufE",
+            "input": {
+              "query": "Copper Light table lamp"
+            },
+            "label": "Checking stock on that lamp"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01DCkKdS56r168oZafpuwufE",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"Copper Light table lamp\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Copper Light table lam"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "p is still out of stock."
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " If you'd like, the"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Bedside Lamp"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " is a similar compact table"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " lamp with a f"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "abric shade that's currently"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " available at"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " $69.99."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01FWfuUKk6AofpiKPPcVXcCf",
+            "input": {
+              "suggestions": [
+                "Show me the Bedside Lamp",
+                "Find other copper table lamps",
+                "Notify me when Copper Light is back"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Show me the Bedside Lamp",
+                "Find other copper table lamps",
+                "Notify me when Copper Light is back"
+              ]
+            },
+            "stream_id": "toolu_01FWfuUKk6AofpiKPPcVXcCf"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01FWfuUKk6AofpiKPPcVXcCf",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 225,
+              "output_tokens": 279,
+              "cache_read_input_tokens": 19056,
+              "cache_creation_input_tokens": 736
+            },
+            "elapsed_ms": 5443,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Copper Light table lamp is still out of stock. If you'd like, the Bedside Lamp is a similar compact table lamp with a fabric shade that's currently available at $69.99."
+      ],
+      "reply_text": "The Copper Light table lamp is still out of stock. If you'd like, the Bedside Lamp is a similar compact table lamp with a fabric shade that's currently available at $69.99.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "8f3d03faf13b3cf5",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The reply states the Copper Light table lamp is still out of stock and does not provide any specific restock date or timeframe."
+      }
+    }
+  ]
+}

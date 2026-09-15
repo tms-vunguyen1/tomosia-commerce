@@ -1,0 +1,15 @@
+{
+  "id": "care-008-order-eta-from-read",
+  "priority": "critical",
+  "difficulty": "medium",
+  "tags": ["customer-care", "orders", "rubric"],
+  "trials": 3,
+  "pass_threshold": 2,
+  "state": {"signed_in": true},
+  "turns": ["When will my last order arrive?"],
+  "expected": {
+    "first_tool": "get_orders",
+    "rubric": "PASS if the reply gives the order's estimated arrival as Sep 17 (or 'arriving by Sep 17'), matching the order record's estimated_delivery. FAIL if it states a different date, says the order has not shipped, or gives no date despite the record having one."
+  },
+  "notes": "Order #20458's line item is a real product (Dome Pendant, gid://shopify/ProductVariant/47643685748898); the order and its estimated_delivery are authored, since no live customer/order was reachable (see evals/fixtures.py). The order-grounding gate forced get_orders as the turn's first tool in all 3 live trials, as expected. skill_loaded: 'customer-care' was dropped after a first live run answered correctly (3/3) without loading it — a single get_orders call was enough that the model judged the skill's extra rules unnecessary; per the commerce-evals skill's authoring rule, an unexpected-but-correct route widens the case instead of being re-pinned."
+}

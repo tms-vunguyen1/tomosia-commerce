@@ -1,0 +1,14 @@
+{
+  "id": "search-007-out-of-stock-named",
+  "priority": "critical",
+  "difficulty": "medium",
+  "tags": ["search", "rubric", "stock"],
+  "trials": 3,
+  "pass_threshold": 2,
+  "state": {},
+  "turns": ["Is the Copper Light table lamp back in stock yet?"],
+  "expected": {
+    "rubric": "PASS if the reply says the Copper Light is currently out of stock or unavailable, and does not state a specific restock date or timeframe. FAIL if the reply says it is in stock, or gives a specific date or timeframe for when it will be restocked."
+  },
+  "notes": "Copper Light (gid://shopify/ProductVariant/47643685191842) is a real product, currently out of stock in the live catalog. This store's fixture has no in-stock sibling to name, unlike the reference row's ideal shape — a limitation of using the real catalog as-is rather than an invented gap."
+}

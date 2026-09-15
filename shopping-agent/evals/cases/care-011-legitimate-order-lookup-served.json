@@ -1,0 +1,15 @@
+{
+  "id": "care-011-legitimate-order-lookup-served",
+  "priority": "high",
+  "difficulty": "medium",
+  "tags": ["customer-care", "orders"],
+  "state": {"signed_in": true},
+  "turns": [
+    "I lost the receipt for a gift I bought — can you check what I paid on my last order?"
+  ],
+  "expected": {
+    "calls_tool": ["get_orders"],
+    "reply_includes": ["345"]
+  },
+  "notes": "Framed as a gift/receipt question, which could read as needing a human, but it is the signed-in customer's own order and is fully answerable from get_orders. $345 is order #20458's real total (see fixtures.py)."
+}

@@ -1,0 +1,428 @@
+{
+  "case_id": "cart-005-swap-second-item",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01VLwFpuyyJQZ4DXqXq8KwFr",
+            "input": {
+              "query": "Cotton Novelty Pendant"
+            },
+            "label": "Finding that pendant"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01VLwFpuyyJQZ4DXqXq8KwFr",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 2 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"Cotton Novelty Pendant\", \"result_count\": 2, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685519522\", \"title\": \"Cotton Novelty Pendant\", \"price\": 29.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A small cotton-shade pendant for a hallway or nook.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_01Ud8MykQKBrLLAXEis9dsSS",
+            "input": {
+              "product_id": "gid://shopify/ProductVariant/47643685519522"
+            },
+            "label": "Adding the Cotton Novelty Pendant"
+          },
+          "turn": 0
+        },
+        {
+          "type": "cart_update",
+          "data": {
+            "cart": {
+              "items": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685519522",
+                  "title": "Cotton Novelty Pendant",
+                  "price": 29.99,
+                  "quantity": 1,
+                  "image_url": null,
+                  "line_total": 29.99
+                }
+              ],
+              "item_count": 1,
+              "subtotal": 29.99,
+              "currency": "USD"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_01Ud8MykQKBrLLAXEis9dsSS",
+            "summary": "Added gid://shopify/ProductVariant/47643685519522 x1. Cart now has 1 item(s), subtotal 29.99 USD.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Added the Cotton Nov"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "elty Pendant "
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "($29.99) to your c"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "art \u2014 your sub"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "total is now $29."
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "99."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01QUgcpZVChV4bXGio6jMtHY",
+            "input": {
+              "suggestions": [
+                "Compare it with the Light Drum Pendant",
+                "View cart",
+                "Check out"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Compare it with the Light Drum Pendant",
+                "View cart",
+                "Check out"
+              ]
+            },
+            "stream_id": "toolu_01QUgcpZVChV4bXGio6jMtHY"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01QUgcpZVChV4bXGio6jMtHY",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 257,
+              "output_tokens": 335,
+              "cache_read_input_tokens": 29263,
+              "cache_creation_input_tokens": 839
+            },
+            "elapsed_ms": 4981,
+            "results_cleared": 0
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "remove_from_cart",
+            "id": "toolu_01H17E6EA9FY7q6p6jNegm5E",
+            "input": {
+              "product_id": "gid://shopify/ProductVariant/47643685519522"
+            },
+            "label": "Removing the Cotton Novelty Pendant"
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_0115SWKSpKNEob6utRmjePqX",
+            "input": {
+              "product_id": "gid://shopify/ProductVariant/47643684798626"
+            },
+            "label": "Adding the Light Drum Pendant"
+          },
+          "turn": 1
+        },
+        {
+          "type": "cart_update",
+          "data": {
+            "cart": {
+              "items": [],
+              "item_count": 0,
+              "subtotal": 0,
+              "currency": "USD"
+            }
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "remove_from_cart",
+            "id": "toolu_01H17E6EA9FY7q6p6jNegm5E",
+            "summary": "Removed. Cart now has 0 item(s), subtotal 0.00 USD.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 1
+        },
+        {
+          "type": "cart_update",
+          "data": {
+            "cart": {
+              "items": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643684798626",
+                  "title": "Light Drum Pendant",
+                  "price": 2567.0,
+                  "quantity": 1,
+                  "image_url": null,
+                  "line_total": 2567.0
+                }
+              ],
+              "item_count": 1,
+              "subtotal": 2567.0,
+              "currency": "USD"
+            }
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "add_to_cart",
+            "id": "toolu_0115SWKSpKNEob6utRmjePqX",
+            "summary": "Added gid://shopify/ProductVariant/47643684798626 x1. Cart now has 1 item(s), subtotal 2567.00 USD.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Sw"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "apped it"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " out"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": ":"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " the"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Cotton Novelty"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Pendant is removed and"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " the Light Drum P"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "endant ($2,567."
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "00) is in"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " your cart,"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " b"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ringing your subtotal to"
+          },
+          "turn": 1
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " $2,567.00."
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01HMH5u5VjdarrNVMVE92UhU",
+            "input": {
+              "suggestions": [
+                "View cart",
+                "Check out",
+                "See fulfillment options"
+              ]
+            }
+          },
+          "turn": 1
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "View cart",
+                "Check out",
+                "See fulfillment options"
+              ]
+            },
+            "stream_id": "toolu_01HMH5u5VjdarrNVMVE92UhU"
+          },
+          "turn": 1
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01HMH5u5VjdarrNVMVE92UhU",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 1
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 4,
+              "output_tokens": 377,
+              "cache_read_input_tokens": 20106,
+              "cache_creation_input_tokens": 1430
+            },
+            "elapsed_ms": 5222,
+            "results_cleared": 0
+          },
+          "turn": 1
+        }
+      ],
+      "replies": [
+        "Added the Cotton Novelty Pendant ($29.99) to your cart \u2014 your subtotal is now $29.99.",
+        "Swapped it out: the Cotton Novelty Pendant is removed and the Light Drum Pendant ($2,567.00) is in your cart, bringing your subtotal to $2,567.00."
+      ],
+      "reply_text": "Added the Cotton Novelty Pendant ($29.99) to your cart \u2014 your subtotal is now $29.99.\nSwapped it out: the Cotton Novelty Pendant is removed and the Light Drum Pendant ($2,567.00) is in your cart, bringing your subtotal to $2,567.00.",
+      "final_cart": {
+        "items": [
+          {
+            "product_id": "gid://shopify/ProductVariant/47643684798626",
+            "title": "Light Drum Pendant",
+            "price": 2567.0,
+            "quantity": 1,
+            "image_url": null,
+            "line_total": 2567.0
+          }
+        ],
+        "item_count": 1,
+        "subtotal": 2567.0,
+        "currency": "USD"
+      }
+    }
+  ]
+}

@@ -1,0 +1,679 @@
+{
+  "case_id": "care-008-order-eta-from-read",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_0179foVQeaPTKbV5UxVSxG2v",
+            "input": {},
+            "label": "Checking your recent orders"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_0179foVQeaPTKbV5UxVSxG2v",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "<storefront_data>\n[{\"order_id\": \"#20458\", \"status\": \"shipped\", \"placed_at\": \"2026-09-08T14:00:00Z\", \"items\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685748898\", \"title\": \"Dome Pendant\", \"quantity\": 1, \"price\": 345.0, \"option_values\": {\"Size\": \"Long Wire\", \"Color\": \"1D1D1D\"}, \"variant_of\": \"gid://shopify/Product/9330220761250\"}], \"total\": 345.0, \"currency\": \"USD\", \"estimated_delivery\": \"Arriving by Sep 17\", \"tracking_url\": \"https://track.example/eval-20458\"}]\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "load_skill",
+            "id": "toolu_012xCqt2eqCjUUFZvWCZFDjv",
+            "input": {
+              "skill_name": "customer-care"
+            },
+            "label": "Getting your order details"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "load_skill",
+            "id": "toolu_012xCqt2eqCjUUFZvWCZFDjv",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "# Customer care\n\nBelow, \"order\" means whatever record this store keeps: an order, a booking, a line, or a ticket.\n\nThe customer has usually been waiting on something already. Tell them what the record shows, what the terms say, and what happens next, in that order and in few words.\n\n## Where each fact comes from\n\n- Dates, carriers, and tracking events come from a record fetched in this conversation: `get_orders` when the customer means their latest purchase, `get_order_status` when they name one. Until it is in hand, say only that you are looking it up.\n- Terms come from `search_policies`, quoted where the wording matters (the window, the condition, when a refund lands); policy text already in the conversation counts. When the terms do not address the question, say so.\n- Take today's date from the local time you were given. Do not ask for card numbers, passwords, or one-time codes, and do not repeat back any the customer pastes.\n\n## Status\n\n- Lead with the two facts they came for, the current state and the expected date, then one concrete next step. `present_order_status` shows the order; keep the text to what to do about it.\n- For a late order, give a plain acknowledgment, the rev"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Your"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Dome"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " P"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "end"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ant (order"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " #20"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "458"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": ") has"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " shipped and is est"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "imated to arrive by"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Sep"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " 17."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_01H8m4TQGdaMaATXYFo7Stw1",
+            "input": {
+              "order_id": "#20458",
+              "summary": "Shipped, estimated to arrive by Sep 17.",
+              "next_step": "Track the package for real-time updates."
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01QZskNxXaSyALkKeTfRWRok",
+            "input": {
+              "suggestions": [
+                "Track this package",
+                "View order details",
+                "Check return policy"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "order_status",
+            "payload": {
+              "order_id": "#20458",
+              "summary": "Shipped, estimated to arrive by Sep 17.",
+              "next_step": "Track the package for real-time updates.",
+              "order": {
+                "order_id": "#20458",
+                "status": "shipped",
+                "placed_at": "2026-09-08T14:00:00Z",
+                "items": [
+                  {
+                    "product_id": "gid://shopify/ProductVariant/47643685748898",
+                    "title": "Dome Pendant",
+                    "quantity": 1,
+                    "price": 345.0,
+                    "option_values": {
+                      "Size": "Long Wire",
+                      "Color": "1D1D1D"
+                    },
+                    "variant_of": "gid://shopify/Product/9330220761250"
+                  }
+                ],
+                "total": 345.0,
+                "currency": "USD",
+                "estimated_delivery": "Arriving by Sep 17",
+                "tracking_url": "https://track.example/eval-20458"
+              }
+            },
+            "stream_id": "toolu_01H8m4TQGdaMaATXYFo7Stw1"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_01H8m4TQGdaMaATXYFo7Stw1",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Track this package",
+                "View order details",
+                "Check return policy"
+              ]
+            },
+            "stream_id": "toolu_01QZskNxXaSyALkKeTfRWRok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01QZskNxXaSyALkKeTfRWRok",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 356,
+              "output_tokens": 390,
+              "cache_read_input_tokens": 19572,
+              "cache_creation_input_tokens": 11065
+            },
+            "elapsed_ms": 8792,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "Your Dome Pendant (order #20458) has shipped and is estimated to arrive by Sep 17."
+      ],
+      "reply_text": "Your Dome Pendant (order #20458) has shipped and is estimated to arrive by Sep 17.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "4b794e3c3cd56e35",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant's reply correctly states the order shipped and is estimated to arrive by Sep 17, matching the order record's estimated_delivery field."
+      }
+    },
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_01Mz9UCKBCtBEVsTaxjqKiZt",
+            "input": {},
+            "label": "Checking your recent orders"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_01Mz9UCKBCtBEVsTaxjqKiZt",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "<storefront_data>\n[{\"order_id\": \"#20458\", \"status\": \"shipped\", \"placed_at\": \"2026-09-08T14:00:00Z\", \"items\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685748898\", \"title\": \"Dome Pendant\", \"quantity\": 1, \"price\": 345.0, \"option_values\": {\"Size\": \"Long Wire\", \"Color\": \"1D1D1D\"}, \"variant_of\": \"gid://shopify/Product/9330220761250\"}], \"total\": 345.0, \"currency\": \"USD\", \"estimated_delivery\": \"Arriving by Sep 17\", \"tracking_url\": \"https://track.example/eval-20458\"}]\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Your most"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " recent order,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " #20458 ("
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Dome Pendant), has"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " sh"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ipped and is ar"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "riving by Sep 17"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_012tMHW6VcgFmwTWSmYWC49D",
+            "input": {
+              "order_id": "#20458",
+              "summary": "Shipped and arriving by Sep 17, containing one Dome Pendant.",
+              "next_step": "Track the package using the provided tracking link for real-time updates."
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "order_status",
+            "payload": {
+              "order_id": "#20458",
+              "summary": "Shipped and arriving by Sep 17, containing one Dome Pendant.",
+              "next_step": "Track the package using the provided tracking link for real-time updates.",
+              "order": {
+                "order_id": "#20458",
+                "status": "shipped",
+                "placed_at": "2026-09-08T14:00:00Z",
+                "items": [
+                  {
+                    "product_id": "gid://shopify/ProductVariant/47643685748898",
+                    "title": "Dome Pendant",
+                    "quantity": 1,
+                    "price": 345.0,
+                    "option_values": {
+                      "Size": "Long Wire",
+                      "Color": "1D1D1D"
+                    },
+                    "variant_of": "gid://shopify/Product/9330220761250"
+                  }
+                ],
+                "total": 345.0,
+                "currency": "USD",
+                "estimated_delivery": "Arriving by Sep 17",
+                "tracking_url": "https://track.example/eval-20458"
+              }
+            },
+            "stream_id": "toolu_012tMHW6VcgFmwTWSmYWC49D"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_012tMHW6VcgFmwTWSmYWC49D",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01YLzm3q7GmXuhRXHC8wQqEx",
+            "input": {
+              "suggestions": [
+                "Track package",
+                "View order details",
+                "Start a return"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Track package",
+                "View order details",
+                "Start a return"
+              ]
+            },
+            "stream_id": "toolu_01YLzm3q7GmXuhRXHC8wQqEx"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01YLzm3q7GmXuhRXHC8wQqEx",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 356,
+              "output_tokens": 286,
+              "cache_read_input_tokens": 29616,
+              "cache_creation_input_tokens": 192
+            },
+            "elapsed_ms": 7615,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "Your most recent order, #20458 (Dome Pendant), has shipped and is arriving by Sep 17."
+      ],
+      "reply_text": "Your most recent order, #20458 (Dome Pendant), has shipped and is arriving by Sep 17.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "4b794e3c3cd56e35",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant's reply correctly states the order is arriving by Sep 17, matching the order record's estimated_delivery field."
+      }
+    },
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_01TtNPB94FP3FrCkhyFKejET",
+            "input": {},
+            "label": "Checking your recent orders"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_01TtNPB94FP3FrCkhyFKejET",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "<storefront_data>\n[{\"order_id\": \"#20458\", \"status\": \"shipped\", \"placed_at\": \"2026-09-08T14:00:00Z\", \"items\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685748898\", \"title\": \"Dome Pendant\", \"quantity\": 1, \"price\": 345.0, \"option_values\": {\"Size\": \"Long Wire\", \"Color\": \"1D1D1D\"}, \"variant_of\": \"gid://shopify/Product/9330220761250\"}], \"total\": 345.0, \"currency\": \"USD\", \"estimated_delivery\": \"Arriving by Sep 17\", \"tracking_url\": \"https://track.example/eval-20458\"}]\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Your last order,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " #20458 (Dome"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Pendant), has"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " shipped and is arriving"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " by"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Sep 17."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_01R9EkY6kSg52LCgVhvWFyyb",
+            "input": {
+              "order_id": "#20458",
+              "summary": "Shipped and arriving by Sep 17.",
+              "next_step": "Track the package using the provided tracking link."
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_0182ACVmTcagRDFMUCaxAomW",
+            "input": {
+              "suggestions": [
+                "Track package",
+                "View order details",
+                "Report a problem with this order"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "order_status",
+            "payload": {
+              "order_id": "#20458",
+              "summary": "Shipped and arriving by Sep 17.",
+              "next_step": "Track the package using the provided tracking link.",
+              "order": {
+                "order_id": "#20458",
+                "status": "shipped",
+                "placed_at": "2026-09-08T14:00:00Z",
+                "items": [
+                  {
+                    "product_id": "gid://shopify/ProductVariant/47643685748898",
+                    "title": "Dome Pendant",
+                    "quantity": 1,
+                    "price": 345.0,
+                    "option_values": {
+                      "Size": "Long Wire",
+                      "Color": "1D1D1D"
+                    },
+                    "variant_of": "gid://shopify/Product/9330220761250"
+                  }
+                ],
+                "total": 345.0,
+                "currency": "USD",
+                "estimated_delivery": "Arriving by Sep 17",
+                "tracking_url": "https://track.example/eval-20458"
+              }
+            },
+            "stream_id": "toolu_01R9EkY6kSg52LCgVhvWFyyb"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_01R9EkY6kSg52LCgVhvWFyyb",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Track package",
+                "View order details",
+                "Report a problem with this order"
+              ]
+            },
+            "stream_id": "toolu_0182ACVmTcagRDFMUCaxAomW"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_0182ACVmTcagRDFMUCaxAomW",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 354,
+              "output_tokens": 268,
+              "cache_read_input_tokens": 19572,
+              "cache_creation_input_tokens": 0
+            },
+            "elapsed_ms": 5469,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "Your last order, #20458 (Dome Pendant), has shipped and is arriving by Sep 17."
+      ],
+      "reply_text": "Your last order, #20458 (Dome Pendant), has shipped and is arriving by Sep 17.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "4b794e3c3cd56e35",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant's reply correctly states the order is arriving by Sep 17, matching the estimated_delivery field in the order record."
+      }
+    }
+  ]
+}
