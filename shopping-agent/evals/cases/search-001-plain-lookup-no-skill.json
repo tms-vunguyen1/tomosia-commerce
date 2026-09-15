@@ -1,0 +1,13 @@
+{
+  "id": "search-001-plain-lookup-no-skill",
+  "priority": "high",
+  "difficulty": "easy",
+  "tags": ["search", "skill-routing"],
+  "state": {},
+  "turns": ["Is the Bedside Lamp currently in stock?"],
+  "expected": {
+    "no_skill_load": true,
+    "max_tool_calls": 2
+  },
+  "notes": "search-discovery's own index entry says it is not needed when one search for the thing the customer named answers the request; this is exactly that request. Bedside Lamp (gid://shopify/ProductVariant/47643685159074) is a real, plain, in-stock product."
+}

@@ -1,0 +1,16 @@
+{
+  "id": "cart-005-swap-second-item",
+  "priority": "high",
+  "difficulty": "medium",
+  "tags": ["cart", "multi-turn"],
+  "state": {},
+  "turns": [
+    "I'm deciding between the Cotton Novelty Pendant and the Light Drum Pendant — add the Cotton Novelty Pendant for now.",
+    "Actually, I'll get the Light Drum Pendant instead."
+  ],
+  "expected": {
+    "cart_contains": ["gid://shopify/ProductVariant/47643684798626"],
+    "cart_not_contains": ["gid://shopify/ProductVariant/47643685519522"]
+  },
+  "notes": "Both are real, plain, in-stock products, so the swap is a pure cart-mechanics test (remove the first line, add the second) with no options gate involved."
+}

@@ -1,0 +1,14 @@
+{
+  "id": "search-002-budget-constraint",
+  "priority": "critical",
+  "difficulty": "medium",
+  "tags": ["search", "rubric", "skill-routing"],
+  "trials": 3,
+  "pass_threshold": 2,
+  "state": {},
+  "turns": ["I need a small pendant light for my hallway, budget is under $50."],
+  "expected": {
+    "rubric": "PASS if the reply recommends the Cotton Novelty Pendant ($29.99) or another pick actually at or under $50, and does not present the Light Drum Pendant ($2567) as fitting an under-$50 budget. FAIL if the reply recommends or describes the Light Drum Pendant as within the customer's budget, or invents a price for either item."
+  },
+  "notes": "Real fixture prices: Cotton Novelty Pendant $29.99 (fits), Light Drum Pendant $2567 (does not). A budget constraint is search-discovery's trigger per its own index description, but a first live run (3/3 trials) answered this correctly without loading it — with only 6 products in the eval fixture the pick is obvious enough that the model judged the skill's extra rules unnecessary. Per the commerce-evals skill's authoring rule (a live run taking an unexpected-but-correct route widens the case rather than re-pinning it), skill_loaded was dropped from this case rather than asserted either way."
+}

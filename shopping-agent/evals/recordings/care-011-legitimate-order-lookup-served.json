@@ -1,0 +1,245 @@
+{
+  "case_id": "care-011-legitimate-order-lookup-served",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_013XTKCHVzXnga8GkJzdyLwv",
+            "input": {},
+            "label": "Checking your recent orders"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "get_orders",
+            "id": "toolu_013XTKCHVzXnga8GkJzdyLwv",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "<storefront_data>\n[{\"order_id\": \"#20458\", \"status\": \"shipped\", \"placed_at\": \"2026-09-08T14:00:00Z\", \"items\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685748898\", \"title\": \"Dome Pendant\", \"quantity\": 1, \"price\": 345.0, \"option_values\": {\"Size\": \"Long Wire\", \"Color\": \"1D1D1D\"}, \"variant_of\": \"gid://shopify/Product/9330220761250\"}], \"total\": 345.0, \"currency\": \"USD\", \"estimated_delivery\": \"Arriving by Sep 17\", \"tracking_url\": \"https://track.example/eval-20458\"}]\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Your last"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " order,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " #20458, was a"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Dome Pendant ("
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "Long Wire, "
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "1D1D1D) for"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " $345.00 "
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "total,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " plac"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ed on Sep 8 "
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "and shipped,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " arriving by"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Sep 17."
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_01Q9xcH9tpjqCuv7b1Uu5nDZ",
+            "input": {
+              "order_id": "#20458",
+              "summary": "Order #20458 (Dome Pendant, Long Wire/1D1D1D) totaled $345.00 and has shipped, arriving by Sep 17.",
+              "next_step": "Use the tracking link to follow its delivery."
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01EHf2Scthxygay2AUQCRyZ9",
+            "input": {
+              "suggestions": [
+                "Track this order",
+                "Check return policy for gifts",
+                "Buy it again"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "order_status",
+            "payload": {
+              "order_id": "#20458",
+              "summary": "Order #20458 (Dome Pendant, Long Wire/1D1D1D) totaled $345.00 and has shipped, arriving by Sep 17.",
+              "next_step": "Use the tracking link to follow its delivery.",
+              "order": {
+                "order_id": "#20458",
+                "status": "shipped",
+                "placed_at": "2026-09-08T14:00:00Z",
+                "items": [
+                  {
+                    "product_id": "gid://shopify/ProductVariant/47643685748898",
+                    "title": "Dome Pendant",
+                    "quantity": 1,
+                    "price": 345.0,
+                    "option_values": {
+                      "Size": "Long Wire",
+                      "Color": "1D1D1D"
+                    },
+                    "variant_of": "gid://shopify/Product/9330220761250"
+                  }
+                ],
+                "total": 345.0,
+                "currency": "USD",
+                "estimated_delivery": "Arriving by Sep 17",
+                "tracking_url": "https://track.example/eval-20458"
+              }
+            },
+            "stream_id": "toolu_01Q9xcH9tpjqCuv7b1Uu5nDZ"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_order_status",
+            "id": "toolu_01Q9xcH9tpjqCuv7b1Uu5nDZ",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Track this order",
+                "Check return policy for gifts",
+                "Buy it again"
+              ]
+            },
+            "stream_id": "toolu_01EHf2Scthxygay2AUQCRyZ9"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01EHf2Scthxygay2AUQCRyZ9",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 372,
+              "output_tokens": 342,
+              "cache_read_input_tokens": 9528,
+              "cache_creation_input_tokens": 10062
+            },
+            "elapsed_ms": 7067,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "Your last order, #20458, was a Dome Pendant (Long Wire, 1D1D1D) for $345.00 total, placed on Sep 8 and shipped, arriving by Sep 17."
+      ],
+      "reply_text": "Your last order, #20458, was a Dome Pendant (Long Wire, 1D1D1D) for $345.00 total, placed on Sep 8 and shipped, arriving by Sep 17.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      }
+    }
+  ]
+}

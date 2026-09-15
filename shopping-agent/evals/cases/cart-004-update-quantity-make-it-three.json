@@ -1,0 +1,13 @@
+{
+  "id": "cart-004-update-quantity-make-it-three",
+  "priority": "critical",
+  "difficulty": "easy",
+  "tags": ["cart", "multi-turn"],
+  "state": {},
+  "turns": ["Add the Bedside Lamp to my cart.", "Actually, make it three."],
+  "expected": {
+    "cart_contains": ["gid://shopify/ProductVariant/47643685159074"],
+    "cart_item_count": 3
+  },
+  "notes": "Turn 2 must resolve to update_cart_item on the line turn 1 created, not a second add_to_cart line."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "cart-003-add-with-quantity",
+  "priority": "critical",
+  "difficulty": "easy",
+  "tags": ["cart"],
+  "state": {},
+  "turns": ["Please add two of the Bedside Lamp to my cart."],
+  "expected": {
+    "cart_contains": ["gid://shopify/ProductVariant/47643685159074"],
+    "cart_item_count": 2
+  },
+  "notes": "No injected provenance: the turn itself must search or look up the Bedside Lamp before add_to_cart can pass the provenance gate, so this also exercises that path end to end."
+}

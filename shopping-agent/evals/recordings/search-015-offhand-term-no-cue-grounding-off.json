@@ -1,0 +1,376 @@
+{
+  "case_id": "search-015-offhand-term-no-cue-grounding-off",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_019uTvoKFkedwFeExRE2CoTz",
+            "input": {
+              "query": "small table lamp reading nook",
+              "filters": {
+                "category": "table lamp",
+                "attributes": {
+                  "fixture type": "table lamp"
+                }
+              }
+            },
+            "label": "Finding cozy small table lamps"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_019uTvoKFkedwFeExRE2CoTz",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 2 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"small table lamp reading nook\", \"result_count\": 2, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_011R39J1ZauXQVduT8Wpeq8K",
+            "input": {
+              "query": "table lamp warm light small",
+              "filters": {
+                "sort": "rating"
+              }
+            },
+            "label": "Looking for more small table lamp options"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_011R39J1ZauXQVduT8Wpeq8K",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"table lamp warm light small\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685159074\", \"title\": \"Bedside Lamp\", \"price\": 69.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A compact bedside lamp with a soft fabric shade.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Bedside Lamp is"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " the only in"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "-stock small table lamp"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " that f"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "its a"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " re"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ading nook well"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "; the Copper Light mat"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ches the v"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ibe but is currently out of"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " stock."
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [],
+              "title": "Small table lamps for your reading nook"
+            },
+            "stream_id": "toolu_015Xt5RY8sBs5btpQK8ybHys"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685159074",
+                    "title": "Bedside Lamp",
+                    "price": 69.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A compact bedside lamp with a soft fabric shade.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ],
+              "title": "Small table lamps for your reading nook"
+            },
+            "stream_id": "toolu_015Xt5RY8sBs5btpQK8ybHys"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685159074",
+                    "title": "Bedside Lamp",
+                    "price": 69.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A compact bedside lamp with a soft fabric shade.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Compact, soft fabric shade \u2014 cozy warm light for a nook, in stock"
+                },
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685191842",
+                    "title": "Copper Light",
+                    "price": 59.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": false,
+                    "short_description": "A polished copper table lamp.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ],
+              "title": "Small table lamps for your reading nook"
+            },
+            "stream_id": "toolu_015Xt5RY8sBs5btpQK8ybHys"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_015Xt5RY8sBs5btpQK8ybHys",
+            "input": {
+              "title": "Small table lamps for your reading nook",
+              "picks": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685159074",
+                  "reason": "Compact, soft fabric shade \u2014 cozy warm light for a nook, in stock"
+                },
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685191842",
+                  "reason": "Polished copper table lamp with the look you want, but currently out of stock"
+                }
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_018bK7RboUZwNGCJU9c6noMV",
+            "input": {
+              "suggestions": [
+                "Add the Bedside Lamp to cart",
+                "Notify me when Copper Light is back",
+                "Show floor lamps instead"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "products",
+            "payload": {
+              "title": "Small table lamps for your reading nook",
+              "layout": "carousel",
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685159074",
+                    "title": "Bedside Lamp",
+                    "price": 69.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A compact bedside lamp with a soft fabric shade.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Compact, soft fabric shade \u2014 cozy warm light for a nook, in stock"
+                },
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685191842",
+                    "title": "Copper Light",
+                    "price": 59.99,
+                    "currency": "USD",
+                    "category": "Table lamp",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": false,
+                    "short_description": "A polished copper table lamp.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Polished copper table lamp with the look you want, but currently out of stock"
+                }
+              ]
+            },
+            "stream_id": "toolu_015Xt5RY8sBs5btpQK8ybHys"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_015Xt5RY8sBs5btpQK8ybHys",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Add the Bedside Lamp to cart",
+                "Notify me when Copper Light is back",
+                "Show floor lamps instead"
+              ]
+            },
+            "stream_id": "toolu_018bK7RboUZwNGCJU9c6noMV"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_018bK7RboUZwNGCJU9c6noMV",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 250,
+              "output_tokens": 693,
+              "cache_read_input_tokens": 29343,
+              "cache_creation_input_tokens": 1290
+            },
+            "elapsed_ms": 9871,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Bedside Lamp is the only in-stock small table lamp that fits a reading nook well; the Copper Light matches the vibe but is currently out of stock."
+      ],
+      "reply_text": "The Bedside Lamp is the only in-stock small table lamp that fits a reading nook well; the Copper Light matches the vibe but is currently out of stock.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      }
+    }
+  ]
+}

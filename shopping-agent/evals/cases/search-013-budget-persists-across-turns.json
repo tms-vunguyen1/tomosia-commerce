@@ -1,0 +1,20 @@
+{
+  "id": "search-013-budget-persists-across-turns",
+  "priority": "high",
+  "difficulty": "medium",
+  "tags": ["search", "multi-turn", "rubric"],
+  "trials": 3,
+  "pass_threshold": 2,
+  "state": {},
+  "turns": [
+    "I'm looking for a pendant light for my hallway, budget is under $50.",
+    "Does it come with the bulb included?",
+    "Great, add it to my cart."
+  ],
+  "expected": {
+    "cart_contains": ["gid://shopify/ProductVariant/47643685519522"],
+    "cart_not_contains": ["gid://shopify/ProductVariant/47643684798626"],
+    "rubric": "PASS if by turn 3 the item added to the cart is at or under the $50 budget stated in turn 1 (the Cotton Novelty Pendant, $29.99) and turn 2's answer about the bulb doesn't drop that budget. FAIL if a pricier item (e.g. the Light Drum Pendant, $2567) is added, or the reply treats it as fitting the turn-1 budget."
+  },
+  "notes": "Turn 2 is a real-fact distractor (every product's short_description says the bulb is not included) that never restates the budget, testing whether turn 1's constraint survives to turn 3 purely from conversation context — no injected state.seen_products, no memory (which is off for this deployment anyway)."
+}

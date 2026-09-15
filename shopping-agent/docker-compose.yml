@@ -1,0 +1,40 @@
+# cp .env.example .env, fill it in, then: docker compose up --build
+# The Next.js app runs on the host; this service is reached from it at
+# http://localhost:8000 (ASSISTANT_API_URL in ../.env).
+#
+# `name` is pinned so container and network names stay "shopping-agent-*"
+# regardless of what this directory is called; a sibling merchant-agent/ gets
+# its own project name the same way, so the two never collide.
+name: shopping-agent
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file: .env
+    # Container-network addresses; override whatever .env says for these two.
+    environment:
+      STOREFRONT_API_URL: http://host.docker.internal:3000
+      REDIS_URL: redis://redis:6379/0
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1", "--appendonly", "no"]
+    volumes:
+      - sessions:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  sessions:

@@ -1,0 +1,853 @@
+{
+  "case_id": "search-002-budget-constraint",
+  "trials": [
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01JNTWjnJDP8JYeGmr2c94Xy",
+            "input": {
+              "query": "small pendant light hallway",
+              "filters": {
+                "category": "pendant",
+                "max_price": 50,
+                "sort": "relevance"
+              }
+            },
+            "label": "Finding small pendant lights under $50"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01JNTWjnJDP8JYeGmr2c94Xy",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"small pendant light hallway\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685519522\", \"title\": \"Cotton Novelty Pendant\", \"price\": 29.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A small cotton-shade pendant for a hallway or nook.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Cotton Novelty"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Pendant fits well"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " \u2014 small,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " h"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "allway-s"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ized, and $29.99,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " well within"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " bud"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "get."
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ]
+            },
+            "stream_id": "toolu_01R271QdApz3kQfPnncMhuwF"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01R271QdApz3kQfPnncMhuwF",
+            "input": {
+              "picks": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685519522",
+                  "reason": "Small cotton-shade pendant sized for a hallway, and under your $50 budget"
+                }
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01Nis7sPCYNtqyxGkf9tSaKC",
+            "input": {
+              "suggestions": [
+                "Add to cart",
+                "See more pendant options",
+                "Check hallway wall sconces instead"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "products",
+            "payload": {
+              "layout": "carousel",
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Small cotton-shade pendant sized for a hallway, and under your $50 budget"
+                }
+              ]
+            },
+            "stream_id": "toolu_01R271QdApz3kQfPnncMhuwF"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01R271QdApz3kQfPnncMhuwF",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Add to cart",
+                "See more pendant options",
+                "Check hallway wall sconces instead"
+              ]
+            },
+            "stream_id": "toolu_01Nis7sPCYNtqyxGkf9tSaKC"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01Nis7sPCYNtqyxGkf9tSaKC",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 227,
+              "output_tokens": 382,
+              "cache_read_input_tokens": 19056,
+              "cache_creation_input_tokens": 774
+            },
+            "elapsed_ms": 7619,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Cotton Novelty Pendant fits well \u2014 small, hallway-sized, and $29.99, well within budget."
+      ],
+      "reply_text": "The Cotton Novelty Pendant fits well \u2014 small, hallway-sized, and $29.99, well within budget.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "b0a437f3e80a7e3f",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant recommended the Cotton Novelty Pendant at its correct listed price of $29.99, which is within the customer's $50 budget, and did not mention or misrepresent the Light Drum Pendant."
+      }
+    },
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01CrNt2L1TrN2TGMqUTxXE6k",
+            "input": {
+              "query": "small pendant light",
+              "filters": {
+                "category": "pendant",
+                "max_price": 50,
+                "attributes": {
+                  "fixture type": "pendant"
+                }
+              }
+            },
+            "label": "Looking for compact pendant lights under $50"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01CrNt2L1TrN2TGMqUTxXE6k",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"small pendant light\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685519522\", \"title\": \"Cotton Novelty Pendant\", \"price\": 29.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A small cotton-shade pendant for a hallway or nook.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Cotton Novelty"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Pendant is a small"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " cotton-shade pend"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ant made"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " for hallways"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " and"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " nooks, in"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " stock at $29.99 "
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "-"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " a"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " solid fit for your bud"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "get."
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ]
+            },
+            "stream_id": "toolu_01NkzGhmHanm5gwhLdM1yrdP"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Small cotton-shade pendant sized for a hallway, well under your $50 budget"
+                }
+              ],
+              "title": "Hallway pendant pick"
+            },
+            "stream_id": "toolu_01NkzGhmHanm5gwhLdM1yrdP"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01NkzGhmHanm5gwhLdM1yrdP",
+            "input": {
+              "picks": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685519522",
+                  "reason": "Small cotton-shade pendant sized for a hallway, well under your $50 budget"
+                }
+              ],
+              "title": "Hallway pendant pick"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "products",
+            "payload": {
+              "title": "Hallway pendant pick",
+              "layout": "carousel",
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Small cotton-shade pendant sized for a hallway, well under your $50 budget"
+                }
+              ]
+            },
+            "stream_id": "toolu_01NkzGhmHanm5gwhLdM1yrdP"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01NkzGhmHanm5gwhLdM1yrdP",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_014Fq6zrDLY2PkuGWfpEuV2Y",
+            "input": {
+              "suggestions": [
+                "Add it to cart",
+                "See more pendant options",
+                "Check hallway sconces instead"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Add it to cart",
+                "See more pendant options",
+                "Check hallway sconces instead"
+              ]
+            },
+            "stream_id": "toolu_014Fq6zrDLY2PkuGWfpEuV2Y"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_014Fq6zrDLY2PkuGWfpEuV2Y",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 229,
+              "output_tokens": 462,
+              "cache_read_input_tokens": 29385,
+              "cache_creation_input_tokens": 1010
+            },
+            "elapsed_ms": 9861,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Cotton Novelty Pendant is a small cotton-shade pendant made for hallways and nooks, in stock at $29.99 - a solid fit for your budget."
+      ],
+      "reply_text": "The Cotton Novelty Pendant is a small cotton-shade pendant made for hallways and nooks, in stock at $29.99 - a solid fit for your budget.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "b0a437f3e80a7e3f",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant recommended the Cotton Novelty Pendant at its correct price of $29.99, which is within the customer's $50 budget, and never mentioned or misrepresented the Light Drum Pendant."
+      }
+    },
+    {
+      "events": [
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01HBRosiwTXsuS7ytorjJc48",
+            "input": {
+              "query": "small pendant light",
+              "filters": {
+                "category": "pendant",
+                "max_price": 50
+              }
+            },
+            "label": "Searching for small pendant lights under $50"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "search_products",
+            "id": "toolu_01HBRosiwTXsuS7ytorjJc48",
+            "summary": "ok",
+            "is_error": false,
+            "status": "ok",
+            "excerpt": "Search returned 3 result(s): the catalog's closest text matches, which can include related items rather than the exact thing searched for. Treat a result as the requested item only if its title and attributes match; if none do, the item was not found, and anything you offer instead is named as a stand-in.\n<storefront_data>\n{\"query\": \"small pendant light\", \"result_count\": 3, \"results\": [{\"product_id\": \"gid://shopify/ProductVariant/47643685191842\", \"title\": \"Copper Light\", \"price\": 59.99, \"currency\": \"USD\", \"in_stock\": false, \"short_description\": \"A polished copper table lamp.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643685519522\", \"title\": \"Cotton Novelty Pendant\", \"price\": 29.99, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A small cotton-shade pendant for a hallway or nook.\"}, {\"product_id\": \"gid://shopify/ProductVariant/47643684798626\", \"title\": \"Light Drum Pendant\", \"price\": 2567.0, \"currency\": \"USD\", \"in_stock\": true, \"short_description\": \"A large statement drum pendant.\"}]}\n</storefront_data>"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "The"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Cotton Novelty"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " Pendant fits well \u2014 small"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": ", h"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "allway-su"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "ited, and $"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": "29.99,"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " well under your"
+          },
+          "turn": 0
+        },
+        {
+          "type": "text_delta",
+          "data": {
+            "text": " budget."
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  }
+                }
+              ]
+            },
+            "stream_id": "toolu_01VfL9jaPSaCE4LDF7r3Ubmw"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui_partial",
+          "data": {
+            "component": "products",
+            "payload": {
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Small cotton-shade pendant sized for a hallway, at $29.99"
+                }
+              ],
+              "title": "Small pendant light for your hallway"
+            },
+            "stream_id": "toolu_01VfL9jaPSaCE4LDF7r3Ubmw"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01VfL9jaPSaCE4LDF7r3Ubmw",
+            "input": {
+              "picks": [
+                {
+                  "product_id": "gid://shopify/ProductVariant/47643685519522",
+                  "reason": "Small cotton-shade pendant sized for a hallway, at $29.99"
+                }
+              ],
+              "title": "Small pendant light for your hallway"
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_call",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01QLGFtH8613ZtZtJYonT4we",
+            "input": {
+              "suggestions": [
+                "Add to cart",
+                "See more pendant options",
+                "Check bulb details"
+              ]
+            }
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "products",
+            "payload": {
+              "title": "Small pendant light for your hallway",
+              "layout": "carousel",
+              "items": [
+                {
+                  "product": {
+                    "product_id": "gid://shopify/ProductVariant/47643685519522",
+                    "title": "Cotton Novelty Pendant",
+                    "price": 29.99,
+                    "currency": "USD",
+                    "category": "Pendant",
+                    "labels": [],
+                    "attributes": {},
+                    "in_stock": true,
+                    "short_description": "A small cotton-shade pendant for a hallway or nook.",
+                    "options": {},
+                    "option_values": {}
+                  },
+                  "reason": "Small cotton-shade pendant sized for a hallway, at $29.99"
+                }
+              ]
+            },
+            "stream_id": "toolu_01VfL9jaPSaCE4LDF7r3Ubmw"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_products",
+            "id": "toolu_01VfL9jaPSaCE4LDF7r3Ubmw",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "ui",
+          "data": {
+            "component": "suggestions",
+            "payload": {
+              "suggestions": [
+                "Add to cart",
+                "See more pendant options",
+                "Check bulb details"
+              ]
+            },
+            "stream_id": "toolu_01QLGFtH8613ZtZtJYonT4we"
+          },
+          "turn": 0
+        },
+        {
+          "type": "tool_result",
+          "data": {
+            "tool": "present_suggestions",
+            "id": "toolu_01QLGFtH8613ZtZtJYonT4we",
+            "summary": "Displayed to the customer.",
+            "is_error": false,
+            "status": "ok"
+          },
+          "turn": 0
+        },
+        {
+          "type": "turn_complete",
+          "data": {
+            "stop_reason": "end_turn",
+            "usage": {
+              "input_tokens": 227,
+              "output_tokens": 393,
+              "cache_read_input_tokens": 19056,
+              "cache_creation_input_tokens": 758
+            },
+            "elapsed_ms": 7105,
+            "results_cleared": 0
+          },
+          "turn": 0
+        }
+      ],
+      "replies": [
+        "The Cotton Novelty Pendant fits well \u2014 small, hallway-suited, and $29.99, well under your budget."
+      ],
+      "reply_text": "The Cotton Novelty Pendant fits well \u2014 small, hallway-suited, and $29.99, well under your budget.",
+      "final_cart": {
+        "items": [],
+        "currency": "USD"
+      },
+      "judge": {
+        "model": "claude-sonnet-5",
+        "rubric_fingerprint": "b0a437f3e80a7e3f",
+        "truncated": false,
+        "verdict": "PASS",
+        "reason": "The assistant recommended the Cotton Novelty Pendant at its correct $29.99 price, which is under the $50 budget, and did not mention or misrepresent the Light Drum Pendant."
+      }
+    }
+  ]
+}
