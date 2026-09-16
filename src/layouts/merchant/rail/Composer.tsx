@@ -36,7 +36,7 @@ export default function Composer({ prefill }: { prefill?: Prefill | null }) {
 
   return (
     <form
-      className="flex items-center gap-1.5 rounded-[14px] border border-(--line-strong) bg-(--card) py-[5px] pl-3.5 pr-[5px] shadow-(--shadow-sm) transition-colors focus-within:border-(--accent)"
+      className="flex items-center gap-2 rounded-[14px] border border-(--line-strong) bg-(--card) py-2 pl-4 pr-2 shadow-(--shadow-sm) transition-colors focus-within:border-(--accent)"
       onSubmit={(event) => event.preventDefault()}
     >
       <textarea
@@ -49,18 +49,18 @@ export default function Composer({ prefill }: { prefill?: Prefill | null }) {
             event.preventDefault();
           }
         }}
-        rows={1}
+        rows={2}
         aria-label="Message the merchant assistant"
         placeholder="Ask about sales, stock, pricing…"
-        className="max-h-40 min-w-0 flex-1 resize-none bg-transparent py-1.5 text-[14.5px] text-(--ink) outline-none placeholder:text-(--ink-soft)/70"
+        className="max-h-40 min-w-0 flex-1 resize-none bg-transparent py-1 text-base leading-normal text-(--ink) outline-none placeholder:text-(--ink-soft)/70"
       />
       <button
         type="submit"
         disabled={!draft.trim()}
         aria-label="Send"
-        className="grid h-8 w-8 shrink-0 place-items-center rounded-[10px] bg-(--ink) text-(--surface) transition hover:brightness-110 disabled:opacity-35"
+        className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-(--ink) text-(--surface) transition hover:brightness-110 disabled:opacity-35"
       >
-        <DynamicIcon icon="FaArrowUp" className="text-[16px]" />
+        <DynamicIcon icon="FaArrowUp" className="text-lg" />
       </button>
     </form>
   );
