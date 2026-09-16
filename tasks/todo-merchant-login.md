@@ -246,7 +246,7 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     nonexistent path, not a middleware defect. The middleware gates by path
     prefix regardless of whether a concrete page exists underneath.
 
-- [ ] Task 3.2: Real session gate — move portal into `(dashboard)` group
+- [x] Task 3.2: Real session gate — move portal into `(dashboard)` group
   - **Description:** Create
     `src/app/(merchant)/merchant/(dashboard)/layout.tsx`, a server component
     that reads `MERCHANT_AUTH_COOKIE` via `cookies()`, calls
@@ -261,22 +261,28 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     `PortalShell` `operator` prop and the separate `HomeView
     operator="Jordan"` prop.
   - **Acceptance criteria:**
-    - [ ] `/merchant` with a missing/invalid/expired cookie redirects to
+    - [x] `/merchant` with a missing/invalid/expired cookie redirects to
           `/merchant/login?next=%2Fmerchant`; this closes the gap left open
           by Task 3.1.
-    - [ ] `/merchant` with a valid session renders the portal with the real
+    - [x] `/merchant` with a valid session renders the portal with the real
           user's name in both the `PortalShell` operator block and the
           `HomeView` welcome text — no remaining literal `"Jordan"` anywhere
           in the moved code.
-    - [ ] `PortalApp.tsx` content is otherwise byte-identical to today's
-          `page.tsx` body (a move, not a rewrite).
-    - [ ] No database call happens inside `src/middleware.ts`.
+    - [x] `PortalApp.tsx` content is otherwise byte-identical to today's
+          `page.tsx` body (a move, not a rewrite) — diffed: exactly 3 lines
+          differ, all the operator prop wiring.
+    - [x] No database call happens inside `src/middleware.ts`.
   - **Verification:**
-    - [ ] Manually insert a session row for the seeded account (acceptable
-          to test this task before Task 3.3's login route exists) and
-          confirm `/merchant` renders with the real name.
-    - [ ] Delete/expire that row, confirm redirect reappears.
-    - [ ] `npm run lint` && `npm run build` clean.
+    - [x] Against a real `next start` server: issued a real session for the
+          seeded `owner@tomosia.test` (via a throwaway script, not
+          committed) — `/merchant` renders 200 with "Store Owner" in the
+          HTML, zero occurrences of "Jordan".
+    - [x] A cookie with a bogus/unknown token (passes middleware's presence
+          check) is correctly rejected here — 307 to login.
+    - [x] Expired that same session's `expiresAt` in the DB directly via
+          `psql` and re-requested — 307 to login again, identical to a
+          missing session.
+    - [x] `npm run lint` && `npm run build` clean.
   - **Dependencies:** Task 3.1, Task 2.2
   - **Files:**
     - `src/app/(merchant)/merchant/(dashboard)/layout.tsx` (new)
