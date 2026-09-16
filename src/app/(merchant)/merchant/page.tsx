@@ -10,6 +10,7 @@ import { ALERTS } from "@/layouts/merchant/lib/fixtures/alerts";
 import { LISTINGS } from "@/layouts/merchant/lib/fixtures/listings";
 import { OVERVIEW } from "@/layouts/merchant/lib/fixtures/overview";
 import { RECENT_ORDERS } from "@/layouts/merchant/lib/fixtures/orders";
+import { PRICING } from "@/layouts/merchant/lib/fixtures/pricing";
 
 type PortalView = "home" | "catalog" | "orders" | "inventory";
 
@@ -28,8 +29,6 @@ export default function MerchantPortalPage() {
   const [view, setView] = useState<PortalView>("home");
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [prefill, setPrefill] = useState<string | null>(null);
-  // Tracked but not rendered until Task 10 builds the listing detail sheet.
-  const [_openListing, setOpenListing] = useState<string | null>(null);
 
   const alerts = OVERVIEW.snapshot.alerts;
   const nav = useMemo<PortalNavItem<PortalView>[]>(
@@ -70,7 +69,7 @@ export default function MerchantPortalPage() {
     >
       {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
       {view === "catalog" ? (
-        <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} onAskAssistant={askAssistant} onOpenListing={setOpenListing} />
+        <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} pricing={PRICING} onAskAssistant={askAssistant} />
       ) : null}
       {view === "orders" ? <OrdersView issues={ALERTS.order_issues} recentOrders={RECENT_ORDERS} onAskAssistant={askAssistant} /> : null}
       {view === "inventory" ? <InventoryView data={ALERTS} onAskAssistant={askAssistant} /> : null}

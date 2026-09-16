@@ -188,6 +188,10 @@ export const LISTINGS: ListingDetails[] = [
     image_url:
       "https://cdn.shopify.com/s/files/1/0732/0980/7010/files/12.4_70960657-8474-4871-b445-4bd05ca28cc4.webp?v=1789118203",
     short_description: "A woven cotton-shade pendant, entry price point.",
+    review_snippets: [
+      "Bigger than I expected for the price — looks great over our kitchen table.",
+      "Shipped fast and the cotton shade held its shape out of the box.",
+    ],
     sales_last_30d: 48,
     return_rate_pct: 1.8,
   },

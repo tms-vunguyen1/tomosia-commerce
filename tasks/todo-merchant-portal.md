@@ -386,33 +386,66 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
   - **Estimated scope:** Medium (3 new files + 1 edit — `Button` already
     existed from Task 6)
 
-- [ ] Task 10: CatalogView — detail sheet + variants
+- [x] Task 10: CatalogView — detail sheet + variants
   - **Description:** Add the slide-over listing detail panel (facts, pricing
     band, missing attributes, review snippets, description) and a variants
     table for family listings.
   - **Acceptance criteria:**
-    - [ ] Clicking a listing row opens a `Sheet` with the listing's facts,
-          pricing context, and (for the fixture's family listing) a variants
-          table.
-    - [ ] Sheet closes via its close control.
+    - [x] Clicking a listing row opens a `Sheet` with the listing's facts,
+          pricing context, and (for the fixture's 2 family listings) a
+          variants table.
+    - [x] Sheet closes via its close control (and via Escape).
+  - **Scope grown beyond the plan (needed for the pricing section to mean
+    anything):** added `lib/fixtures/pricing.ts`, a `Record<listing_id,
+    PricingContext>` for the 5 plain listings (skipped for the 2 families,
+    matching the reference's own `!hasOptions(listing)` gate) — one entry
+    (Light Drum Pendant) deliberately mirrors the applied price change
+    already in `overview.ts`'s `recent_changes` ($2,899 → $2,567). Also
+    added `review_snippets` to one listing (Cotton Novelty Pendant) so the
+    "What buyers say" section has something real to render. `openListing`
+    state moved from the page into `CatalogView` itself (self-contained,
+    matching the reference — the placeholder wiring from Task 9 lived in
+    the page only because the sheet didn't exist yet).
+  - **Bug found and fixed:** the ported `Sheet` (client-only mount + SSR
+    guard via `useState`/`useEffect`) tripped `react-hooks/set-state-in-effect`
+    — a real lint error, not a false positive. Since this view only ever
+    mounts a `Sheet` from a post-mount click (never part of the initial
+    render), reading `document.body` directly at render time removes the
+    need for the state/effect pair entirely — simpler code, not a workaround.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: open the sheet for both a plain listing and the family
-          listing; variants table renders per-variant stock/price/status;
-          close works.
+    - [x] `npm run build` && `npm run lint` — clean (after the `Sheet` fix).
+    - [x] Manual via Chrome DevTools MCP: opened the sheet for a family
+          listing (Single Pendant — variants table with one sold-out
+          variant, no pricing section since it has options), a listing with
+          missing attributes and no pricing-friendly description (Light
+          Drum Pendant — PriceBand renders correctly, "Missing from the
+          listing" pills present, footer has no restock button since its
+          alert is `slow_mover` not `low_stock`), and a listing with
+          reviews + a restock button (Cotton Novelty Pendant); clicked
+          "Draft restock" and confirmed it closed the sheet and opened the
+          assistant rail with the exact expected prefill text; Escape
+          closes the sheet; no console errors.
   - **Dependencies:** Task 9
   - **Files:**
-    - `src/layouts/merchant/views/CatalogView.tsx` (edit)
+    - `src/layouts/merchant/views/CatalogView.tsx` (edit — `ListingSheet`,
+      `VariantsTable`, internal `openListing` state)
     - `src/layouts/merchant/ui/Sheet.tsx` (new)
     - `src/layouts/merchant/ui/Facts.tsx` (new, includes `Fact`)
     - `src/layouts/merchant/ui/PriceBand.tsx` (new)
     - `src/layouts/merchant/ui/SectionTitle.tsx` (new)
-  - **Estimated scope:** Medium (5 files)
+    - `src/layouts/merchant/lib/fixtures/pricing.ts` (new)
+    - `src/layouts/merchant/lib/fixtures/listings.ts` (edit — added
+      `review_snippets` to one listing)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — drops the
+      page-level `openListing` state/prop, passes `pricing`)
+  - **Estimated scope:** Medium-large (5 new files + 3 edits — grew past
+    the plan's 5-file estimate once the pricing section needed real data
+    to render)
 
 ## Checkpoint: Phase 3
-- [ ] All four nav items render their view correctly with fixture data
-- [ ] Catalog search/filter narrows rows; detail sheet + variants table work
-- [ ] `npm run lint` && `npm run build` clean
+- [x] All four nav items render their view correctly with fixture data
+- [x] Catalog search/filter narrows rows; detail sheet + variants table work
+- [x] `npm run lint` && `npm run build` clean
 - [ ] Review with human before proceeding
 
 ### Phase 4: Assistant rail, cards, Inspector

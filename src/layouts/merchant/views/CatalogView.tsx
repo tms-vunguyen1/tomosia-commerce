@@ -1,15 +1,21 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { formatNumber, coverLabel, hasOptions, optionSummary, priceLabel } from "../lib/format";
+import { formatDate, formatMoney, formatNumber, formatRate, coverLabel, hasOptions, optionSummary, optionValuesLabel, priceLabel, titleCase } from "../lib/format";
 import { INVENTORY_KINDS, LISTING_STATUS } from "../lib/kinds";
-import type { InventoryAlert, Listing } from "../lib/types";
+import type { InventoryAlert, Listing, ListingDetails, PricingContext } from "../lib/types";
+import AskButton from "../ui/AskButton";
 import Button from "../ui/Button";
+import Facts, { Fact } from "../ui/Facts";
 import PageHeader from "../ui/PageHeader";
 import Panel from "../ui/Panel";
 import Pill from "../ui/Pill";
-import Segmented from "../ui/Segmented";
+import PriceBand from "../ui/PriceBand";
+import QuotedAsData from "../ui/QuotedAsData";
 import SearchField from "../ui/SearchField";
+import SectionTitle from "../ui/SectionTitle";
+import Segmented from "../ui/Segmented";
+import Sheet from "../ui/Sheet";
 import Thumb from "../ui/Thumb";
 
 type Filter = "all" | "active" | "low_stock" | "content" | "inactive";
@@ -120,18 +126,182 @@ function ListingTable({ listings, alerts, onOpen }: { listings: Listing[]; alert
   );
 }
 
+/** A family listing's variants: what price and stock are read and written against. */
+function VariantsTable({ variants, onAsk }: { variants: Listing[]; onAsk: (text: string) => void }) {
+  return (
+    <section>
+      <SectionTitle aside={`${variants.length} variants · priced and stocked per variant`}>Variants</SectionTitle>
+      <div className="overflow-x-auto rounded-[10px] border border-(--line)">
+        <table className="w-full border-collapse text-[13px]">
+          <thead>
+            <tr className="bg-(--ground) text-left text-[11.5px] font-medium uppercase tracking-[0.04em] text-(--ink-soft)">
+              <th className="px-3 py-1.5">Variant</th>
+              <th className="px-3 py-1.5 text-right">Stock</th>
+              <th className="px-3 py-1.5 text-right">Price</th>
+              <th className="px-3 py-1.5">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {variants.map((variant) => (
+              <tr key={variant.listing_id} className="border-t border-(--line)">
+                <td className="px-3 py-1.5">
+                  <button
+                    type="button"
+                    className="text-left text-(--ink) hover:underline"
+                    onClick={() => onAsk(`How is ${variant.title} in ${optionValuesLabel(variant)} (${variant.listing_id}) priced, and would you change it?`)}
+                  >
+                    <div className="font-medium">{optionValuesLabel(variant)}</div>
+                    <div className="break-all text-[11.5px] tabular-nums text-(--ink-soft)">{variant.listing_id}</div>
+                  </button>
+                </td>
+                <td className={`px-3 py-1.5 text-right tabular-nums ${variant.stock === 0 ? "font-semibold text-(--danger)" : "text-(--ink)"}`}>{formatNumber(variant.stock)}</td>
+                <td className="px-3 py-1.5 text-right tabular-nums text-(--ink)">{formatMoney(variant.price)}</td>
+                <td className="px-3 py-1.5">
+                  <StatusPill status={variant.status} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function ListingSheet({
+  listing,
+  pricing,
+  alert,
+  onClose,
+  onAskAssistant,
+}: {
+  listing: ListingDetails;
+  pricing: PricingContext | null;
+  alert?: InventoryAlert;
+  onClose: () => void;
+  onAskAssistant: (text: string) => void;
+}) {
+  const ref = `${listing.title} (${listing.listing_id})`;
+  const ask = (text: string) => {
+    onClose();
+    onAskAssistant(text);
+  };
+
+  return (
+    <Sheet
+      title="Listing"
+      detail={listing.listing_id}
+      onClose={onClose}
+      closeLabel="Close listing detail"
+      footer={
+        <>
+          <Button variant="primary" icon="FaWandMagicSparkles" className="flex-1" onClick={() => ask(`Tell me how ${ref} is doing and what you would change.`)}>
+            Ask about this listing
+          </Button>
+          {alert?.kind === "low_stock" ? (
+            <Button variant="secondary" onClick={() => ask(`Draft a restock plan for ${ref}.`)}>
+              Draft restock
+            </Button>
+          ) : null}
+        </>
+      }
+    >
+      <div className="flex gap-3.5">
+        <Thumb src={listing.image_url} alt={listing.title} size={84} />
+        <div className="min-w-0">
+          <h2 className="text-[17px] font-semibold leading-tight tracking-[-0.01em] text-(--ink)">{listing.title}</h2>
+          {listing.short_description ? <p className="mt-1.5 text-[13px] leading-snug text-(--ink-soft)">{listing.short_description}</p> : null}
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <StatusPill status={listing.status} />
+            {listing.content_quality && listing.content_quality !== "good" ? (
+              <Pill tone={listing.content_quality === "poor" ? "danger" : "warn"}>Content {listing.content_quality === "poor" ? "is poor" : "needs work"}</Pill>
+            ) : null}
+            {listing.category ? <Pill>{listing.category}</Pill> : null}
+          </div>
+        </div>
+      </div>
+
+      <Facts>
+        <Fact label={hasOptions(listing) ? "Price from" : "Price"} value={formatMoney(listing.price, listing.currency)} />
+        <Fact label="In stock" value={formatNumber(listing.stock)} tone={listing.stock === 0 ? "danger" : alert?.kind === "low_stock" ? "warn" : undefined} />
+        <Fact label="Sold, 30 days" value={listing.sales_last_30d != null ? formatNumber(listing.sales_last_30d) : null} />
+        <Fact
+          label={pricing?.margin_pct != null ? "Margin" : "Return rate"}
+          value={pricing?.margin_pct != null ? formatRate(pricing.margin_pct) : listing.return_rate_pct != null ? formatRate(listing.return_rate_pct) : null}
+        />
+      </Facts>
+
+      {listing.variants?.length ? <VariantsTable variants={listing.variants} onAsk={ask} /> : null}
+
+      {pricing && !hasOptions(listing) ? (
+        <section>
+          <SectionTitle
+            aside={[
+              pricing.unit_cost != null ? `unit cost ${formatMoney(pricing.unit_cost)}` : "",
+              pricing.demand_signal ? `demand ${titleCase(pricing.demand_signal).toLowerCase()}` : "",
+              pricing.last_changed ? `changed ${formatDate(pricing.last_changed)}` : "",
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          >
+            Pricing
+          </SectionTitle>
+          {pricing.min_price != null && pricing.max_price != null ? <PriceBand current={pricing.current_price} floor={pricing.min_price} ceiling={pricing.max_price} /> : null}
+          {listing.return_rate_pct != null && pricing.margin_pct != null ? (
+            <p className="mt-2 text-[12.5px] tabular-nums text-(--ink-soft)">Return rate {formatRate(listing.return_rate_pct)}</p>
+          ) : null}
+        </section>
+      ) : null}
+
+      {listing.missing_attributes?.length ? (
+        <section>
+          <SectionTitle>Missing from the listing</SectionTitle>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {listing.missing_attributes.map((attribute) => (
+              <Pill key={attribute} tone="warn">
+                + {attribute}
+              </Pill>
+            ))}
+            <AskButton label="Draft these attributes" onClick={() => ask(`Draft the missing attributes (${listing.missing_attributes?.join(", ")}) for ${ref}.`)} />
+          </div>
+        </section>
+      ) : null}
+
+      {listing.review_snippets?.length ? (
+        <section>
+          <SectionTitle aside={<QuotedAsData subject="Customer-written" />}>What buyers say</SectionTitle>
+          <div className="flex flex-col gap-1.5">
+            {listing.review_snippets.map((snippet, index) => (
+              <blockquote key={index} className="rounded-[10px] bg-(--ground) px-3 py-2 text-[13px] leading-snug text-(--ink-2)">
+                &ldquo;{snippet}&rdquo;
+              </blockquote>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {listing.long_description ? (
+        <section>
+          <SectionTitle>Description</SectionTitle>
+          <p className="whitespace-pre-line text-[13px] leading-relaxed text-(--ink-2)">{listing.long_description}</p>
+        </section>
+      ) : null}
+    </Sheet>
+  );
+}
+
 export default function CatalogView({
   listings,
   alertsList,
+  pricing,
   onAskAssistant,
-  onOpenListing,
 }: {
-  listings: Listing[];
+  listings: ListingDetails[];
   alertsList: InventoryAlert[];
+  pricing: Record<string, PricingContext>;
   onAskAssistant: (text: string) => void;
-  /** Task 10 wires the detail sheet; for now this just tracks the id. */
-  onOpenListing: (id: string) => void;
 }) {
+  const [openListing, setOpenListing] = useState<string | null>(null);
   const alerts = useMemo(() => new Map(alertsList.map((alert) => [alert.listing_id, alert])), [alertsList]);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
@@ -207,15 +377,31 @@ export default function CatalogView({
 
       {attention.length ? (
         <Panel title="Needs attention" subtitle={`${attention.length} · sold out and low stock first`}>
-          <ListingTable listings={attention} alerts={alerts} onOpen={onOpenListing} />
+          <ListingTable listings={attention} alerts={alerts} onOpen={setOpenListing} />
         </Panel>
       ) : null}
 
       {rest.length ? (
         <Panel title={attention.length ? "Everything else" : "All listings"} subtitle={formatNumber(rest.length)}>
-          <ListingTable listings={rest} alerts={alerts} onOpen={onOpenListing} />
+          <ListingTable listings={rest} alerts={alerts} onOpen={setOpenListing} />
         </Panel>
       ) : null}
+
+      {openListing
+        ? (() => {
+            const listing = listings.find((entry) => entry.listing_id === openListing);
+            if (!listing) return null;
+            return (
+              <ListingSheet
+                listing={listing}
+                pricing={pricing[openListing] ?? null}
+                alert={alerts.get(openListing)}
+                onClose={() => setOpenListing(null)}
+                onAskAssistant={onAskAssistant}
+              />
+            );
+          })()
+        : null}
     </div>
   );
 }
