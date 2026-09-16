@@ -180,29 +180,38 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
 
 ### Phase 2: Shell + Home view
 
-- [ ] Task 5: PortalShell + NavRail
+- [x] Task 5: PortalShell + NavRail
   - **Description:** Build the portal chrome — nav rail (four items with
     alert-derived counts), top bar, content area, and a slot for the
     assistant rail — and wire it into `/merchant` with local view-switch
     state.
   - **Acceptance criteria:**
-    - [ ] Clicking a nav item switches the active view (a placeholder div
+    - [x] Clicking a nav item switches the active view (a placeholder div
           per view is enough at this task).
-    - [ ] Nav counts (order issues; low stock + slow movers) are computed
-          from `lib/fixtures/alerts.ts`.
-    - [ ] Layout visually matches the reference's `Shell.tsx` structure
-          (nav rail left, content center, rail slot right) at desktop width.
+    - [x] Nav counts (order issues; low stock + slow movers) are computed
+          from `lib/fixtures/alerts.ts` (via `OVERVIEW.snapshot.alerts`,
+          which itself derives from `alerts.ts` — see Task 4).
+    - [x] Layout visually matches the reference's `Shell.tsx` structure
+          (nav rail left, content center, rail slot right) at desktop width
+          — screenshot- and a11y-snapshot-verified.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: all four nav items are clickable and switch the visible
-          placeholder; counts match the fixture data.
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Manual via Chrome DevTools MCP: all four nav items are clickable
+          and switch the visible placeholder (verified Orders); counts
+          match fixture data (Orders=3, Inventory=4); the assistant toggle
+          switches "Show assistant"/"Hide assistant" (`aria-pressed`) and
+          mounts/unmounts the rail placeholder; no console errors.
   - **Dependencies:** Tasks 3, 4
   - **Files:**
-    - `src/layouts/merchant/shell/PortalShell.tsx` (new)
-    - `src/layouts/merchant/shell/NavRail.tsx` (new)
+    - `src/layouts/merchant/shell/PortalShell.tsx` (new — no separate
+      `NavRail.tsx`: the reference itself keeps the nav inline in
+      `Shell.tsx` with no second component, and it has exactly one call
+      site here too, so splitting it out would be an unused abstraction)
     - `src/app/(merchant)/merchant/page.tsx` (edit — real shell replaces
-      the placeholder)
-  - **Estimated scope:** Medium (3 files)
+      the placeholder; per-view content is still a placeholder pending
+      Tasks 6-10)
+  - **Estimated scope:** Medium (2 files, not 3 — see the `NavRail` note
+    above)
 
 - [ ] Task 6: HomeView
   - **Description:** Build the Home view in full: the stat strip, the
