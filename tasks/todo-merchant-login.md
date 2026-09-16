@@ -132,32 +132,45 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     - `src/lib/merchant/db.ts` (new)
   - **Estimated scope:** XS
 
-- [ ] Task 2.2: Auth logic + self-check
+- [x] Task 2.2: Auth logic + self-check
   - **Description:** `src/lib/merchant/auth.ts`, the single source of truth
     for merchant auth logic. Also add the one required self-check script
     (`scripts/test-merchant-auth.mjs`) covering the two pieces of
     non-trivial logic: hash/verify round-trip and session-expiry rejection.
   - **Acceptance criteria:**
-    - [ ] `hashPassword`/`verifyPassword` use bcrypt at cost 12.
-    - [ ] `createSession(userId)` writes a `MerchantSession` row with
+    - [x] `hashPassword`/`verifyPassword` use bcrypt at cost 12.
+    - [x] `createSession(userId)` writes a `MerchantSession` row with
           `expiresAt = now + MERCHANT_SESSION_TTL_MS` and returns the opaque
           token.
-    - [ ] `getSessionUser(token)` returns `null` for a missing/unknown token
+    - [x] `getSessionUser(token)` returns `null` for a missing/unknown token
           **and** for a session whose `expiresAt` is in the past.
-    - [ ] `deleteSession(token)` removes the row if present, no-ops
-          otherwise.
-    - [ ] `scripts/test-merchant-auth.mjs` is an `assert`-based script, no
+    - [x] `deleteSession(token)` removes the row if present, no-ops
+          otherwise (`deleteMany`, not `delete`).
+    - [x] `scripts/test-merchant-auth.mjs` is an `assert`-based script, no
           framework, that fails loudly if `verifyPassword` returns true for
           a wrong password or if `getSessionUser` accepts an expired
           session.
   - **Verification:**
-    - [ ] `node scripts/test-merchant-auth.mjs` exits 0 (spec step 1).
-    - [ ] `npm run lint` clean on the new file.
+    - [x] `node scripts/test-merchant-auth.mjs` exits 0.
+    - [x] Sanity-checked the self-check isn't vacuous: temporarily inverted
+          the expiry comparison, confirmed the script fails loudly with a
+          clear assertion message, and that `finally` cleanup still runs on
+          failure (no orphaned test rows left in the DB).
+    - [x] `npm run lint` clean on both new files.
+    - [x] Confirmed via a deliberately-injected type error that `npm run
+          build` type-checks `auth.ts` even though nothing imports it yet
+          (standalone `tsc --noEmit` hits this repo's pre-existing,
+          unrelated tsconfig `baseUrl` deprecation error).
   - **Dependencies:** Task 2.1
   - **Files:**
     - `src/lib/merchant/auth.ts` (new)
     - `scripts/test-merchant-auth.mjs` (new)
   - **Estimated scope:** Small
+  - **Note:** the self-check mirrors `auth.ts`'s DB operations rather than
+    importing the module — same Node/path-alias constraint already noted
+    for `create-merchant-account.mjs`. Real end-to-end exercise of the
+    actual exported functions happens starting Phase 3, once API routes
+    call into them.
 
 - [x] Task 2.3: Merchant cookie constants
   - **Description:** Add `MERCHANT_AUTH_COOKIE`, `MERCHANT_AUTH_COOKIE_OPTIONS`
@@ -180,10 +193,11 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     compile, a real dependency the plan's "no dependency" note undersold.
 
 ### Checkpoint: Phase 2 complete
-- [ ] `node scripts/test-merchant-auth.mjs` passes.
-- [ ] `npm run lint` && `npm run build` clean.
-- [ ] Still zero user-facing behavior change — `/merchant` remains open
-      exactly as before.
+- [x] `node scripts/test-merchant-auth.mjs` passes.
+- [x] `npm run lint` && `npm run build` clean.
+- [x] Still zero user-facing behavior change — `/merchant` remains open
+      exactly as before (nothing imports `auth.ts`/`db.ts`/the new
+      constants yet).
 
 ---
 
