@@ -5,34 +5,44 @@ decisions, `SPEC-merchant-login.md` for the full spec.
 
 ### Phase 1: Database Foundation
 
-- [ ] Task 1.1: Add Prisma/bcrypt dependencies, root docker-compose, env vars
+- [x] Task 1.1: Add Prisma/bcrypt dependencies, root docker-compose, env vars
   - **Description:** Install the three new npm packages, add a root-level
     `docker-compose.yml` (separate compose project from
     `shopping-agent/docker-compose.yml`), and add `DATABASE_URL` to
     `.env`/`.env.example`. No application code changes — this only makes the
     tooling available.
   - **Acceptance criteria:**
-    - [ ] `bcrypt`, `@types/bcrypt`, `prisma`, `@prisma/client` appear in
+    - [x] `bcrypt`, `@types/bcrypt`, `prisma`, `@prisma/client` appear in
           `package.json`/`package-lock.json` (via `npm install`).
-    - [ ] `docker-compose.yml` at repo root defines one `postgres` service
+    - [x] `docker-compose.yml` at repo root defines one `postgres` service
           (`postgres:16-alpine`), a named volume, port 5432 published — does
           not modify `shopping-agent/docker-compose.yml`.
-    - [ ] `.env.example` gains
+    - [x] `.env.example` gains
           `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/tomosia_merchant"`;
           local `.env` gets a working value (not committed).
   - **Verification:**
-    - [ ] `npm install bcrypt @types/bcrypt prisma @prisma/client` completes
-          without native-build errors (see plan's bcrypt risk).
-    - [ ] `docker compose up -d postgres` starts a healthy container;
+    - [x] `npm install bcrypt @types/bcrypt prisma @prisma/client` completes
+          without native-build errors (see plan's bcrypt risk). Confirmed
+          bcrypt's native binding actually loads (hash+compare round trip),
+          not just that install exited 0.
+    - [x] `docker compose up -d postgres` starts a healthy container;
           `docker compose ps` shows it distinct from any `shopping-agent`
-          compose project.
-    - [ ] `npm run build` still succeeds (nothing wired yet — sanity check).
+          compose project (`tomosia-commerce-postgres-1`, default project
+          name, no collision).
+    - [x] `npm run build` still succeeds (nothing wired yet — sanity check).
   - **Dependencies:** None
   - **Files:**
-    - `package.json`, `package-lock.json`
+    - `package.json` (`package-lock.json` is gitignored in this repo —
+      pre-existing, not touched)
     - `docker-compose.yml` (new)
     - `.env`, `.env.example`
   - **Estimated scope:** Small (1-2 meaningful files; lockfile is generated)
+  - **Notes:** npm's `prisma` "latest" dist-tag resolved to an `8.0.0-rc`
+    prerelease while `@prisma/client` resolved to stable `7.10.0` — pinned
+    `prisma` to `7.10.0` explicitly so CLI and client match. Also reverted
+    two unrelated sitemap build artifacts (`public/sitemap.xml`,
+    `public/sitemap-0.xml`) that `npm run build`'s `next-sitemap` postbuild
+    step regenerated as a side effect — out of scope for this task.
 
 - [ ] Task 1.2: Prisma schema + initial migration
   - **Description:** Define `MerchantUser` and `MerchantSession` models
