@@ -2,7 +2,13 @@
  * Formatting helpers ported from commerce-agents/examples/web-shared/format.ts
  * (only the subset the merchant portal's views need — more are added
  * task-by-task as a view first needs them, per the plan's vertical slicing).
+ * `orderRows` is retail-vertical-specific, ported from the reference's own
+ * merchant-web/lib/format.ts.
  */
+
+import { ORDER_STATUS } from "./kinds";
+import type { RecentOrder } from "./types";
+import type { RecordRowData } from "../ui/RecordList";
 
 const moneyFormatters = new Map<string, Intl.NumberFormat>();
 
@@ -110,4 +116,76 @@ export function optionValuesLabel(item: Pick<OptionFields, "option_values">): st
 export function priceLabel(product: OptionFields): string {
   const money = formatMoney(product.price, product.currency);
   return hasOptions(product) ? `From ${money}` : money;
+}
+
+const ISO_RANGE = /^(\d{4}-\d{2}-\d{2})\s*\/\s*(\d{4}-\d{2}-\d{2})$/;
+
+/** "2026-06-19/2026-06-25" as "Jun 19–25". */
+export function formatPeriodLabel(value: string | null | undefined): string {
+  if (!value) return "";
+  const match = ISO_RANGE.exec(value.trim());
+  if (!match) return value;
+  const start = parseDate(match[1]);
+  const end = parseDate(match[2]);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return value;
+  if (start.getFullYear() !== end.getFullYear()) {
+    return `${formatDate(match[1])} – ${formatDate(match[2])}`;
+  }
+  if (start.getMonth() !== end.getMonth()) {
+    return `${formatDayMonth(match[1])} – ${formatDayMonth(match[2])}`;
+  }
+  return `${formatDayMonth(match[1])}–${end.getDate()}`;
+}
+
+/** "prior week"/"prior period" when the windows abut at equal length; else the window's label. */
+export function formatComparisonLabel(period: string | null | undefined, compareTo: string | null | undefined): string {
+  if (!compareTo) return "";
+  const primary = ISO_RANGE.exec(period?.trim() ?? "");
+  const compare = ISO_RANGE.exec(compareTo.trim());
+  if (primary && compare) {
+    const dayMs = 24 * 60 * 60 * 1000;
+    const primaryStart = parseDate(primary[1]).getTime();
+    const primaryDays = Math.round((parseDate(primary[2]).getTime() - primaryStart) / dayMs);
+    const compareEnd = parseDate(compare[2]).getTime();
+    const compareDays = Math.round((compareEnd - parseDate(compare[1]).getTime()) / dayMs);
+    if (primaryDays === compareDays && Math.round((primaryStart - compareEnd) / dayMs) === 1) {
+      return primaryDays === 6 ? "prior week" : "prior period";
+    }
+  }
+  return formatPeriodLabel(compareTo);
+}
+
+/** "Good morning" before noon, "Good afternoon" until six, then "Good evening". */
+export function greeting(now: Date): string {
+  const hour = now.getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
+
+export function orderRows(orders: RecentOrder[]): RecordRowData[] {
+  return orders.map((order) => ({
+    id: order.order_id,
+    detail: plural(order.items, "item"),
+    sub: `${formatDayMonth(order.placed_at)} · ${formatMoney(order.total)}`,
+    status: ORDER_STATUS[order.status] ?? { label: order.status.replaceAll("_", " "), tone: "muted" as const },
+  }));
+}
+
+export function describeProposer(change: { created_by: string; created_by_kind?: "operator" | "agent" }): string {
+  return change.created_by_kind === "agent" ? `Proposed by ${change.created_by}'s assistant` : `Staged by ${change.created_by}`;
+}
+
+/** Approvals are always a person. */
+export function describeResolver(change: {
+  status: string;
+  applied_by?: string | null;
+  discarded_by?: string | null;
+  discarded_by_kind?: "operator" | "agent" | null;
+}): string | null {
+  if (change.status === "applied" && change.applied_by) return `Approved by ${change.applied_by}`;
+  if (change.status === "discarded" && change.discarded_by) {
+    return change.discarded_by_kind === "agent" ? `Dismissed by ${change.discarded_by}'s assistant` : `Dismissed by ${change.discarded_by}`;
+  }
+  return null;
 }

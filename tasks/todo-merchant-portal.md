@@ -213,26 +213,45 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
   - **Estimated scope:** Medium (2 files, not 3 — see the `NavRail` note
     above)
 
-- [ ] Task 6: HomeView
+- [x] Task 6: HomeView
   - **Description:** Build the Home view in full: the stat strip, the
     "Needs you today" attention queue with its segmented filter, recent
     orders, and recent changes — set as the default view.
   - **Acceptance criteria:**
-    - [ ] Stat tiles render sales/orders/conversion/average-order figures
-          from `lib/fixtures/overview.ts`, with change-percent styling.
-    - [ ] The attention queue lists order issues and inventory alerts,
+    - [x] Stat tiles render sales/orders/conversion/average-order figures
+          from `lib/fixtures/overview.ts`, with change-percent styling and
+          sparklines (current vs. prior period).
+    - [x] The attention queue lists order issues and inventory alerts,
           filterable via the segmented control (All/Orders/Low stock/Slow).
-    - [ ] Recent orders and recent (staged) changes panels render from
+    - [x] Recent orders and recent (staged) changes panels render from
           fixture data.
+  - **Retroactive fix (root-cause, not scope creep):** while reading
+    `web-shared/ui.tsx` for the primitives this task needed, found that
+    Task 3's `Panel`/`PageHeader`/`Pill`/`Notice`/`Skeleton` were built from
+    view *usage* patterns without the authoritative primitive source, and
+    drifted from it (`Panel` had a default body padding the reference
+    doesn't, forcing double-padding once real children with their own
+    padding were added; `PageHeader` was sized/laid out differently;
+    `Pill`'s padding/dot markup differed; `Notice`'s background/size
+    differed). Corrected all five to match `ui.tsx` exactly now, rather
+    than carrying the drift into every later task that composes them.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual via Chrome DevTools MCP: `/merchant` (default view) matches
-          the reference `HomeView.tsx`'s layout and data; filter control
-          narrows the queue correctly; no console errors.
+    - [x] `npm run build` && `npm run lint` — clean, first pass.
+    - [x] Manual via Chrome DevTools MCP: `/merchant` (default view) matches
+          the reference `HomeView.tsx`'s layout and data — screenshot- and
+          a11y-snapshot-verified stat tiles/sparklines/approvals banner/
+          attention queue/insights/recent orders/recent changes; clicked a
+          `StatTile` ("Sales: ask the assistant why") and confirmed the
+          exact `askWhy()` prefill text appears in the (still placeholder)
+          assistant rail; clicked the "Orders" segmented option and
+          confirmed the queue narrows to the 3 order issues; no console
+          errors throughout.
   - **Dependencies:** Task 5
   - **Files:**
     - `src/layouts/merchant/views/HomeView.tsx` (new)
-    - `src/layouts/merchant/ui/StatTile.tsx` (new)
+    - `src/layouts/merchant/ui/StatTile.tsx` (new — includes `Sparkline`
+      and `ChangeChip` inline; each has exactly one consumer here, so they
+      aren't separate exported primitives)
     - `src/layouts/merchant/ui/StatStrip.tsx` (new)
     - `src/layouts/merchant/ui/AttentionList.tsx` (new)
     - `src/layouts/merchant/ui/AttentionRow.tsx` (new)
@@ -242,14 +261,30 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
     - `src/layouts/merchant/ui/QueueOverflow.tsx` (new)
     - `src/layouts/merchant/ui/ViewLink.tsx` (new)
     - `src/layouts/merchant/ui/RecentChanges.tsx` (new)
-  - **Estimated scope:** Large (11 files — the widest task in the plan;
-    split further mid-task if it stalls, e.g. land the stat strip and
-    attention queue first, recent orders/changes as a follow-up commit)
+    - `src/layouts/merchant/ui/KindIcon.tsx` (new — needed by
+      `AttentionRow`/`ApprovalsBanner`/`Insights`, not called out
+      separately in the plan but part of the same reference primitive set)
+    - `src/layouts/merchant/ui/AskButton.tsx` (new — same reason)
+    - `src/layouts/merchant/ui/Button.tsx` (new — same reason, needed by
+      `ApprovalsBanner`)
+    - `src/layouts/merchant/ui/Panel.tsx`, `PageHeader.tsx`, `Pill.tsx`,
+      `Notice.tsx`, `Skeleton.tsx` (edit — retroactive fix, see above)
+    - `src/layouts/merchant/lib/format.ts` (edit — added `greeting`,
+      `formatPeriodLabel`, `formatComparisonLabel`, `describeProposer`,
+      `describeResolver`, `orderRows`)
+    - `src/layouts/merchant/lib/kinds.ts` (edit — added `CHANGE_STATUS`)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — wires `HomeView` as
+      the default view; `onAskAssistant` opens the rail and shows the
+      prefill text, since the real composer doesn't exist until Task 12)
+  - **Estimated scope:** Large (11 new primitives + 1 view + 3 fixture-era
+    files edited + 5 earlier primitives corrected — wider than planned
+    once the `ui.tsx` source was read in full, but no file was individually
+    large)
 
 ## Checkpoint: Phase 2
-- [ ] `/merchant` shows nav rail + Home view fully populated from fixtures
-- [ ] Segmented filter works client-side
-- [ ] Visual match to the reference's layout and palette
+- [x] `/merchant` shows nav rail + Home view fully populated from fixtures
+- [x] Segmented filter works client-side
+- [x] Visual match to the reference's layout and palette
 - [ ] Review with human before proceeding
 
 ### Phase 3: Remaining views

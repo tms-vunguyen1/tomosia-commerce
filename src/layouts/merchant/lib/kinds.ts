@@ -5,7 +5,7 @@
  * of the reference's own hand-drawn icon keys — see SPEC-merchant-portal.md.
  */
 
-import type { InventoryAlert, ListingStatus, OrderIssue } from "./types";
+import type { ChangeStatus, InventoryAlert, ListingStatus, OrderIssue } from "./types";
 
 export type Tone = "ok" | "warn" | "danger" | "info" | "violet" | "muted" | "accent";
 
@@ -43,4 +43,10 @@ export const ORDER_STATUS: Record<string, { label: string; tone: Tone }> = {
   cancelled: { label: "Cancelled", tone: "muted" },
   return_initiated: { label: "Return requested", tone: "violet" },
   refunded: { label: "Refunded", tone: "ok" },
+};
+
+export const CHANGE_STATUS: Record<ChangeStatus, { label: string; tone: Tone }> = {
+  staged: { label: "Awaiting approval", tone: "violet" },
+  applied: { label: "Approved", tone: "ok" },
+  discarded: { label: "Dismissed", tone: "muted" },
 };

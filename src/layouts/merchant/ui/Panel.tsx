@@ -1,33 +1,32 @@
 import type { ReactNode } from "react";
 
+/** A card with an optional header row. Ported from web-shared/ui.tsx's Panel. */
 export default function Panel({
   title,
   subtitle,
-  icon,
   action,
-  bodyClassName,
+  icon,
   children,
+  bodyClassName = "",
 }: {
-  title: string;
+  title?: ReactNode;
   subtitle?: ReactNode;
-  icon?: ReactNode;
   action?: ReactNode;
-  bodyClassName?: string;
+  icon?: ReactNode;
   children: ReactNode;
+  bodyClassName?: string;
 }) {
   return (
-    <section className="rounded-(--radius) border border-(--line) bg-(--card) shadow-(--shadow-sm)">
-      <header className="flex items-center justify-between gap-3 px-[18px] pt-4">
-        <div className="flex items-center gap-2.5">
+    <section className="rounded-2xl border border-(--line) bg-(--card) shadow-(--shadow-sm)">
+      {title ? (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-[18px] pb-1.5 pt-3.5">
           {icon}
-          <div>
-            <h2 className="text-[15px] font-semibold text-(--ink)">{title}</h2>
-            {subtitle ? <p className="mt-0.5 text-[12.5px] text-(--ink-soft)">{subtitle}</p> : null}
-          </div>
+          <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-(--ink)">{title}</h2>
+          {subtitle ? <span className="text-[12.5px] text-(--ink-soft)">{subtitle}</span> : null}
+          {action ? <div className="ml-auto flex items-center gap-2">{action}</div> : null}
         </div>
-        {action}
-      </header>
-      <div className={`pb-4 pt-2 ${bodyClassName ?? ""}`}>{children}</div>
+      ) : null}
+      <div className={bodyClassName}>{children}</div>
     </section>
   );
 }

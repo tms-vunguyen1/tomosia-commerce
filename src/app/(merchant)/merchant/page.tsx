@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import PortalShell, { type PortalNavItem } from "@/layouts/merchant/shell/PortalShell";
+import HomeView from "@/layouts/merchant/views/HomeView";
 import { OVERVIEW } from "@/layouts/merchant/lib/fixtures/overview";
 
 type PortalView = "home" | "catalog" | "orders" | "inventory";
@@ -30,6 +31,7 @@ function ViewPlaceholder({ label }: { label: string }) {
 export default function MerchantPortalPage() {
   const [view, setView] = useState<PortalView>("home");
   const [assistantOpen, setAssistantOpen] = useState(false);
+  const [prefill, setPrefill] = useState<string | null>(null);
 
   const alerts = OVERVIEW.snapshot.alerts;
   const nav = useMemo<PortalNavItem<PortalView>[]>(
@@ -41,6 +43,14 @@ export default function MerchantPortalPage() {
     ],
     [alerts],
   );
+
+  // No real chat yet (Task 12) — opens the rail and shows what would have
+  // been sent, so every "Ask"/"Draft" button in the views is still
+  // demonstrably wired end to end.
+  const askAssistant = useCallback((text: string) => {
+    setAssistantOpen(true);
+    setPrefill(text);
+  }, []);
 
   return (
     <PortalShell
@@ -54,12 +64,13 @@ export default function MerchantPortalPage() {
       rail={
         assistantOpen ? (
           <aside className="hidden w-80 shrink-0 border-l border-(--line) bg-(--card) p-4 text-[13px] text-(--ink-soft) lg:block">
-            Assistant rail — built in a later task.
+            <p>Assistant rail — built in a later task.</p>
+            {prefill ? <p className="mt-2 rounded-lg bg-(--well) p-2 text-(--ink)">&ldquo;{prefill}&rdquo;</p> : null}
           </aside>
         ) : null
       }
     >
-      {view === "home" ? <ViewPlaceholder label="Home" /> : null}
+      {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
       {view === "catalog" ? <ViewPlaceholder label="Catalog" /> : null}
       {view === "orders" ? <ViewPlaceholder label="Orders" /> : null}
       {view === "inventory" ? <ViewPlaceholder label="Inventory" /> : null}
