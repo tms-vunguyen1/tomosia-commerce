@@ -282,8 +282,20 @@ one small script:
    DB) and reload `/merchant` — redirected to login, same as a missing
    session.
 9. Confirm the merchant cookie never appears on a storefront request
-   (DevTools → Network → any `/`, `/products/...` request → Cookies) and the
-   customer `token` cookie never appears on a `/merchant/*` request.
+   (DevTools → Network → any `/`, `/products/...` request → Cookies) — true
+   at the wire level because `MERCHANT_AUTH_COOKIE_OPTIONS.path` is
+   `/merchant`. **Correction, found during Task 5.1 verification:** the
+   reverse ("the customer `token` cookie never appears on a `/merchant/*`
+   request") is not achievable at the wire level and this step's original
+   wording was wrong — `AUTH_COOKIE_OPTIONS.path` is `/`, so browsers
+   attach it to every same-origin request, `/merchant/*` included (verified
+   with `curl --cookie "token=..." .../merchant/login` — the header is
+   present). What actually matters, and what holds: grep confirms no file
+   under `src/app/(merchant)/**`, `src/middleware.ts`, or
+   `src/lib/merchant/**` ever reads `AUTH_COOKIE`, and no customer-side file
+   ever reads `MERCHANT_AUTH_COOKIE` — each system reads only its own cookie
+   by name, so an incidentally-attached customer cookie is simply never
+   looked at by merchant code (and vice versa).
 10. `npm run lint` and `npm run build` — clean.
 
 ## Boundaries

@@ -421,37 +421,51 @@ decisions, `SPEC-merchant-login.md` for the full spec.
 
 ### Phase 5: Polish & Full Verification
 
-- [ ] Task 5.1: Session-expiry and cross-cookie isolation verification pass
+- [x] Task 5.1: Session-expiry and cross-cookie isolation verification pass
   - **Description:** No new production code expected (expiry logic already
     exists from Task 2.2, cookie scoping from Task 2.3) — this task is
     dedicated to running the spec's remaining, previously-unexercised
     verification steps and fixing anything they surface.
   - **Acceptance criteria:**
-    - [ ] Manually expiring a `MerchantSession.expiresAt` to the past and
+    - [x] Manually expiring a `MerchantSession.expiresAt` to the past and
           reloading `/merchant` redirects to login, identical to a missing
           session (spec step 8).
-    - [ ] The merchant cookie never appears on a storefront request (`/`,
-          `/products/...`), and the customer `token` cookie never appears on
-          a `/merchant/*` request (DevTools → Network → Cookies, spec step
-          9).
-    - [ ] No file under `src/lib/shopify/**`, `src/app/api/customer/**`, or
-          `cartActions.ts` was modified anywhere in this feature.
-    - [ ] No npm dependency beyond `bcrypt`, `@types/bcrypt`, `prisma`,
-          `@prisma/client` was added.
+    - [x] The merchant cookie never appears on a storefront request (`/`,
+          `/products/...`) — confirmed at the wire level (`path=/merchant`).
+    - [x] No file under `src/lib/shopify/**`, `src/app/api/customer/**`, or
+          `cartActions.ts` was modified anywhere in this feature (`git diff
+          --stat` against the pre-feature commit is empty for all three).
+    - [x] No npm dependency beyond `bcrypt`, `@types/bcrypt`, `prisma`,
+          `@prisma/client` was added (`git diff package.json` shows exactly
+          these four, nothing else).
   - **Verification:**
-    - [ ] All 10 steps in `SPEC-merchant-login.md`'s Testing Strategy pass
-          in order, fresh.
-    - [ ] `npm run lint` && `npm run build` — clean, zero new warnings (spec
-          step 10).
-    - [ ] `git diff --stat` reviewed against the Success Criteria's file-
-          boundary list.
+    - [x] All 10 steps in `SPEC-merchant-login.md`'s Testing Strategy passed
+          fresh, re-run end to end (self-check script, migration status,
+          duplicate-account rejection, logged-out redirect, wrong password,
+          correct login, logout, session expiry, cookie isolation, lint +
+          build).
+    - [x] `npm run lint` (full repo, not just changed files) && `npm run
+          build` — clean, zero warnings.
+    - [x] `git diff --stat 2a7d8ab..HEAD` (the commit before this feature
+          started) reviewed — all 18 changed files fall inside the spec's
+          approved boundaries, nothing outside.
   - **Dependencies:** Task 4.1
-  - **Files:** none expected; fixes only if a gap is found (most likely
-    candidates: `src/middleware.ts` matcher edge cases,
-    `MERCHANT_AUTH_COOKIE_OPTIONS.path`).
+  - **Files:** none — pure verification, no defect surfaced requiring a
+    code change.
   - **Estimated scope:** XS-S (verification; code changes only if a defect
     surfaces)
+  - **Spec correction found during this pass (not a code bug):** step 9's
+    original wording claimed the customer `token` cookie "never appears on
+    a `/merchant/*` request." That's not achievable at the wire level —
+    `AUTH_COOKIE_OPTIONS.path` is `/`, so browsers attach it to every
+    same-origin request regardless (verified with `curl --cookie
+    "token=..."` against `/merchant/login` — the header is present). What
+    actually holds, and is what matters: grep confirms no file under
+    `src/app/(merchant)/**`, `src/middleware.ts`, or `src/lib/merchant/**`
+    ever reads `AUTH_COOKIE`, and no customer-side file ever reads
+    `MERCHANT_AUTH_COOKIE` — each system reads only its own cookie by name.
+    `SPEC-merchant-login.md`'s Testing Strategy step 9 corrected to say this.
 
 ### Checkpoint: Feature complete
-- [ ] All acceptance criteria across Phases 1-5 met.
-- [ ] Ready for human review / merge.
+- [x] All acceptance criteria across Phases 1-5 met.
+- [x] Ready for human review / merge.
