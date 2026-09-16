@@ -101,20 +101,26 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
       Inter via `next/font/google`)
   - **Estimated scope:** Medium (4 new files + 1 edit)
 
-- [ ] Task 3: Common primitives
+- [x] Task 3: Common primitives
   - **Description:** Build the five presentational primitives every view
     uses, matching the reference's `Panel`/`PageHeader`/`Pill`/`Skeleton`/
     `Notice` prop shapes.
   - **Acceptance criteria:**
-    - [ ] Each primitive renders using only `merchant.css` tokens (no
+    - [x] Each primitive renders using only `merchant.css` tokens (no
           hardcoded colors).
-    - [ ] Prop shapes match what the views (read during the spec pass) call
-          them with (e.g. `Panel({ title, subtitle, action, children })`).
+    - [x] Prop shapes match what the views (read during the spec pass) call
+          them with — `Panel` ended up needing `icon` and `bodyClassName`
+          too (both seen in `HomeView.tsx`'s actual usage), so its final
+          shape is `{ title, subtitle?, icon?, action?, bodyClassName?,
+          children }`.
   - **Verification:**
-    - [ ] `npm run lint` — clean.
-    - [ ] Temporary smoke render on the `/merchant` placeholder page
-          confirms each primitive renders without error, then removed once
-          Task 6 wires them for real.
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Temporary smoke render on the `/merchant` placeholder page (all
+          5 primitives: a `Panel` with 4 `Pill` tones, a `Skeleton`, a
+          `Notice`) — screenshot-verified via Chrome DevTools MCP, correct
+          colors per tone (ok=green, warn=amber+dot, danger=red,
+          muted=gray), no console errors. Left in place; Task 5 replaces
+          this page's content wholesale with the real shell.
   - **Dependencies:** Task 2
   - **Files:**
     - `src/layouts/merchant/ui/Panel.tsx` (new)
@@ -122,7 +128,8 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
     - `src/layouts/merchant/ui/Pill.tsx` (new)
     - `src/layouts/merchant/ui/Skeleton.tsx` (new)
     - `src/layouts/merchant/ui/Notice.tsx` (new)
-  - **Estimated scope:** Medium (5 files)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — temporary smoke render)
+  - **Estimated scope:** Medium (5 new files + 1 temporary edit)
 
 - [ ] Task 4: Fixture data
   - **Description:** Source real Tomosia lighting/décor product data once
