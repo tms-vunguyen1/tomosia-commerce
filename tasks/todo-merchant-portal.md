@@ -322,20 +322,28 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
   - **Estimated scope:** Small (2 new files + 1 edit — `AskButton`/`KindIcon`
     already existed from Task 6)
 
-- [ ] Task 8: OrdersView
+- [x] Task 8: OrdersView
   - **Description:** Build the open-issues and recent-orders panels.
   - **Acceptance criteria:**
-    - [ ] Open issues list renders with buyer-message excerpts quoted (not
-          executed as instructions — rendered as inert text).
-    - [ ] Recent orders panel reuses `RecordList` from Task 6.
+    - [x] Open issues list renders with buyer-message excerpts quoted (not
+          executed as instructions — rendered as inert text, labeled
+          "shown as written" via `QuotedAsData`).
+    - [x] Recent orders panel reuses `RecordList` from Task 6.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: Orders nav item matches the reference `OrdersView.tsx`.
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Manual via Chrome DevTools MCP: Orders nav item matches the
+          reference `OrdersView.tsx` — 3 open issues (including the quoted
+          buyer message), 6 recent orders with correctly toned status
+          pills (return_initiated → violet "Return requested", etc.); the
+          long-gid overlap bug from Task 7 does not recur here (`AttentionRow`'s
+          full-width layout, not a fixed-width sibling column); no console
+          errors.
   - **Dependencies:** Task 6 (`AttentionList`, `RecordList`), Task 4
   - **Files:**
     - `src/layouts/merchant/views/OrdersView.tsx` (new)
     - `src/layouts/merchant/ui/QuotedAsData.tsx` (new)
-  - **Estimated scope:** Small (2 files)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — wires `OrdersView`)
+  - **Estimated scope:** Small (2 new files + 1 edit)
 
 - [ ] Task 9: CatalogView — listing table
   - **Description:** Build the searchable, filterable listing table (no

@@ -4,8 +4,10 @@ import { useCallback, useMemo, useState } from "react";
 import PortalShell, { type PortalNavItem } from "@/layouts/merchant/shell/PortalShell";
 import HomeView from "@/layouts/merchant/views/HomeView";
 import InventoryView from "@/layouts/merchant/views/InventoryView";
+import OrdersView from "@/layouts/merchant/views/OrdersView";
 import { ALERTS } from "@/layouts/merchant/lib/fixtures/alerts";
 import { OVERVIEW } from "@/layouts/merchant/lib/fixtures/overview";
+import { RECENT_ORDERS } from "@/layouts/merchant/lib/fixtures/orders";
 
 type PortalView = "home" | "catalog" | "orders" | "inventory";
 
@@ -74,7 +76,7 @@ export default function MerchantPortalPage() {
     >
       {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
       {view === "catalog" ? <ViewPlaceholder label="Catalog" /> : null}
-      {view === "orders" ? <ViewPlaceholder label="Orders" /> : null}
+      {view === "orders" ? <OrdersView issues={ALERTS.order_issues} recentOrders={RECENT_ORDERS} onAskAssistant={askAssistant} /> : null}
       {view === "inventory" ? <InventoryView data={ALERTS} onAskAssistant={askAssistant} /> : null}
     </PortalShell>
   );
