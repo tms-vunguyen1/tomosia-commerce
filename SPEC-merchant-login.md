@@ -111,14 +111,16 @@ src/lib/constants.ts             ← MODIFIED. Add, alongside the existing
                                                               //   or agent routes.
                                      MERCHANT_SESSION_TTL_MS = 8 * 60 * 60 * 1000
 
-src/app/api/merchant/
-  login/route.ts                ← NEW. POST { email, password }. Looks up
+src/app/(merchant)/merchant/api/    ← NEW. NOT src/app/api/merchant/** — see
+                                   Amendment below. URLs: /merchant/api/login,
+                                   /merchant/api/logout.
+  login/route.ts                ← POST { email, password }. Looks up
                                    MerchantUser, bcrypt-compares, on success
                                    creates a session and sets
                                    MERCHANT_AUTH_COOKIE; on any failure
                                    (unknown email OR wrong password) returns
                                    the same generic 401 — no user enumeration.
-  logout/route.ts               ← NEW. POST. Deletes the MerchantSession row
+  logout/route.ts               ← POST. Deletes the MerchantSession row
                                    for the current cookie (if any) and clears
                                    the cookie. Always succeeds.
 
@@ -126,11 +128,27 @@ src/middleware.ts                ← NEW. matcher: ["/merchant/:path*"]. Runs
                                    on the Edge runtime, so it does NOT touch
                                    Prisma — it only checks whether
                                    MERCHANT_AUTH_COOKIE is present, and lets
-                                   `/merchant/login` through unconditionally.
-                                   Missing cookie + any other /merchant path →
+                                   `/merchant/login`, `/merchant/api/login`,
+                                   and `/merchant/api/logout` through
+                                   unconditionally (PUBLIC_PATHS). Missing
+                                   cookie + any other /merchant path →
                                    redirect to `/merchant/login?next=<path>`.
                                    This is a fast reject for the common case;
                                    it is not the real check (see below).
+
+**Amendment (found during Task 4.1 verification, not anticipated when this
+spec was written):** this section originally placed the two routes at
+`src/app/api/merchant/{login,logout}/route.ts`, mirroring
+`src/app/api/customer/**`. That breaks logout: `MERCHANT_AUTH_COOKIE_OPTIONS`
+scopes the cookie to `path: "/merchant"`, and browsers match a cookie's
+`Path` against URL path *segments* — `/api/merchant/logout` does not fall
+under `/merchant`, so the cookie is never sent there. Logout appeared to
+work (200 response, cookie cleared client-side) but never deleted the
+database session row. Moving both routes under the `(merchant)` route group
+so their URLs are `/merchant/api/*` fixes this while preserving the
+Boundaries section's explicit requirement to keep the cookie's path scoped
+away from storefront/agent traffic (the alternative fix — widening the
+cookie to `path: "/"` — was rejected as a reversal of that requirement).
 
 src/app/(merchant)/
   layout.tsx                     ← UNCHANGED. Still just the independent
@@ -178,7 +196,7 @@ src/layouts/merchant/shell/
                                    control beside it, wired to a new
                                    `onLogout: () => void` prop that
                                    `PortalApp.tsx` implements as
-                                   `POST /api/merchant/logout` then a
+                                   `POST /merchant/api/logout` then a
                                    redirect to `/merchant/login`.
 
 .env / .env.example              ← MODIFIED. Add:
@@ -199,7 +217,7 @@ route handler, no service-class abstraction, cookie set via `cookies()`,
 generic errors on the JSON body:
 
 ```ts
-// src/app/api/merchant/login/route.ts (shape, not final code)
+// src/app/(merchant)/merchant/api/login/route.ts (shape, not final code)
 import { MERCHANT_AUTH_COOKIE, MERCHANT_AUTH_COOKIE_OPTIONS } from "@/lib/constants";
 import { verifyPassword, createSession } from "@/lib/merchant/auth";
 import { prisma } from "@/lib/merchant/db";
@@ -286,7 +304,7 @@ one small script:
   its own root compose file; editing the "no merchant agent" decision record
   in `CLAUDE.md`.
 - **Never do:** call `src/lib/shopify/**` from any file under
-  `src/lib/merchant/**` or `src/app/api/merchant/**`; touch
+  `src/lib/merchant/**` or `src/app/(merchant)/merchant/api/**`; touch
   `src/app/api/customer/**`, `cartActions.ts`, `AUTH_COOKIE`, or
   `AUTH_COOKIE_OPTIONS`; run session verification against the database
   inside `src/middleware.ts` (Edge runtime — verification belongs in the
