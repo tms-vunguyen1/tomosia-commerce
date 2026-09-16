@@ -19,6 +19,7 @@ proxies to, built on the `anthropics/commerce-agents` packages. A future
 - npm (the repo uses `package-lock.json`; ignore the `yarn` in `packageManager`)
 - A Shopify store with the **Headless** sales channel enabled
 - To run the shopping agent too: Python 3 + Docker (see its own README)
+- To use the merchant portal (`/merchant`): Docker, for its Postgres database
 
 ## Setup
 
@@ -52,6 +53,24 @@ PYTHONPATH=. .venv/bin/uvicorn shopping_assistant.main:app --port 8000 --workers
 See [`shopping-agent/README.md`](shopping-agent/README.md) for configuration,
 tests, and evals.
 
+### Merchant portal (optional)
+
+`/merchant` is an internal portal gated by its own login (separate from
+Shopify customer accounts) — not linked from the storefront, direct URL
+only. Needs Postgres and at least one seeded account:
+
+```bash
+docker compose up -d postgres
+npx prisma migrate dev
+node scripts/create-merchant-account.mjs owner@example.com yourpassword "Your Name"
+```
+
+`DATABASE_URL` in `.env`/`.env.example` already points at the compose
+service's default credentials — change it if you're running Postgres
+yourself instead. Then visit `/merchant`, which redirects to
+`/merchant/login` until you sign in. See `CLAUDE.md`'s "Merchant portal"
+section and `SPEC-merchant-login.md` for the full design.
+
 ## Commands
 
 ```bash
@@ -69,6 +88,7 @@ has its own `pytest`/`ruff` setup — see its README).
 ## Architecture
 
 See `CLAUDE.md` for the full architecture notes: theme generation, the Shopify
-data layer, auth/cart cookie handling, content pages, import aliases, lint/format
-conventions, and the commerce-agent decision record (identity binding, the
-internal API the agent calls back into, sessions, evals).
+data layer, auth/cart cookie handling, the merchant portal and its own login,
+content pages, import aliases, lint/format conventions, and the commerce-agent
+decision record (identity binding, the internal API the agent calls back into,
+sessions, evals).
