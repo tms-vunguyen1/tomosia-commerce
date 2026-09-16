@@ -23,7 +23,7 @@ export default function MerchantLoginForm({ next }: { next: string | null }) {
     setError(null);
 
     try {
-      const response = await fetch("/api/merchant/login", {
+      const response = await fetch("/merchant/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -48,6 +48,7 @@ export default function MerchantLoginForm({ next }: { next: string | null }) {
         <span className="text-[13px] font-medium text-(--ink-soft)">Email</span>
         <input
           type="email"
+          name="email"
           required
           autoComplete="username"
           value={email}
@@ -60,6 +61,7 @@ export default function MerchantLoginForm({ next }: { next: string | null }) {
         <span className="text-[13px] font-medium text-(--ink-soft)">Password</span>
         <input
           type="password"
+          name="password"
           required
           autoComplete="current-password"
           value={password}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import PortalShell, { type PortalNavItem } from "@/layouts/merchant/shell/PortalShell";
 import AssistantPanel from "@/layouts/merchant/rail/AssistantPanel";
@@ -36,6 +37,7 @@ export default function PortalApp({
 }: {
   operator: { name: string; role: string };
 }) {
+  const router = useRouter();
   const [view, setView] = useState<PortalView>("home");
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [prefill, setPrefill] = useState<Prefill | null>(null);
@@ -61,6 +63,12 @@ export default function PortalApp({
     setPrefill({ text, nonce: Date.now() });
   }, []);
 
+  const handleLogout = useCallback(async () => {
+    await fetch("/merchant/api/logout", { method: "POST" });
+    router.push("/merchant/login");
+    router.refresh();
+  }, [router]);
+
   return (
     <>
       <PortalShell
@@ -69,6 +77,7 @@ export default function PortalApp({
         view={view}
         onViewChange={setView}
         operator={operator}
+        onLogout={handleLogout}
         assistantOpen={assistantOpen}
         onToggleAssistant={() => setAssistantOpen((open) => !open)}
         rail={

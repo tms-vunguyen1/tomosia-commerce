@@ -9,10 +9,20 @@ function isSafeNextPath(value: string): boolean {
   return value.startsWith("/") && !value.startsWith("//");
 }
 
+// The login form must be reachable with no cookie at all (that's the whole
+// point), and logout must always be callable regardless of cookie state —
+// both live under /merchant so the cookie's path=/merchant scope reaches
+// them (see MERCHANT_AUTH_COOKIE_OPTIONS in src/lib/constants.ts).
+const PUBLIC_PATHS = new Set([
+  "/merchant/login",
+  "/merchant/api/login",
+  "/merchant/api/logout",
+]);
+
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  if (pathname === "/merchant/login") {
+  if (PUBLIC_PATHS.has(pathname)) {
     return NextResponse.next();
   }
 

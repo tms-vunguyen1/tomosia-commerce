@@ -51,6 +51,7 @@ export default function PortalShell<V extends string>({
   view,
   onViewChange,
   operator,
+  onLogout,
   assistantOpen,
   assistantBusy = false,
   onToggleAssistant,
@@ -62,6 +63,7 @@ export default function PortalShell<V extends string>({
   view: V;
   onViewChange: (view: V) => void;
   operator: { name: string; role: string };
+  onLogout: () => void;
   assistantOpen: boolean;
   assistantBusy?: boolean;
   onToggleAssistant: () => void;
@@ -135,10 +137,19 @@ export default function PortalShell<V extends string>({
         </button>
         <div className="mt-auto flex items-center gap-2.5 border-t border-(--line) px-1 pt-3 xl:px-2">
           <Avatar name={operator.name} />
-          <div className="hidden min-w-0 xl:block">
+          <div className="hidden min-w-0 flex-1 xl:block">
             <div className="truncate text-[13px] font-semibold leading-tight">{operator.name}</div>
             <div className="truncate text-[11.5px] text-(--ink-soft)">{operator.role}</div>
           </div>
+          <button
+            type="button"
+            onClick={onLogout}
+            aria-label="Log out"
+            title="Log out"
+            className="shrink-0 rounded-[8px] p-1.5 text-(--ink-soft) transition-colors hover:bg-(--ground) hover:text-(--ink)"
+          >
+            <DynamicIcon icon="FaArrowRightFromBracket" className="text-[15px]" />
+          </button>
         </div>
       </aside>
 
