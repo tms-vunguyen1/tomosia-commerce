@@ -289,27 +289,38 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
 
 ### Phase 3: Remaining views
 
-- [ ] Task 7: InventoryView
+- [x] Task 7: InventoryView
   - **Description:** Build the low-stock and slow-mover panels.
   - **Acceptance criteria:**
-    - [ ] Low-stock list sorted soonest-to-run-out first; slow-mover list
+    - [x] Low-stock list sorted soonest-to-run-out first; slow-mover list
           shows units tied up.
-    - [ ] Each row's mini stock bar and "Draft restock"/"Plan markdown"
+    - [x] Each row's mini stock bar and "Draft restock"/"Plan markdown"
           action render correctly (action is inert per the spec — no
-          composer send path yet, so it only needs to be visually present).
+          composer send path yet, so it only needs to be visually present;
+          wired to the same `onAskAssistant` prefill-and-open path Home
+          uses, so it's not a dead click either).
+  - **Bug found and fixed:** the real Shopify gids used as `listing_id`
+    (e.g. `gid://shopify/ProductVariant/47643685519522`, vs. the
+    reference's short mnemonic ids like `AR-2102`) have no natural wrap
+    point; against this view's fixed-width `w-32` stock column (unlike
+    Home's full-width attention rows, which never hit this), the id text
+    overflowed its box and visually overlapped the stock figure. Fixed
+    with `break-all` on the id span — likely to recur in Orders/Catalog,
+    watch for it there.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: Inventory nav item shows both panels populated from
-          `lib/fixtures/alerts.ts`, matching the reference `InventoryView.tsx`.
-  - **Dependencies:** Task 6 (reuses `Panel`, `Pill`, `KindIcon` conventions
-    established there)
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Manual via Chrome DevTools MCP: Inventory nav item shows both
+          panels populated from `lib/fixtures/alerts.ts` (3 low-stock rows
+          sorted by days of cover, 1 slow mover), matching the reference
+          `InventoryView.tsx`; screenshot confirmed the gid-overlap fix; no
+          console errors.
+  - **Dependencies:** Task 6 (reuses `Panel`, `Pill`, `KindIcon`, `AskButton`)
   - **Files:**
     - `src/layouts/merchant/views/InventoryView.tsx` (new)
     - `src/layouts/merchant/ui/MiniBar.tsx` (new)
-    - `src/layouts/merchant/ui/AskButton.tsx` (new)
-    - `src/layouts/merchant/ui/KindIcon.tsx` (new, if not already added in
-      Task 6)
-  - **Estimated scope:** Medium (3-4 files)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — wires `InventoryView`)
+  - **Estimated scope:** Small (2 new files + 1 edit — `AskButton`/`KindIcon`
+    already existed from Task 6)
 
 - [ ] Task 8: OrdersView
   - **Description:** Build the open-issues and recent-orders panels.
