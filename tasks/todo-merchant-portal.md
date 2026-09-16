@@ -131,26 +131,37 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
     - `src/app/(merchant)/merchant/page.tsx` (edit — temporary smoke render)
   - **Estimated scope:** Medium (5 new files + 1 temporary edit)
 
-- [ ] Task 4: Fixture data
+- [x] Task 4: Fixture data
   - **Description:** Source real Tomosia lighting/décor product data once
     and author the fixture records every view reads.
   - **Acceptance criteria:**
-    - [ ] `scripts/pull-merchant-fixtures.mjs` uses `getProducts` from
-          `src/lib/shopify/index.ts` to fetch ~6-10 real products (including
-          at least one with multiple variants/options) and print JSON; not
-          imported by the app.
-    - [ ] `lib/fixtures/listings.ts` hand-authored from that output —
-          real `listing_id`/`title`/`price`/`image_url`, Tomosia lighting/
-          décor domain, at least one family listing with `options`/
-          `variants`.
-    - [ ] `lib/fixtures/overview.ts`, `alerts.ts`, `orders.ts` hand-authored,
-          internally consistent with `listings.ts` (same ids/titles).
+    - [x] `scripts/pull-merchant-fixtures.mjs` fetches ~15 real products
+          (a plain `fetch` against the Storefront GraphQL API using the
+          same env vars as `src/lib/shopify`, not an import of that
+          TypeScript module — it's coupled to `next/headers`/`next/cache`
+          and can't load in a bare Node script) and prints JSON; not
+          imported by the app. Run once with `node --env-file=.env
+          scripts/pull-merchant-fixtures.mjs`.
+    - [x] `lib/fixtures/listings.ts` hand-authored from that output — 7
+          real listings (real `listing_id`/`title`/`price`/`image_url`,
+          Tomosia lighting/décor domain), two of them genuine families
+          with real variants/options (Single Pendant: Size; Novelty
+          Pendant: Color × Size, whose raw hex color values became the
+          `needs_work` content-quality example). Plain-listing ids use the
+          product's sole variant id, family listings use the product id —
+          the same convention `src/lib/assistant/shapes.ts` already
+          documents for this repo's other agent surface.
+    - [x] `lib/fixtures/overview.ts`, `alerts.ts`, `orders.ts` hand-authored;
+          `overview.ts` derives its alert counts from `alerts.ts` instead
+          of restating them, so the two can't drift.
   - **Verification:**
-    - [ ] All fixture files type-check against `lib/types.ts`
-          (`npx tsc --noEmit`).
-    - [ ] `npm run lint` — clean; confirm no import of
-          `scripts/pull-merchant-fixtures.mjs` or `src/lib/shopify/**`
-          from anything under `src/layouts/merchant/` or `src/app/(merchant)/`.
+    - [x] `npm run build` — clean (fixtures type-check against
+          `lib/types.ts`; standalone `npx tsc --noEmit` still hits the
+          pre-existing unrelated `tsconfig.json` `baseUrl` issue noted in
+          Task 1/2).
+    - [x] `npm run lint` — clean; grepped `src/layouts/merchant/` and
+          `src/app/(merchant)/` for `pull-merchant-fixtures` and
+          `lib/shopify` — the only hit is a comment, no runtime import.
   - **Dependencies:** Task 2
   - **Files:**
     - `scripts/pull-merchant-fixtures.mjs` (new, throwaway)
