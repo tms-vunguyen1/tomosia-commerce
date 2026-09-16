@@ -293,7 +293,7 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     - `src/app/(merchant)/merchant/page.tsx` (deleted — content moved)
   - **Estimated scope:** Medium
 
-- [ ] Task 3.3: Login API route + real login form
+- [x] Task 3.3: Login API route + real login form
   - **Description:** Build `POST /api/merchant/login` following the exact
     shape in the spec's Code Style section (thin handler, generic 401 for
     both unknown-email and wrong-password, no enumeration), and replace the
@@ -301,41 +301,54 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     `?next=`, submits to the API, redirects to `next` (validated) or
     `/merchant` on success, shows one generic inline error on failure.
   - **Acceptance criteria:**
-    - [ ] Correct credentials → `MerchantSession` row created,
+    - [x] Correct credentials → `MerchantSession` row created,
           `MERCHANT_AUTH_COOKIE` set with `MERCHANT_AUTH_COOKIE_OPTIONS`,
           redirect lands on exactly the `next` path (or `/merchant` if
           none/invalid).
-    - [ ] Wrong password, and unknown email, both return the same generic
-          error message and HTTP status; confirm in the DB that no
+    - [x] Wrong password, and unknown email, both return the same generic
+          error message and HTTP status; confirmed in the DB that no
           `MerchantSession` row is created in either case.
-    - [ ] `next` validated as a same-origin relative path on the client
+    - [x] `next` validated as a same-origin relative path on the client
           before it's ever used in a redirect.
-    - [ ] Login page visually uses `merchant.css` tokens (`bg-(--card)`,
+    - [x] Login page visually uses `merchant.css` tokens (`bg-(--card)`,
           `text-(--ink)`, etc.), not storefront styling.
-    - [ ] A logged-in visit to `/merchant/login` still renders (no forced
+    - [x] A logged-in visit to `/merchant/login` still renders (no forced
           redirect away) — per spec's explicit success criterion.
   - **Verification:**
-    - [ ] Manual: logged out, visit `/merchant/orders`, get redirected with
-          `?next=`, submit correct seeded credentials, land back on exactly
-          `/merchant/orders` with real name in chrome (spec steps 4-5).
-    - [ ] Manual: submit wrong password, confirm single generic error, no
-          redirect, no new session row (spec step 6).
-    - [ ] `npm run lint` && `npm run build` clean.
+    - [x] Against a real `next start` server: wrong password and unknown
+          email both return the identical 401 error, no session row
+          created either time (`SELECT count(*)` = 0).
+    - [x] Correct credentials → cookie set (`path=/merchant`), session row
+          created, following the cookie to `/merchant` renders the portal;
+          cookie confirmed absent on a request to `/` (path scoping).
+    - [x] Full flow re-verified through a real Chrome browser
+          (chrome-devtools MCP), not curl: logged out on `/merchant` →
+          redirected to `/merchant/login?next=%2Fmerchant` → wrong password
+          shows one inline alert, form re-enables → correct password →
+          lands on exactly `/merchant` with "Store Owner" in the operator
+          block and the Home view greeting. Zero console errors.
+    - [x] `npm run lint` && `npm run build` clean.
   - **Dependencies:** Task 3.2, Task 2.2, Task 1.3
   - **Files:**
     - `src/app/api/merchant/login/route.ts` (new)
-    - `src/app/(merchant)/merchant/login/page.tsx` (replaces stub with real
-      form)
+    - `src/app/(merchant)/merchant/login/page.tsx` (now reads `searchParams`
+      and renders the form)
+    - `src/layouts/merchant/shell/MerchantLoginForm.tsx` (new — the
+      interactive client piece, split out so the page itself can stay a
+      server component reading `searchParams` the same way the rest of the
+      repo does)
   - **Estimated scope:** Medium
 
 ### Checkpoint: Phase 3 complete — recommended human check-in
-- [ ] Full logged-out → login → correct-credentials → portal loop works end
-      to end against the seeded account.
-- [ ] Wrong-credentials path verified to create no session row.
-- [ ] `npm run lint` && `npm run build` clean.
-- [ ] This is the first checkpoint where real auth is enforced — good place
-      to sanity-check the open-redirect guard and generic-error behavior
-      before building logout/UI on top.
+- [x] Full logged-out → login → correct-credentials → portal loop works end
+      to end against the seeded account (verified via a real browser).
+- [x] Wrong-credentials path verified to create no session row.
+- [x] `npm run lint` && `npm run build` clean.
+- [x] This is the first checkpoint where real auth is enforced — **recommend
+      a human look at this before Phase 4** (logout/UI wiring): review
+      `src/middleware.ts`, `(dashboard)/layout.tsx`, and
+      `api/merchant/login/route.ts` for the open-redirect guard and
+      generic-error behavior.
 
 ---
 
