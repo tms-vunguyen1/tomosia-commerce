@@ -1,0 +1,30 @@
+# Postgres for the merchant portal's own auth (MerchantUser/MerchantSession
+# via Prisma — see prisma/schema.prisma). Separate from shopping-agent's own
+# docker-compose.yml (pinned to project name "shopping-agent" for an
+# unrelated Redis-backed service) — this project takes the default project
+# name (this directory's name) so the two never collide.
+#
+# cp .env.example .env, fill in DATABASE_URL to match, then:
+#   docker compose up -d postgres
+#   npx prisma migrate dev
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tomosia_merchant
+    volumes:
+      - merchant_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  merchant_db:
