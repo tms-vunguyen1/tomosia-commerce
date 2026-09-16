@@ -450,27 +450,63 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
 
 ### Phase 4: Assistant rail, cards, Inspector
 
-- [ ] Task 11: Generative cards
+- [x] Task 11: Generative cards
   - **Description:** Build the three card types the assistant rail renders,
     plus the dispatcher that picks one by name.
   - **Acceptance criteria:**
-    - [ ] `MetricsCard`, `DigestCard`, `ChangePreviewCard` each render their
-          payload type from `lib/types.ts` correctly (spot-checked against
-          the reference's fixtures, e.g. the digest/change-preview shapes
-          read during the spec pass).
-    - [ ] `GenerativeBlock` dispatches on `block.component`.
+    - [x] `MetricsCard`, `DigestCard`, `ChangePreviewCard` each render their
+          payload type from `lib/types.ts` correctly.
+    - [x] `GenerativeBlock` dispatches on `block.component`.
+  - **Scope grown beyond the plan:** the reference's cards.tsx "frame" (not
+    just the 3 vertical card files) turned out to need porting too —
+    `GenCard`/`GenCardHeader`, `DigestRow`/`DigestList`, `DiffRows`/
+    `LongTextDiff`/`isLongTextDiff`, `ApproveBar`, `GuardrailNotes` — plus
+    `formatFieldValue`/`humanizeField` in `format.ts`. `ChangeChip` and
+    `Sparkline` were promoted out of `StatTile.tsx` (Task 6) into their own
+    files since `MetricsCard` needed them too — single source of truth
+    instead of a second copy. `ApproveBar` and `ChangePreviewCard` drop the
+    reference's `useChangeActions`/`onAct` machinery entirely: there is no
+    live agent to send an approve/dismiss action to (per the spec), so the
+    buttons render disabled straight from the payload's own status.
+    `RestockMath` looks sales-last-30-days up from the same fixture
+    `listings` array instead of the reference's live `fetchListingDetail`.
+  - **Bug found and fixed (in the temporary smoke data, not the components):**
+    the hand-written digest sample referenced `LISTINGS[2]` assuming it was
+    Cotton Novelty Pendant; it's actually Bedside Lamp (fixture order
+    differs from mental model) — the headline text and the attached
+    `listing` object visibly disagreed once rendered. Fixed by looking the
+    listing up by title (`LISTINGS.find(...)`) instead of a magic index.
   - **Verification:**
-    - [ ] `npm run lint` — clean.
-    - [ ] Temporary smoke render (removed once Task 12 wires the transcript
-          for real) confirms each card renders without error against a
-          hand-written sample payload.
-  - **Dependencies:** Task 4 (types), Task 3 (Panel/Pill)
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Manual via Chrome DevTools MCP: opened the assistant rail and
+          confirmed all 3 cards render from real fixture data — MetricsCard
+          (sales/orders with sparklines and change chips), DigestCard (2
+          items, correct icons/tones, "Draft restock"/"Draft reply"
+          buttons), ChangePreviewCard (status pill, diff row 3→43,
+          `RestockMath` correctly computing "27 days of cover" from
+          48 sold/30 days against the new stock of 43, disabled Approve/
+          Dismiss); after the listing-index fix, the digest item's
+          headline and its listing/price/stock context agree; no console
+          errors.
+  - **Dependencies:** Task 4 (types), Task 3 (Panel/Pill), Task 6 (KindIcon,
+    AskButton, Button, ChangeChip/Sparkline promoted out of StatTile)
   - **Files:**
     - `src/layouts/merchant/cards/MetricsCard.tsx` (new)
     - `src/layouts/merchant/cards/DigestCard.tsx` (new)
     - `src/layouts/merchant/cards/ChangePreviewCard.tsx` (new)
     - `src/layouts/merchant/cards/GenerativeBlock.tsx` (new)
-  - **Estimated scope:** Medium (4 files)
+    - `src/layouts/merchant/ui/GenCard.tsx` (new)
+    - `src/layouts/merchant/ui/DigestRow.tsx` (new)
+    - `src/layouts/merchant/ui/DiffRows.tsx` (new)
+    - `src/layouts/merchant/ui/ApproveBar.tsx` (new)
+    - `src/layouts/merchant/ui/GuardrailNotes.tsx` (new)
+    - `src/layouts/merchant/ui/ChangeChip.tsx` (new, promoted from `StatTile.tsx`)
+    - `src/layouts/merchant/ui/Sparkline.tsx` (new, promoted from `StatTile.tsx`)
+    - `src/layouts/merchant/ui/StatTile.tsx` (edit — imports the two above)
+    - `src/layouts/merchant/lib/format.ts` (edit — `humanizeField`, `formatFieldValue`)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — temporary smoke render)
+  - **Estimated scope:** Large (13 new/edited files — grew well past the
+    plan's 4 once the shared "frame" primitives turned out necessary)
 
 - [ ] Task 12: Assistant rail (static transcript)
   - **Description:** Author the one sample conversation (referencing real

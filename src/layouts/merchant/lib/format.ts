@@ -189,3 +189,31 @@ export function describeResolver(change: {
   }
   return null;
 }
+
+/** "attributes_min_nights" as "Min nights". */
+export function humanizeField(field: string): string {
+  return titleCase(field.replace(/^attributes?_/, ""));
+}
+
+const CURRENCY_FIELD = /(^|_)(price|cost|budget|spend|revenue|amount|fee|total)(_|$)/;
+const PERCENT_FIELD = /(^|_)(pct|percent|margin)(_|$)/;
+const COUNT_FIELD = /(^|_)(stock|quantity|units|count|seats|nights)(_|$)/;
+
+/** Renders a staged change's before/after value by what its field name says it is. */
+export function formatFieldValue(field: string, value: unknown): string {
+  if (value === null || value === undefined || value === "") return "—";
+  const isCurrency = CURRENCY_FIELD.test(field);
+  const isPercent = !isCurrency && PERCENT_FIELD.test(field);
+  const isCount = COUNT_FIELD.test(field);
+  // Numeric fields sometimes arrive as strings; other strings (ids like "0012") stay verbatim.
+  if (typeof value === "string" && /^-?\d+(\.\d+)?$/.test(value.trim()) && (isCurrency || isPercent || isCount)) {
+    value = Number(value);
+  }
+  if (typeof value === "number") {
+    if (isCurrency) return formatMoney(value);
+    if (isPercent) return formatRate(value);
+    return Number.isInteger(value) ? formatNumber(value) : value.toFixed(2);
+  }
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
+}
