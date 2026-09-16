@@ -159,22 +159,25 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     - `scripts/test-merchant-auth.mjs` (new)
   - **Estimated scope:** Small
 
-- [ ] Task 2.3: Merchant cookie constants
+- [x] Task 2.3: Merchant cookie constants
   - **Description:** Add `MERCHANT_AUTH_COOKIE`, `MERCHANT_AUTH_COOKIE_OPTIONS`
     (`path: "/merchant"`, not `"/"`), and `MERCHANT_SESSION_TTL_MS` to
     `src/lib/constants.ts`, alongside (not replacing) the existing
     `AUTH_COOKIE`/`AUTH_COOKIE_OPTIONS`.
   - **Acceptance criteria:**
-    - [ ] New constants added without modifying `AUTH_COOKIE`/
+    - [x] New constants added without modifying `AUTH_COOKIE`/
           `AUTH_COOKIE_OPTIONS`.
-    - [ ] `MERCHANT_AUTH_COOKIE_OPTIONS.path === "/merchant"`.
+    - [x] `MERCHANT_AUTH_COOKIE_OPTIONS.path === "/merchant"`.
   - **Verification:**
-    - [ ] `npm run build` clean; grep confirms `AUTH_COOKIE`/
-          `AUTH_COOKIE_OPTIONS` byte-identical to before this task.
+    - [x] `npm run build` clean; diff confirms `AUTH_COOKIE`/
+          `AUTH_COOKIE_OPTIONS` untouched (purely additive diff).
   - **Dependencies:** None (can run in parallel with 2.1/2.2)
   - **Files:**
     - `src/lib/constants.ts`
   - **Estimated scope:** XS
+  - **Note:** done ahead of Task 2.2 in execution order (not the order
+    listed) — `createSession` in Task 2.2 needs `MERCHANT_SESSION_TTL_MS` to
+    compile, a real dependency the plan's "no dependency" note undersold.
 
 ### Checkpoint: Phase 2 complete
 - [ ] `node scripts/test-merchant-auth.mjs` passes.
