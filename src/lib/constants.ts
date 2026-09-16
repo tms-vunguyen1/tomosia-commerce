@@ -59,3 +59,15 @@ export const AUTH_COOKIE_OPTIONS = {
 export const HIDDEN_PRODUCT_TAG = "nextjs-frontend-hidden";
 export const DEFAULT_OPTION = "Default Title";
 export const SHOPIFY_GRAPHQL_API_ENDPOINT = "/api/2023-01/graphql.json";
+
+// The merchant session token, unlike the customer's, is scoped to /merchant
+// (path) so it structurally never rides along on a storefront or agent
+// request — a separate cookie name makes that intent explicit too.
+export const MERCHANT_AUTH_COOKIE = "merchant_session";
+export const MERCHANT_AUTH_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  path: "/merchant",
+};
+export const MERCHANT_SESSION_TTL_MS = 8 * 60 * 60 * 1000; // one work shift
