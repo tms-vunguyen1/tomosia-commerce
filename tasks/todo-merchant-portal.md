@@ -508,22 +508,41 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
   - **Estimated scope:** Large (13 new/edited files — grew well past the
     plan's 4 once the shared "frame" primitives turned out necessary)
 
-- [ ] Task 12: Assistant rail (static transcript)
+- [x] Task 12: Assistant rail (static transcript)
   - **Description:** Author the one sample conversation (referencing real
     fixture listings/changes) and build the rail that displays it.
   - **Acceptance criteria:**
-    - [ ] `lib/fixtures/transcript.ts` contains a conversation that surfaces
-          all three card types at least once.
-    - [ ] `AssistantRail`/`AssistantPanel` render it as a fixed right-side
+    - [x] `lib/fixtures/transcript.ts` contains a conversation (6 turns,
+          reusing 2 of the reference AssistantPanel's own suggested
+          starters as the user turns) that surfaces all three card types.
+    - [x] `AssistantRail`/`AssistantPanel` render it as a fixed right-side
           panel (desktop only, per the spec — no mobile collapse logic).
-    - [ ] The composer's input/send control is visibly present but inert:
+    - [x] The composer's input/send control is visibly present but inert:
           typing and clicking "send" do nothing beyond local input state
           (no message is appended, no error is thrown).
+  - **Deliberately simplified vs. the reference** (its rail is built for a
+    live streaming agent; static-transcript decisions per the spec make
+    most of that machinery unnecessary): no drag-resize/fullscreen/
+    localStorage width persistence on the rail; no activity-line/streaming/
+    suggestion-chip support in the transcript; no Markdown renderer for
+    assistant text (fixture copy is already plain, authored text). `Prefill`
+    now actually reaches the `Composer` (a real `{text, nonce}` populating
+    the draft and focusing the field) rather than the placeholder
+    quoted-text box Tasks 6-11 used as a stand-in.
+  - **Bug found and fixed:** the ported `Composer`'s prefill-sync (`useEffect`
+    + `setDraft`) tripped the same real `react-hooks/set-state-in-effect`
+    error Task 10's `Sheet` hit. Fixed via React's documented pattern for
+    this exact case — adjust state during render (comparing the prefill's
+    `nonce` against a `seenNonce` state value) instead of in an effect; the
+    effect that remains only does the actual DOM side effect (focus).
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: rail shows the transcript with all three card types on
-          load; typing in the composer and clicking send causes no crash
-          and no console error.
+    - [x] `npm run build` && `npm run lint` — clean (after the `Composer` fix).
+    - [x] Manual via Chrome DevTools MCP: opened the rail — full 6-turn
+          conversation renders with all 3 cards inline in order; clicked
+          "Draft restock" on the digest card's item (nested inside the
+          transcript, not a page-level view) and confirmed the composer
+          received focus and the exact expected prefill text; clicked Send
+          and confirmed nothing was appended, no crash, no console error.
   - **Dependencies:** Task 11
   - **Files:**
     - `src/layouts/merchant/lib/fixtures/transcript.ts` (new)
@@ -532,10 +551,9 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
     - `src/layouts/merchant/rail/Composer.tsx` (new)
     - `src/layouts/merchant/rail/MessageBubble.tsx` (new)
     - `src/layouts/merchant/rail/Transcript.tsx` (new)
-    - `src/layouts/merchant/shell/PortalShell.tsx` (edit — mount the rail)
-  - **Estimated scope:** Large (6 new files + 1 edit; split into
-    "Transcript + MessageBubble" and "Composer + AssistantRail/Panel" if it
-    stalls)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — mounts the rail,
+      replacing the Task 6-11 placeholder rail markup entirely)
+  - **Estimated scope:** Large (6 new files + 1 edit, as planned)
 
 - [ ] Task 13: Inspector (static trace)
   - **Description:** Add the activity/trace panel and its toggle.
