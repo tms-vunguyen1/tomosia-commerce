@@ -5,6 +5,7 @@ import PortalShell, { type PortalNavItem } from "@/layouts/merchant/shell/Portal
 import AssistantPanel from "@/layouts/merchant/rail/AssistantPanel";
 import AssistantRail from "@/layouts/merchant/rail/AssistantRail";
 import type { Prefill } from "@/layouts/merchant/rail/Composer";
+import Inspector from "@/layouts/merchant/inspector/Inspector";
 import CatalogView from "@/layouts/merchant/views/CatalogView";
 import HomeView from "@/layouts/merchant/views/HomeView";
 import InventoryView from "@/layouts/merchant/views/InventoryView";
@@ -14,6 +15,7 @@ import { LISTINGS } from "@/layouts/merchant/lib/fixtures/listings";
 import { OVERVIEW } from "@/layouts/merchant/lib/fixtures/overview";
 import { RECENT_ORDERS } from "@/layouts/merchant/lib/fixtures/orders";
 import { PRICING } from "@/layouts/merchant/lib/fixtures/pricing";
+import { TRACE } from "@/layouts/merchant/lib/fixtures/trace";
 import { TRANSCRIPT } from "@/layouts/merchant/lib/fixtures/transcript";
 
 type PortalView = "home" | "catalog" | "orders" | "inventory";
@@ -33,6 +35,7 @@ export default function MerchantPortalPage() {
   const [view, setView] = useState<PortalView>("home");
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [prefill, setPrefill] = useState<Prefill | null>(null);
+  const [activityOpen, setActivityOpen] = useState(false);
 
   const alerts = OVERVIEW.snapshot.alerts;
   const nav = useMemo<PortalNavItem<PortalView>[]>(
@@ -55,26 +58,36 @@ export default function MerchantPortalPage() {
   }, []);
 
   return (
-    <PortalShell
-      brand={{ mark: <StoreMark />, name: "Tomosia", detail: "Merchant workspace" }}
-      nav={nav}
-      view={view}
-      onViewChange={setView}
-      operator={{ name: "Jordan", role: "Store manager" }}
-      assistantOpen={assistantOpen}
-      onToggleAssistant={() => setAssistantOpen((open) => !open)}
-      rail={
-        <AssistantRail open={assistantOpen}>
-          <AssistantPanel turns={TRANSCRIPT} listings={LISTINGS} prefill={prefill} onClose={() => setAssistantOpen(false)} onPrefill={askAssistant} />
-        </AssistantRail>
-      }
-    >
-      {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
-      {view === "catalog" ? (
-        <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} pricing={PRICING} onAskAssistant={askAssistant} />
-      ) : null}
-      {view === "orders" ? <OrdersView issues={ALERTS.order_issues} recentOrders={RECENT_ORDERS} onAskAssistant={askAssistant} /> : null}
-      {view === "inventory" ? <InventoryView data={ALERTS} onAskAssistant={askAssistant} /> : null}
-    </PortalShell>
+    <>
+      <PortalShell
+        brand={{ mark: <StoreMark />, name: "Tomosia", detail: "Merchant workspace" }}
+        nav={nav}
+        view={view}
+        onViewChange={setView}
+        operator={{ name: "Jordan", role: "Store manager" }}
+        assistantOpen={assistantOpen}
+        onToggleAssistant={() => setAssistantOpen((open) => !open)}
+        rail={
+          <AssistantRail open={assistantOpen}>
+            <AssistantPanel
+              turns={TRANSCRIPT}
+              listings={LISTINGS}
+              prefill={prefill}
+              onClose={() => setAssistantOpen(false)}
+              onPrefill={askAssistant}
+              onOpenActivity={() => setActivityOpen(true)}
+            />
+          </AssistantRail>
+        }
+      >
+        {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
+        {view === "catalog" ? (
+          <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} pricing={PRICING} onAskAssistant={askAssistant} />
+        ) : null}
+        {view === "orders" ? <OrdersView issues={ALERTS.order_issues} recentOrders={RECENT_ORDERS} onAskAssistant={askAssistant} /> : null}
+        {view === "inventory" ? <InventoryView data={ALERTS} onAskAssistant={askAssistant} /> : null}
+      </PortalShell>
+      {activityOpen ? <Inspector groups={TRACE} onClose={() => setActivityOpen(false)} /> : null}
+    </>
   );
 }

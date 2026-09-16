@@ -555,28 +555,48 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
       replacing the Task 6-11 placeholder rail markup entirely)
   - **Estimated scope:** Large (6 new files + 1 edit, as planned)
 
-- [ ] Task 13: Inspector (static trace)
+- [x] Task 13: Inspector (static trace)
   - **Description:** Add the activity/trace panel and its toggle.
   - **Acceptance criteria:**
-    - [ ] `lib/fixtures/trace.ts` contains paired call/result rows matching
-          the sample transcript's tool activity.
-    - [ ] Inspector opens via a toggle in the shell, shows the trace rows,
-          closes via its own control.
+    - [x] `lib/fixtures/trace.ts` contains paired call/result rows matching
+          the sample transcript's tool activity (grouped 2/1/2 across the
+          transcript's 3 replies, 5 steps total).
+    - [x] Inspector opens via a toggle (in `AssistantPanel`'s header, not
+          the shell — see below), shows the trace rows, closes via its own
+          control (and Escape).
+  - **Simplified vs. the reference, and built differently than planned:**
+    the reference's Inspector has turn-stepping (prev/next reply) and a
+    memory section; neither applies here — this transcript is 3 static
+    replies shown all at once (grouped under a heading per reply instead),
+    and memory is off across this whole project (`CLAUDE.md`), so a memory
+    panel would be fabricating a feature that doesn't exist. Also, contrary
+    to the plan's "activity toggle in the shell": the reference actually
+    puts this button in the assistant panel's own header (next to close),
+    not the nav rail, so that's where it went instead. Built on the
+    existing `Sheet` primitive (Task 10) rather than a second hand-rolled
+    scrim+portal — same interaction, no duplicated implementation.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: toggle opens/closes the Inspector; rows match the
-          transcript's implied tool calls.
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Manual via Chrome DevTools MCP: opened the rail, clicked the new
+          "Open activity" button — Inspector opens over a scrim showing 3
+          grouped sections (5 steps total) matching the transcript's 3
+          replies; expanded `stage_inventory_change` and confirmed its
+          Input/Result JSON (`chg-2041`) matches what the `ChangePreviewCard`
+          shows; Escape closed it back to the rail; no console errors.
   - **Dependencies:** Task 12
   - **Files:**
     - `src/layouts/merchant/lib/fixtures/trace.ts` (new)
     - `src/layouts/merchant/inspector/Inspector.tsx` (new)
-    - `src/layouts/merchant/shell/PortalShell.tsx` (edit — activity toggle)
-  - **Estimated scope:** Small (2 new files + 1 edit)
+    - `src/layouts/merchant/rail/AssistantPanel.tsx` (edit — activity
+      toggle button, not `PortalShell.tsx`)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — `activityOpen` state,
+      mounts `Inspector`)
+  - **Estimated scope:** Small (2 new files + 2 edits)
 
 ## Checkpoint: Phase 4
-- [ ] Assistant rail shows the sample transcript with all 3 card types
-- [ ] Inspector opens/closes with static trace rows
-- [ ] Nav-rail badge counts still match fixture alert counts
+- [x] Assistant rail shows the sample transcript with all 3 card types
+- [x] Inspector opens/closes with static trace rows
+- [x] Nav-rail badge counts still match fixture alert counts
 - [ ] Review with human before the final polish pass
 
 ### Phase 5: Polish & verification

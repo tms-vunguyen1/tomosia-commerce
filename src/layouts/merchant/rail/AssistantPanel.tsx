@@ -4,21 +4,24 @@ import type { TranscriptTurn } from "../lib/fixtures/transcript";
 import Composer, { type Prefill } from "./Composer";
 import Transcript from "./Transcript";
 
-/** Simplified from web-shared/portal/AssistantPanel.tsx: no activity/memory
- * button, no fullscreen toggle, no resize — the rail is fixed-width and
- * desktop-only per the spec (interview item 11). */
+/** Simplified from web-shared/portal/AssistantPanel.tsx: no memory button, no
+ * fullscreen toggle, no resize — the rail is fixed-width and desktop-only
+ * per the spec (interview item 11). Keeps the activity toggle (Task 13's
+ * Inspector). */
 export default function AssistantPanel({
   turns,
   listings,
   prefill,
   onClose,
   onPrefill,
+  onOpenActivity,
 }: {
   turns: TranscriptTurn[];
   listings: ListingDetails[];
   prefill: Prefill | null;
   onClose: () => void;
   onPrefill: (text: string) => void;
+  onOpenActivity: () => void;
 }) {
   return (
     <div className="flex h-full w-full flex-col border-l border-(--line) bg-(--card)">
@@ -30,6 +33,14 @@ export default function AssistantPanel({
           <div className="truncate text-[14px] font-semibold leading-tight text-(--ink)">Merchant assistant</div>
           <div className="truncate text-[11.5px] text-(--ink-soft)">You approve every change</div>
         </div>
+        <button
+          type="button"
+          onClick={onOpenActivity}
+          aria-label="Open activity"
+          className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-lg text-(--ink-soft) transition-colors hover:bg-(--ground) hover:text-(--ink)"
+        >
+          <DynamicIcon icon="FaClockRotateLeft" className="text-[16px]" />
+        </button>
         <button
           type="button"
           onClick={onClose}
