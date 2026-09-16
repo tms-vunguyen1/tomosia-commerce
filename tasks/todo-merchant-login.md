@@ -330,7 +330,9 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     - [x] `npm run lint` && `npm run build` clean.
   - **Dependencies:** Task 3.2, Task 2.2, Task 1.3
   - **Files:**
-    - `src/app/api/merchant/login/route.ts` (new)
+    - `src/app/api/merchant/login/route.ts` (new — **relocated in Task 4.1**
+      to `src/app/(merchant)/merchant/api/login/route.ts` after a cookie-path
+      bug was found; see that task's note)
     - `src/app/(merchant)/merchant/login/page.tsx` (now reads `searchParams`
       and renders the form)
     - `src/layouts/merchant/shell/MerchantLoginForm.tsx` (new — the
@@ -354,42 +356,66 @@ decisions, `SPEC-merchant-login.md` for the full spec.
 
 ### Phase 4: Logout + UI Wiring
 
-- [ ] Task 4.1: Logout API + "Log out" control in the portal shell
-  - **Description:** `POST /api/merchant/logout` deletes the
+- [x] Task 4.1: Logout API + "Log out" control in the portal shell
+  - **Description:** `POST /merchant/api/logout` deletes the
     `MerchantSession` row for the current cookie (if any) and clears the
     cookie, always succeeding (mirrors `src/app/api/customer/logout/route.ts`).
     Add a small "Log out" control beside the existing operator block in
     `PortalShell.tsx` (~lines 135-141), wired through a new `onLogout: () =>
     void` prop that `PortalApp.tsx` implements as `POST
-    /api/merchant/logout` then redirect to `/merchant/login`.
+    /merchant/api/logout` then redirect to `/merchant/login`.
   - **Acceptance criteria:**
-    - [ ] Clicking "Log out" clears `MERCHANT_AUTH_COOKIE` (DevTools →
+    - [x] Clicking "Log out" clears `MERCHANT_AUTH_COOKIE` (DevTools →
           Application → Cookies) and deletes the corresponding
           `MerchantSession` row.
-    - [ ] After logout, the next visit to `/merchant` (or any dashboard
+    - [x] After logout, the next visit to `/merchant` (or any dashboard
           path) redirects to login again — no residual valid state.
-    - [ ] Logout API always returns success even if no cookie/session
+    - [x] Logout API always returns success even if no cookie/session
           existed.
-    - [ ] `PortalShell.tsx`'s existing operator name/role rendering is
+    - [x] `PortalShell.tsx`'s existing operator name/role rendering is
           unchanged in appearance apart from the added control.
   - **Verification:**
-    - [ ] Manual: log in, click "Log out", confirm cookie gone, DB row gone,
-          and `/merchant` redirects to login (spec step 7).
-    - [ ] `npm run lint` && `npm run build` clean.
+    - [x] Real Chrome browser: log in, click "Log out" → navigates to
+          `/merchant/login`, zero console messages, `MerchantSession` row
+          count drops to 0 in the DB, `/merchant` redirects to login again.
+    - [x] `npm run lint` && `npm run build` clean.
   - **Dependencies:** Task 3.3, Task 2.2
   - **Files:**
-    - `src/app/api/merchant/logout/route.ts` (new)
+    - `src/app/(merchant)/merchant/api/logout/route.ts` (new)
     - `src/layouts/merchant/shell/PortalShell.tsx` (modified — add
       `onLogout` prop + control)
     - `src/layouts/merchant/shell/PortalApp.tsx` (modified — implement
       `onLogout`)
   - **Estimated scope:** Small
+  - **Bug found and fixed during verification (not by inspection):** with
+    the login/logout routes at `src/app/api/merchant/**` (as Task 3.3
+    originally built and this task's description above still describes),
+    the browser correctly refused to send the `path: "/merchant"`-scoped
+    cookie to `/api/merchant/logout` — it doesn't fall under the `/merchant`
+    prefix. Logout looked like it worked (200, cookie cleared client-side)
+    but never deleted the `MerchantSession` row, since the server never saw
+    the token. Fixed by moving both routes to
+    `src/app/(merchant)/merchant/api/{login,logout}/route.ts` (URLs
+    `/merchant/api/login`, `/merchant/api/logout`) so they share the
+    cookie's path scope, and adding both to `middleware.ts`'s `PUBLIC_PATHS`
+    bypass list. `SPEC-merchant-login.md` amended to match — see its
+    "Amendment" note in Project Structure. Also fixed in the same pass: a
+    real Chrome DevTools issue (missing `name` attributes on
+    `MerchantLoginForm.tsx`'s email/password inputs, found via the
+    browser's Issues panel, not a lint rule).
+  - **Files actually touched** (differs from the list above because of the
+    fix): `src/app/(merchant)/merchant/api/login/route.ts` (moved from
+    `src/app/api/merchant/login/route.ts`), `.../api/logout/route.ts` (new,
+    at the corrected location), `src/middleware.ts` (add `PUBLIC_PATHS`),
+    `MerchantLoginForm.tsx` (fetch URL + `name` attributes), `PortalApp.tsx`
+    (fetch URL), `PortalShell.tsx` (as originally planned).
 
 ### Checkpoint: Phase 4 complete
-- [ ] Full narrative loop verified: logged-out redirect → login form →
+- [x] Full narrative loop verified: logged-out redirect → login form →
       correct-credential success → portal with real name → logout →
-      redirected to login again.
-- [ ] `npm run lint` && `npm run build` clean.
+      redirected to login again. (Verified through a real Chrome browser
+      end to end, including the DB-level session-row check.)
+- [x] `npm run lint` && `npm run build` clean.
 
 ---
 
