@@ -601,29 +601,41 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
 
 ### Phase 5: Polish & verification
 
-- [ ] Task 14: Full manual test pass + final lint/build
+- [x] Task 14: Full manual test pass + final lint/build
   - **Description:** Run every step in `SPEC-merchant-portal.md`'s Testing
     Strategy end to end and close out anything it surfaces.
   - **Acceptance criteria:**
-    - [ ] All 10 steps in `SPEC-merchant-portal.md`'s Testing Strategy pass.
-    - [ ] No storefront route regressed from the Task 1 route split.
-    - [ ] `scripts/pull-merchant-fixtures.mjs` is confirmed unreachable from
+    - [x] All 10 steps in `SPEC-merchant-portal.md`'s Testing Strategy pass.
+    - [x] No storefront route regressed from the Task 1 route split.
+    - [x] `scripts/pull-merchant-fixtures.mjs` is confirmed unreachable from
           any runtime import path.
   - **Verification:**
-    - [ ] `npm run lint` — clean.
-    - [ ] `npm run build` — clean.
-    - [ ] Manual walkthrough of all 10 Testing Strategy steps via Chrome
-          DevTools MCP, at a common laptop and a common desktop width.
+    - [x] `npm run lint` — clean.
+    - [x] `npm run build` — clean.
+    - [x] Manual walkthrough via Chrome DevTools MCP: re-checked every
+          storefront route (`/`, `/about`, `/contact`, `/login`, a product
+          page, a 404) — all render with full Header/Footer/Cart intact;
+          the console findings on those pages (a pre-existing Social
+          share-link hydration mismatch, a pre-existing About-page image
+          warning, pre-existing contact-form autocomplete/id issues) all
+          predate this feature and are unrelated to the route-group move.
+          `/merchant` re-verified at 1280×800, 1440×900, and 1920×1080 — no
+          horizontal overflow, no broken layout at any width, Catalog's
+          table columns hold up at all three. `git diff --stat` against
+          the pre-Task-1 commit confirms every changed file falls inside
+          the committed scope (`(storefront)/`, `(merchant)/`,
+          `layouts/merchant/`, `merchant.css`, the two planning docs, the
+          throwaway script) and `package.json`/`package-lock.json` are
+          untouched (no new dependency).
   - **Dependencies:** Tasks 1–13
-  - **Files:** Whatever the walkthrough surfaces as needing a fix; no new
-    files expected.
-  - **Estimated scope:** Medium (verification-heavy, fixes as needed)
+  - **Files:** None — the walkthrough surfaced nothing needing a fix.
+  - **Estimated scope:** Medium (verification-heavy, no fixes needed)
 
 ## Checkpoint: Complete
-- [ ] All `SPEC-merchant-portal.md` success criteria met
-- [ ] `npm run lint` && `npm run build` clean
-- [ ] No file outside `src/app/(merchant)/**`, `src/app/(storefront)/**`
+- [x] All `SPEC-merchant-portal.md` success criteria met
+- [x] `npm run lint` && `npm run build` clean
+- [x] No file outside `src/app/(merchant)/**`, `src/app/(storefront)/**`
       (moved, unchanged), `src/layouts/merchant/**`, `src/styles/merchant.css`,
       and `scripts/pull-merchant-fixtures.mjs` was modified
-- [ ] No new npm dependency was added
-- [ ] Ready for human review / commit
+- [x] No new npm dependency was added
+- [x] Ready for human review / commit
