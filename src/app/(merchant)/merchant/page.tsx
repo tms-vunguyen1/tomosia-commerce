@@ -2,10 +2,12 @@
 
 import { useCallback, useMemo, useState } from "react";
 import PortalShell, { type PortalNavItem } from "@/layouts/merchant/shell/PortalShell";
+import CatalogView from "@/layouts/merchant/views/CatalogView";
 import HomeView from "@/layouts/merchant/views/HomeView";
 import InventoryView from "@/layouts/merchant/views/InventoryView";
 import OrdersView from "@/layouts/merchant/views/OrdersView";
 import { ALERTS } from "@/layouts/merchant/lib/fixtures/alerts";
+import { LISTINGS } from "@/layouts/merchant/lib/fixtures/listings";
 import { OVERVIEW } from "@/layouts/merchant/lib/fixtures/overview";
 import { RECENT_ORDERS } from "@/layouts/merchant/lib/fixtures/orders";
 
@@ -22,20 +24,12 @@ function StoreMark() {
   );
 }
 
-// Task 5: shell + nav wiring only — each view is a placeholder until
-// Tasks 6-10 build the real Home/Catalog/Orders/Inventory views.
-function ViewPlaceholder({ label }: { label: string }) {
-  return (
-    <div className="rounded-(--radius) border border-dashed border-(--line-strong) p-6 text-[13.5px] text-(--ink-soft)">
-      {label} view — built in a later task.
-    </div>
-  );
-}
-
 export default function MerchantPortalPage() {
   const [view, setView] = useState<PortalView>("home");
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [prefill, setPrefill] = useState<string | null>(null);
+  // Tracked but not rendered until Task 10 builds the listing detail sheet.
+  const [_openListing, setOpenListing] = useState<string | null>(null);
 
   const alerts = OVERVIEW.snapshot.alerts;
   const nav = useMemo<PortalNavItem<PortalView>[]>(
@@ -75,7 +69,9 @@ export default function MerchantPortalPage() {
       }
     >
       {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
-      {view === "catalog" ? <ViewPlaceholder label="Catalog" /> : null}
+      {view === "catalog" ? (
+        <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} onAskAssistant={askAssistant} onOpenListing={setOpenListing} />
+      ) : null}
       {view === "orders" ? <OrdersView issues={ALERTS.order_issues} recentOrders={RECENT_ORDERS} onAskAssistant={askAssistant} /> : null}
       {view === "inventory" ? <InventoryView data={ALERTS} onAskAssistant={askAssistant} /> : null}
     </PortalShell>

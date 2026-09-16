@@ -345,28 +345,46 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
     - `src/app/(merchant)/merchant/page.tsx` (edit — wires `OrdersView`)
   - **Estimated scope:** Small (2 new files + 1 edit)
 
-- [ ] Task 9: CatalogView — listing table
+- [x] Task 9: CatalogView — listing table
   - **Description:** Build the searchable, filterable listing table (no
     detail sheet yet — that's Task 10).
   - **Acceptance criteria:**
-    - [ ] Search box filters by title/id/category/attribute, client-side.
-    - [ ] Status `Segmented` filter (All/Active/Low stock/Needs content/
+    - [x] Search box filters by title/id/category/attribute, client-side.
+    - [x] Status `Segmented` filter (All/Active/Low stock/Needs content/
           Inactive) narrows rows, reusing the Task 6 `Segmented` component.
-    - [ ] "Needs attention" listings (sold out, low stock, poor content)
+    - [x] "Needs attention" listings (sold out, low stock, poor content)
           group above the rest, matching the reference's `attentionRank`.
-    - [ ] Table shows thumbnail, title/id, category, stock, price, status,
+    - [x] Table shows thumbnail, title/id, category, stock, price, status,
           content-quality cell.
+  - **Note:** skipped `formatCategoryLabel` from the reference — our
+    fixture's `category` values are already display-ready strings
+    ("Pendant Lights"), not slugs, so no translation layer is needed.
+    Preemptively added `break-all` to the listing-id cell, having just hit
+    that exact overflow bug in Task 7.
+  - **Bug found and fixed:** Chrome DevTools flagged the ported
+    `SearchField`'s `<input>` (missing a `name` attribute) as a real
+    accessibility issue — same class of gap the sibling Shopping Assistant
+    Modal feature already caught and fixed once. Added `name="catalog-search"`.
   - **Verification:**
-    - [ ] `npm run build` && `npm run lint` — clean.
-    - [ ] Manual: Catalog nav item lists all fixture listings; search and
-          filter both work; attention grouping matches expectations.
-  - **Dependencies:** Task 6 (`Segmented`), Task 4
+    - [x] `npm run build` && `npm run lint` — clean.
+    - [x] Manual via Chrome DevTools MCP: Catalog nav item lists all 7
+          fixture listings with real Shopify CDN thumbnails; typing
+          "pendant" in search narrows to the 4 pendant listings; segmented
+          filter counts match (Active 5, Low stock 3, Needs content 2,
+          Inactive 2 — the last includes both out-of-stock listings, not
+          just paused/draft, matching the reference's own semantics);
+          attention grouping correct (both out-of-stock listings first,
+          then low-stock, then the two content-quality issues); no console
+          errors after the `name` fix.
+  - **Dependencies:** Task 6 (`Segmented`, `Button`), Task 4
   - **Files:**
     - `src/layouts/merchant/views/CatalogView.tsx` (new)
     - `src/layouts/merchant/ui/SearchField.tsx` (new)
     - `src/layouts/merchant/ui/Thumb.tsx` (new)
-    - `src/layouts/merchant/ui/Button.tsx` (new)
-  - **Estimated scope:** Medium (4 files)
+    - `src/app/(merchant)/merchant/page.tsx` (edit — wires `CatalogView`;
+      dropped the now-fully-unused `ViewPlaceholder` helper)
+  - **Estimated scope:** Medium (3 new files + 1 edit — `Button` already
+    existed from Task 6)
 
 - [ ] Task 10: CatalogView — detail sheet + variants
   - **Description:** Add the slide-over listing detail panel (facts, pricing
