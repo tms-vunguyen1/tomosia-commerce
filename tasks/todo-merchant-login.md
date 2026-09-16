@@ -78,32 +78,34 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     stable still on the schema-url model) instead of adding the new adapter
     dependency — stays within the spec's approved dependency list.
 
-- [ ] Task 1.3: `create-merchant-account.mjs` script
+- [x] Task 1.3: `create-merchant-account.mjs` script
   - **Description:** The only way accounts get created — a standalone Node
     ESM script that hashes the password with bcrypt (cost 12) and inserts a
     `MerchantUser` row via its own `PrismaClient` instance.
   - **Acceptance criteria:**
-    - [ ] `node scripts/create-merchant-account.mjs <email> <password>
+    - [x] `node scripts/create-merchant-account.mjs <email> <password>
           <name>` creates a row with a bcrypt hash (never the plaintext)
           stored.
-    - [ ] Running it a second time with the same email fails on the unique
+    - [x] Running it a second time with the same email fails on the unique
           constraint with a readable error, rather than silently duplicating
           or crashing unhelpfully.
   - **Verification:**
-    - [ ] `node scripts/create-merchant-account.mjs owner@tomosia.test
+    - [x] `node scripts/create-merchant-account.mjs owner@tomosia.test
           hunter2 "Store Owner"` creates the row (spec step 3); re-running
-          with the same email fails as expected.
-    - [ ] Confirm in the DB that `passwordHash` is not the literal password.
+          with the same email fails as expected (`P2002` caught, clean exit
+          1 message).
+    - [x] Confirmed in the DB via `psql`: `passwordHash` is a `$2b$12$...`
+          bcrypt hash, not the literal password.
   - **Dependencies:** Task 1.2
   - **Files:**
     - `scripts/create-merchant-account.mjs` (new)
   - **Estimated scope:** Small
 
 ### Checkpoint: Phase 1 complete
-- [ ] `docker compose up -d postgres` + `npx prisma migrate dev` reproducible
+- [x] `docker compose up -d postgres` + `npx prisma migrate dev` reproducible
       from a clean clone.
-- [ ] One seeded merchant account exists (`owner@tomosia.test`).
-- [ ] `npm run lint` / `npm run build` still clean — zero application
+- [x] One seeded merchant account exists (`owner@tomosia.test`).
+- [x] `npm run lint` / `npm run build` still clean — zero application
       behavior changed yet; this phase is purely infrastructure.
 
 ---
