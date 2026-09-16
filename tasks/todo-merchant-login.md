@@ -203,7 +203,7 @@ decisions, `SPEC-merchant-login.md` for the full spec.
 
 ### Phase 3: Route Gating & Login Flow
 
-- [ ] Task 3.1: Middleware fast-path + login page stub
+- [x] Task 3.1: Middleware fast-path + login page stub
   - **Description:** Add `src/middleware.ts` (matcher `["/merchant/:path*"]`)
     that redirects any `/merchant/*` request lacking `MERCHANT_AUTH_COOKIE`
     to `/merchant/login?next=<path>`, except `/merchant/login` itself, which
@@ -216,27 +216,35 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     This is closed by Task 3.2 in the same phase, before the Phase 3
     checkpoint — don't treat this task alone as "login is secure."
   - **Acceptance criteria:**
-    - [ ] Logged-out visit to `/merchant` (no cookie, zero path segments)
+    - [x] Logged-out visit to `/merchant` (no cookie, zero path segments)
           redirects to `/merchant/login`.
-    - [ ] Logged-out visit to `/merchant/orders` redirects to
+    - [x] Logged-out visit to `/merchant/orders` redirects to
           `/merchant/login?next=%2Fmerchant%2Forders`.
-    - [ ] `/merchant/login` itself renders (stub content is fine) with no
+    - [x] `/merchant/login` itself renders (stub content is fine) with no
           redirect loop, cookie or not.
-    - [ ] `next` is validated as a same-origin relative path
+    - [x] `next` is validated as a same-origin relative path
           (`next.startsWith("/") && !next.startsWith("//")`) before being
           used in the redirect.
-    - [ ] Middleware does not import anything from `src/lib/merchant/db.ts`
+    - [x] Middleware does not import anything from `src/lib/merchant/db.ts`
           or `auth.ts` — cookie check only.
   - **Verification:**
-    - [ ] Manual: clear cookies, visit `/merchant` and `/merchant/orders`,
-          confirm redirect target and query string.
-    - [ ] `npm run build` succeeds (confirms middleware compiles for the
-          Edge runtime).
+    - [x] Manual against a real `next start` server (not just the build):
+          `/merchant` and `/merchant/orders` without a cookie both 307 to
+          the right `?next=` target; `/merchant/login` is 200 with no
+          redirect, with or without a cookie; a request WITH the cookie
+          passes straight through (200 on `/merchant`).
+    - [x] `npm run build` succeeds — output shows "ƒ Proxy (Middleware)",
+          confirming it compiled for the Edge runtime.
   - **Dependencies:** Task 2.3
   - **Files:**
     - `src/middleware.ts` (new)
     - `src/app/(merchant)/merchant/login/page.tsx` (new, stub)
   - **Estimated scope:** Small
+  - **Note:** `/merchant/orders` isn't an actual route (the portal's four
+    views are client-side state under the single `/merchant` page) — with
+    the cookie present it 404s, which is Next's normal routing for a
+    nonexistent path, not a middleware defect. The middleware gates by path
+    prefix regardless of whether a concrete page exists underneath.
 
 - [ ] Task 3.2: Real session gate — move portal into `(dashboard)` group
   - **Description:** Create
