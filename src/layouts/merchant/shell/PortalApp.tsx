@@ -31,7 +31,11 @@ function StoreMark() {
   );
 }
 
-export default function MerchantPortalPage() {
+export default function PortalApp({
+  operator,
+}: {
+  operator: { name: string; role: string };
+}) {
   const [view, setView] = useState<PortalView>("home");
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [prefill, setPrefill] = useState<Prefill | null>(null);
@@ -64,7 +68,7 @@ export default function MerchantPortalPage() {
         nav={nav}
         view={view}
         onViewChange={setView}
-        operator={{ name: "Jordan", role: "Store manager" }}
+        operator={operator}
         assistantOpen={assistantOpen}
         onToggleAssistant={() => setAssistantOpen((open) => !open)}
         rail={
@@ -80,7 +84,7 @@ export default function MerchantPortalPage() {
           </AssistantRail>
         }
       >
-        {view === "home" ? <HomeView data={OVERVIEW} operator="Jordan" onAskAssistant={askAssistant} onNavigate={setView} /> : null}
+        {view === "home" ? <HomeView data={OVERVIEW} operator={operator.name} onAskAssistant={askAssistant} onNavigate={setView} /> : null}
         {view === "catalog" ? (
           <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} pricing={PRICING} onAskAssistant={askAssistant} />
         ) : null}
