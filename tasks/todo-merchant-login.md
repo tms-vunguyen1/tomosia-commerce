@@ -44,29 +44,39 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     `public/sitemap-0.xml`) that `npm run build`'s `next-sitemap` postbuild
     step regenerated as a side effect — out of scope for this task.
 
-- [ ] Task 1.2: Prisma schema + initial migration
+- [x] Task 1.2: Prisma schema + initial migration
   - **Description:** Define `MerchantUser` and `MerchantSession` models
     exactly as specified (single role, no permissions field) and run the
     first migration against the local Postgres container.
   - **Acceptance criteria:**
-    - [ ] `prisma/schema.prisma` has `MerchantUser { id, email (unique),
+    - [x] `prisma/schema.prisma` has `MerchantUser { id, email (unique),
           passwordHash, name, createdAt }` and `MerchantSession { id (opaque
           token, PK), userId → MerchantUser, expiresAt, createdAt }`.
-    - [ ] `npx prisma migrate dev` runs cleanly against a fresh database and
+    - [x] `npx prisma migrate dev` runs cleanly against a fresh database and
           creates both tables.
-    - [ ] Prisma's generated client lands in its default location
+    - [x] Prisma's generated client lands in its default location
           (`node_modules/@prisma/client`) — no custom `output` path, so no
           new `.gitignore` entry needed.
   - **Verification:**
-    - [ ] `docker compose up -d postgres && npx prisma migrate dev` — schema
+    - [x] `docker compose up -d postgres && npx prisma migrate dev` — schema
           applies cleanly to a fresh DB (spec step 2).
-    - [ ] Inspect via `npx prisma studio` or `psql` that both tables and the
-          FK/unique constraints exist.
+    - [x] Inspected via `psql` that both tables and the FK/unique
+          constraints exist (`MerchantUser_email_key` UNIQUE,
+          `MerchantSession_userId_fkey` FK ON DELETE CASCADE, index on
+          `userId`).
   - **Dependencies:** Task 1.1
   - **Files:**
     - `prisma/schema.prisma` (new)
     - `prisma/migrations/**` (generated)
+    - `package.json` (prisma/@prisma/client version pin, see Notes)
   - **Estimated scope:** Small
+  - **Notes:** Prisma 7.x (installed in Task 1.1) rejects the classic
+    `datasource { url = env(...) }` form at the CLI — it now requires a
+    driver-adapter package (`@prisma/adapter-pg` + `pg`) and a
+    `prisma.config.ts`, a real architecture change the spec didn't
+    anticipate. Downgraded `prisma`/`@prisma/client` to `6.19.3` (latest
+    stable still on the schema-url model) instead of adding the new adapter
+    dependency — stays within the spec's approved dependency list.
 
 - [ ] Task 1.3: `create-merchant-account.mjs` script
   - **Description:** The only way accounts get created — a standalone Node
