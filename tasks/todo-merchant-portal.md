@@ -51,34 +51,55 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
 
 ### Phase 1: Shared foundation
 
-- [ ] Task 2: Palette + data types + formatters
+- [x] Task 2: Palette + data types + formatters
   - **Description:** Add the merchant portal's own design tokens and the
     TypeScript data layer every later task builds on.
   - **Acceptance criteria:**
-    - [ ] `src/styles/merchant.css` defines the ACME-derived token palette
+    - [x] `src/styles/merchant.css` defines the ACME-derived token palette
           (`--ink`, `--accent`, `--brand`, `--ok`/`--warn`/`--danger`/
           `--info`/`--violet`, `--radius`, `--shadow*`, etc.) and is imported
           only by `(merchant)/layout.tsx`.
-    - [ ] `lib/types.ts` defines `Listing`, `ListingDetails`, `PricingContext`,
+    - [x] `lib/types.ts` defines `Listing`, `ListingDetails`, `PricingContext`,
           `BusinessSnapshot`, `InventoryAlert`, `OrderIssue`, `StagedChange`,
           `RecentOrder`, `OverviewResponse`, `ListingsResponse`,
           `AlertsResponse`, and the presentation payload types
           (`MetricsPayload`, `DigestPayload`, `ChangePreviewPayload`).
-    - [ ] `lib/kinds.ts` defines `ISSUE_KINDS`, `INVENTORY_KINDS`,
+    - [x] `lib/kinds.ts` defines `ISSUE_KINDS`, `INVENTORY_KINDS`,
           `LISTING_STATUS`, `ORDER_STATUS` with the fa6 icon mapping from
           `SPEC-merchant-portal.md`'s Code Style table.
-    - [ ] `lib/format.ts` exports the money/number/date/rate formatters the
-          views need.
+    - [x] `lib/format.ts` exports the money/number/date/rate formatters the
+          views need (the broader cross-view subset: money, number, rate,
+          change-pct, date, day-month, plural, cover label, title case, and
+          the option/variant helpers Catalog and Inventory both need).
   - **Verification:**
-    - [ ] `npx tsc --noEmit` (or `npm run build`) — no type errors.
-    - [ ] `npm run lint` — clean.
+    - [x] `npm run build` — clean (`npx tsc --noEmit` standalone hits the
+          same pre-existing, unrelated `tsconfig.json` `baseUrl` deprecation
+          error noted in `tasks/todo.md`'s Task 1 — not caused by these
+          files; `npm run build`'s TypeScript pass is the real signal and is
+          clean).
+    - [x] `npm run lint` — clean. Found and fixed one real issue along the
+          way: a manual Google-Fonts `<link>` in the merchant root layout
+          tripped `@next/next/no-page-custom-font` (the storefront's own
+          layout only escapes this rule because its `href` is a dynamic
+          template literal the linter can't statically resolve — not a
+          real exemption). Switched to `next/font/google`'s `Inter` loader
+          instead, which is more correct for a fixed (non-theme-configurable)
+          font choice and removes the manual `<link>`/`preconnect` tags
+          entirely.
+    - [x] Manual: `/merchant` renders with the palette's cool off-white
+          background and navy ink text (screenshot-verified), Inter loads
+          with no console errors (one unrelated `favicon.ico` 404 — no
+          favicon was ever added for `/merchant`, harmless default browser
+          request, out of this task's scope).
   - **Dependencies:** Task 1
   - **Files:**
     - `src/styles/merchant.css` (new)
     - `src/layouts/merchant/lib/types.ts` (new)
     - `src/layouts/merchant/lib/kinds.ts` (new)
     - `src/layouts/merchant/lib/format.ts` (new)
-  - **Estimated scope:** Medium (4 files)
+    - `src/app/(merchant)/layout.tsx` (edit — imports merchant.css, loads
+      Inter via `next/font/google`)
+  - **Estimated scope:** Medium (4 new files + 1 edit)
 
 - [ ] Task 3: Common primitives
   - **Description:** Build the five presentational primitives every view
