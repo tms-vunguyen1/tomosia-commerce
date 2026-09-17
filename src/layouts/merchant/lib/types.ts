@@ -245,3 +245,22 @@ export interface ChangePreviewPayload {
   note?: string | null;
   change: StagedChange;
 }
+
+// --- The assistant rail's transcript, live or fixture ---
+
+/** One presentation tool's rendered card. Moved here (rather than living only on
+ * `GenerativeBlock`) so `lib/useMerchantChat.ts` can build one without importing a
+ * component module. */
+export interface Block {
+  component: "metrics" | "digest" | "change_preview";
+  payload: MetricsPayload | DigestPayload | ChangePreviewPayload;
+}
+
+export interface TranscriptTurn {
+  role: "user" | "assistant";
+  text?: string;
+  blocks?: Block[];
+  /** True from the moment this assistant turn is created until its first event
+   * arrives — renders a typing indicator in place of empty space. */
+  pending?: boolean;
+}

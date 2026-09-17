@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import PortalShell, { type PortalNavItem } from "@/layouts/merchant/shell/PortalShell";
 import AssistantPanel from "@/layouts/merchant/rail/AssistantPanel";
 import AssistantRail from "@/layouts/merchant/rail/AssistantRail";
@@ -11,13 +11,15 @@ import CatalogView from "@/layouts/merchant/views/CatalogView";
 import HomeView from "@/layouts/merchant/views/HomeView";
 import InventoryView from "@/layouts/merchant/views/InventoryView";
 import OrdersView from "@/layouts/merchant/views/OrdersView";
-import { ALERTS } from "@/layouts/merchant/lib/fixtures/alerts";
-import { LISTINGS } from "@/layouts/merchant/lib/fixtures/listings";
-import { OVERVIEW } from "@/layouts/merchant/lib/fixtures/overview";
-import { RECENT_ORDERS } from "@/layouts/merchant/lib/fixtures/orders";
-import { PRICING } from "@/layouts/merchant/lib/fixtures/pricing";
 import { TRACE } from "@/layouts/merchant/lib/fixtures/trace";
-import { TRANSCRIPT } from "@/layouts/merchant/lib/fixtures/transcript";
+import { MerchantApi } from "@/layouts/merchant/lib/api";
+import { useMerchantChat } from "@/layouts/merchant/lib/useMerchantChat";
+import type {
+  AlertsResponse,
+  ListingDetails,
+  OverviewResponse,
+  PricingContext,
+} from "@/layouts/merchant/lib/types";
 
 type PortalView = "home" | "catalog" | "orders" | "inventory";
 
@@ -34,8 +36,16 @@ function StoreMark() {
 
 export default function PortalApp({
   operator,
+  overview,
+  listings,
+  pricing,
+  alerts: alertsData,
 }: {
   operator: { name: string; role: string };
+  overview: OverviewResponse;
+  listings: ListingDetails[];
+  pricing: Record<string, PricingContext>;
+  alerts: AlertsResponse;
 }) {
   const router = useRouter();
   const [view, setView] = useState<PortalView>("home");
@@ -43,21 +53,43 @@ export default function PortalApp({
   const [prefill, setPrefill] = useState<Prefill | null>(null);
   const [activityOpen, setActivityOpen] = useState(false);
 
-  const alerts = OVERVIEW.snapshot.alerts;
+  const api = useMemo(() => new MerchantApi(), []);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const chat = useMerchantChat(api, sessionId);
+
+  // The session starts the first time the rail is opened, not on page load — same
+  // reasoning as the shopping assistant's modal (src/layouts/components/assistant).
+  useEffect(() => {
+    if (!assistantOpen || sessionId) return;
+    let cancelled = false;
+    void api.start().then((result) => {
+      if (cancelled) return;
+      if (!("error" in result)) setSessionId(result.sessionId);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [assistantOpen, sessionId, api]);
+
+  const alertCounts = overview.snapshot.alerts;
   const nav = useMemo<PortalNavItem<PortalView>[]>(
     () => [
       { id: "home", label: "Home", icon: "FaHouse" },
       { id: "catalog", label: "Catalog", icon: "FaTag" },
-      { id: "orders", label: "Orders", icon: "FaInbox", attention: alerts?.order_issues ?? null },
-      { id: "inventory", label: "Inventory", icon: "FaBox", count: (alerts?.low_stock ?? 0) + (alerts?.slow_movers ?? 0) },
+      { id: "orders", label: "Orders", icon: "FaInbox", attention: alertCounts?.order_issues ?? null },
+      {
+        id: "inventory",
+        label: "Inventory",
+        icon: "FaBox",
+        count: (alertCounts?.low_stock ?? 0) + (alertCounts?.slow_movers ?? 0),
+      },
     ],
-    [alerts],
+    [alertCounts],
   );
 
-  // No live agent (per the spec, the rail is a static transcript) — opens
-  // the rail and prefills the composer with what would have been sent, so
-  // every "Ask"/"Draft" hand-off across the views is still demonstrably
-  // wired end to end.
+  // Opens the rail and prefills the composer rather than sending straight away —
+  // every "Ask"/"Draft" hand-off across the views lands as a draft the operator can
+  // still edit before it goes to the (now live) assistant.
   const askAssistant = useCallback((text: string) => {
     setAssistantOpen(true);
     setPrefill({ text, nonce: Date.now() });
@@ -83,22 +115,28 @@ export default function PortalApp({
         rail={
           <AssistantRail open={assistantOpen}>
             <AssistantPanel
-              turns={TRANSCRIPT}
-              listings={LISTINGS}
+              turns={chat.turns}
+              listings={listings}
               prefill={prefill}
+              busy={chat.busy}
               onClose={() => setAssistantOpen(false)}
               onPrefill={askAssistant}
               onOpenActivity={() => setActivityOpen(true)}
+              onSend={chat.send}
+              onApprove={chat.onApprove}
+              onDismiss={chat.onDismiss}
             />
           </AssistantRail>
         }
       >
-        {view === "home" ? <HomeView data={OVERVIEW} operator={operator.name} onAskAssistant={askAssistant} onNavigate={setView} /> : null}
+        {view === "home" ? <HomeView data={overview} operator={operator.name} onAskAssistant={askAssistant} onNavigate={setView} /> : null}
         {view === "catalog" ? (
-          <CatalogView listings={LISTINGS} alertsList={ALERTS.inventory} pricing={PRICING} onAskAssistant={askAssistant} />
+          <CatalogView listings={listings} alertsList={alertsData.inventory} pricing={pricing} onAskAssistant={askAssistant} />
         ) : null}
-        {view === "orders" ? <OrdersView issues={ALERTS.order_issues} recentOrders={RECENT_ORDERS} onAskAssistant={askAssistant} /> : null}
-        {view === "inventory" ? <InventoryView data={ALERTS} onAskAssistant={askAssistant} /> : null}
+        {view === "orders" ? (
+          <OrdersView issues={alertsData.order_issues} recentOrders={overview.recent_orders} onAskAssistant={askAssistant} />
+        ) : null}
+        {view === "inventory" ? <InventoryView data={alertsData} onAskAssistant={askAssistant} /> : null}
       </PortalShell>
       {activityOpen ? <Inspector groups={TRACE} onClose={() => setActivityOpen(false)} /> : null}
     </>

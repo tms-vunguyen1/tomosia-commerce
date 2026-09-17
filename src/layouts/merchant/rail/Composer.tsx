@@ -10,12 +10,20 @@ export interface Prefill {
 }
 
 /**
- * Simplified from web-shared/Composer.tsx: this portal has no live agent to
- * send to (per the spec, the rail is a static transcript), so submitting
- * only prevents the page reload — typing and a prefilled draft both work,
- * nothing is ever appended to the transcript.
+ * Simplified from web-shared/Composer.tsx: no attachments, no slash commands.
+ * `onSend` is the live chat's `send`; `busy` disables the field while a turn streams
+ * (the reference's `disabled` and `busy` are the same idea here, kept separate in case
+ * a "not ready yet" state — session still starting — needs its own copy later).
  */
-export default function Composer({ prefill }: { prefill?: Prefill | null }) {
+export default function Composer({
+  prefill,
+  onSend,
+  busy = false,
+}: {
+  prefill?: Prefill | null;
+  onSend?: (text: string) => void;
+  busy?: boolean;
+}) {
   const [draft, setDraft] = useState("");
   const [seenNonce, setSeenNonce] = useState<number | null>(null);
   const boxRef = useRef<HTMLTextAreaElement>(null);
@@ -34,10 +42,20 @@ export default function Composer({ prefill }: { prefill?: Prefill | null }) {
     if (prefill) boxRef.current?.focus();
   }, [prefill]);
 
+  const submit = () => {
+    const text = draft.trim();
+    if (!text || busy || !onSend) return;
+    onSend(text);
+    setDraft("");
+  };
+
   return (
     <form
       className="flex items-center gap-2 rounded-[14px] border border-(--line-strong) bg-(--card) py-2 pl-4 pr-2 shadow-(--shadow-sm) transition-colors focus-within:border-(--accent)"
-      onSubmit={(event) => event.preventDefault()}
+      onSubmit={(event) => {
+        event.preventDefault();
+        submit();
+      }}
     >
       <textarea
         ref={boxRef}
@@ -47,16 +65,18 @@ export default function Composer({ prefill }: { prefill?: Prefill | null }) {
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
             event.preventDefault();
+            submit();
           }
         }}
         rows={2}
         aria-label="Message the merchant assistant"
         placeholder="Ask about sales, stock, pricing…"
-        className="max-h-40 min-w-0 flex-1 resize-none bg-transparent py-1 text-base leading-normal text-(--ink) outline-none placeholder:text-(--ink-soft)/70"
+        disabled={busy}
+        className="max-h-40 min-w-0 flex-1 resize-none bg-transparent py-1 text-base leading-normal text-(--ink) outline-none placeholder:text-(--ink-soft)/70 disabled:opacity-60"
       />
       <button
         type="submit"
-        disabled={!draft.trim()}
+        disabled={!draft.trim() || busy}
         aria-label="Send"
         className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-(--ink) text-(--surface) transition hover:brightness-110 disabled:opacity-35"
       >

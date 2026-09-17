@@ -1,0 +1,44 @@
+{
+  "dates_anchored_to": "2026-09-17",
+  "campaigns": [
+    {
+      "campaign_id": "camp-fall-lighting",
+      "name": "Fall Lighting Refresh",
+      "status": "active",
+      "objective": "Drive traffic to pendant and floor lamp collections for the fall refresh",
+      "channel": "email",
+      "budget": 1500.0,
+      "spend": 620.0,
+      "revenue": null,
+      "currency": "USD",
+      "starts": "2026-09-01",
+      "ends": "2026-09-30"
+    },
+    {
+      "campaign_id": "camp-desk-lamp-social",
+      "name": "Desk Lamp Social Push",
+      "status": "active",
+      "objective": "Grow desk lamp sales among home-office shoppers",
+      "channel": "social",
+      "budget": 800.0,
+      "spend": 410.0,
+      "revenue": 1380.0,
+      "currency": "USD",
+      "starts": "2026-08-20",
+      "ends": "2026-09-20"
+    },
+    {
+      "campaign_id": "camp-summer-clearance",
+      "name": "Summer Clearance",
+      "status": "ended",
+      "objective": "Clear summer-season stock before the fall reset",
+      "channel": "social",
+      "budget": 600.0,
+      "spend": 600.0,
+      "revenue": 2140.0,
+      "currency": "USD",
+      "starts": "2026-07-01",
+      "ends": "2026-08-15"
+    }
+  ]
+}

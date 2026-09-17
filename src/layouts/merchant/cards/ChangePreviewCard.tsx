@@ -1,5 +1,6 @@
 import { coverLabel, describeProposer, formatDate, formatMoney, titleCase } from "../lib/format";
 import { CHANGE_STATUS } from "../lib/kinds";
+import type { ChangeActionResult } from "../lib/api";
 import type { ChangeItem, ChangePreviewPayload, ListingDetails } from "../lib/types";
 import ApproveBar from "../ui/ApproveBar";
 import { DiffRows, isLongTextDiff, LongTextDiff } from "../ui/DiffRows";
@@ -35,11 +36,19 @@ function RestockMath({ item, listings }: { item: ChangeItem; listings: ListingDe
 }
 
 /** Ported from the reference's components/generative/ChangePreviewCard.tsx.
- * Simplified: no onAct/useChangeActions — this portal has no live agent to
- * send an approve/dismiss action to (the assistant rail is a static
- * transcript per the spec), so ApproveBar always renders from the payload's
- * own change, disabled when still staged. */
-export default function ChangePreviewCard({ payload, listings }: { payload: ChangePreviewPayload; listings: ListingDetails[] }) {
+ * `onApprove`/`onDismiss` reach `ApproveBar`; passed by the live chat, absent on the
+ * static fixture transcript elsewhere in the portal. */
+export default function ChangePreviewCard({
+  payload,
+  listings,
+  onApprove,
+  onDismiss,
+}: {
+  payload: ChangePreviewPayload;
+  listings: ListingDetails[];
+  onApprove?: (changeId: string) => Promise<ChangeActionResult>;
+  onDismiss?: (changeId: string) => Promise<ChangeActionResult>;
+}) {
   const { change } = payload;
   const shortItems = change.items.filter((item) => !isLongTextDiff(item));
   const longItems = change.items.filter(isLongTextDiff);
@@ -81,7 +90,7 @@ export default function ChangePreviewCard({ payload, listings }: { payload: Chan
       ) : null}
 
       <GuardrailNotes notes={change.guardrail_notes} />
-      <ApproveBar change={change} />
+      <ApproveBar change={change} onApprove={onApprove} onDismiss={onDismiss} />
     </GenCard>
   );
 }

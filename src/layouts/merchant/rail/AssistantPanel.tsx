@@ -1,27 +1,36 @@
 import DynamicIcon from "@/helpers/DynamicIcon";
-import type { ListingDetails } from "../lib/types";
-import type { TranscriptTurn } from "../lib/fixtures/transcript";
+import type { ListingDetails, TranscriptTurn } from "../lib/types";
+import type { ChangeActionResult } from "../lib/api";
 import Composer, { type Prefill } from "./Composer";
 import Transcript from "./Transcript";
 
 /** Simplified from web-shared/portal/AssistantPanel.tsx: no memory button, no
  * fullscreen toggle, no resize — the rail is fixed-width and desktop-only
  * per the spec (interview item 11). Keeps the activity toggle (Task 13's
- * Inspector). */
+ * Inspector). `turns`/`busy`/`onSend` come from `useMerchantChat`, owned by
+ * `PortalApp` (so the session and its transcript survive the rail closing). */
 export default function AssistantPanel({
   turns,
   listings,
   prefill,
+  busy,
   onClose,
   onPrefill,
   onOpenActivity,
+  onSend,
+  onApprove,
+  onDismiss,
 }: {
   turns: TranscriptTurn[];
   listings: ListingDetails[];
   prefill: Prefill | null;
+  busy: boolean;
   onClose: () => void;
   onPrefill: (text: string) => void;
   onOpenActivity: () => void;
+  onSend: (text: string) => void;
+  onApprove: (changeId: string) => Promise<ChangeActionResult>;
+  onDismiss: (changeId: string) => Promise<ChangeActionResult>;
 }) {
   return (
     <div className="flex h-full w-full flex-col border-l border-(--line) bg-(--card)">
@@ -52,11 +61,11 @@ export default function AssistantPanel({
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
-        <Transcript turns={turns} listings={listings} onPrefill={onPrefill} />
+        <Transcript turns={turns} listings={listings} onPrefill={onPrefill} onApprove={onApprove} onDismiss={onDismiss} />
       </div>
 
       <div className="border-t border-(--line) p-3">
-        <Composer prefill={prefill} />
+        <Composer prefill={prefill} onSend={onSend} busy={busy} />
       </div>
     </div>
   );
