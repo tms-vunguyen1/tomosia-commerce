@@ -2,7 +2,7 @@
  * How each kind of retail record shows: its label, icon, and tone.
  * Ported from the reference's lib/kinds.ts; icon values are react-icons/fa6
  * component names (rendered via the existing DynamicIcon helper) in place
- * of the reference's own hand-drawn icon keys — see SPEC-merchant-portal.md.
+ * of the reference's own hand-drawn icon keys — see docs/merchant-portal/spec.md.
  */
 
 import type { ChangeStatus, InventoryAlert, ListingStatus, OrderIssue } from "./types";

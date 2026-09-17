@@ -1,6 +1,6 @@
 # Todo: Shopping Assistant Modal (UI-only)
 
-See `tasks/plan.md` for full context and architecture decisions, `SPEC.md`
+See `plan.md` for full context and architecture decisions, `spec.md`
 for the full spec.
 
 ### Phase 1: Foundation + empty shell
@@ -142,14 +142,14 @@ for the full spec.
 ### Phase 3: Polish & verification
 
 - [x] Task 5: Accessibility, persistence, dark mode, and final pass
-  - **Description:** Close out the remaining `SPEC.md` requirements that are
+  - **Description:** Close out the remaining `spec.md` requirements that are
     mostly verification rather than new code: aria attributes, focus
     restoration, persistence behavior, dark mode, and mobile sizing.
   - **Acceptance criteria:**
-    - [x] Every item in `SPEC.md`'s "Testing Strategy" (all 9 steps) passes
+    - [x] Every item in `spec.md`'s "Testing Strategy" (all 9 steps) passes
           manually.
   - **Verification:**
-    - [x] Manual walkthrough of all 9 steps in `SPEC.md` via Chrome DevTools
+    - [x] Manual walkthrough of all 9 steps in `spec.md` via Chrome DevTools
           MCP:
           1. FAB confirmed on home, a product page, `/about`, and `/contact`.
           2. FAB opens a centered modal with backdrop; focus moves in
@@ -183,7 +183,7 @@ for the full spec.
     was needed)
 
 ## Checkpoint: Complete
-- [x] All `SPEC.md` success criteria met
+- [x] All `spec.md` success criteria met
 - [x] `npm run lint` && `npm run build` clean
 - [x] No file outside `src/layouts/components/assistant/` and the single
       mount line in `src/app/layout.tsx` was touched

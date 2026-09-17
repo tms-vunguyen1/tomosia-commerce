@@ -1,5 +1,10 @@
 # Spec: AI Shopping Assistant Modal (UI-only)
 
+> **Superseded**: this UI-only, fixture-driven mock was the first pass at the
+> assistant modal. It has since been replaced by a real backend — see
+> "Shopping agent" in `../../CLAUDE.md`'s Commerce agent decision record and
+> `shopping-agent/README.md`. Kept here for history.
+
 ## Objective
 
 Add a chat-style "Shopping Assistant" UI to the storefront, inspired by

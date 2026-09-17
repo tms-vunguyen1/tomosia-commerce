@@ -9,7 +9,7 @@ Inventory), the three generative cards (Metrics, Digest, Change Preview), and
 an Inspector activity panel — entirely on **static fixture data**.
 
 This is a **UI-only** deliverable, same spirit as the existing Shopping
-Assistant Modal spec (`SPEC.md`): no merchant-agent backend, no Shopify Admin
+Assistant Modal spec (`../shopping-assistant-ui-mock/spec.md`): no merchant-agent backend, no Shopify Admin
 API wiring, no live chat. It exists to preview/evaluate the portal design
 direction before any of that backend work is scoped. It does **not** itself
 reverse the "Role: shopping agent only. No merchant agent." decision recorded
@@ -41,7 +41,7 @@ a real API (Storefront, Admin, or agent) at runtime.
 
 ## Commands
 
-Same as the rest of the repo (see `README.md` / `SPEC.md`):
+Same as the rest of the repo (see `README.md` / `../shopping-assistant-ui-mock/spec.md`):
 
 - Dev: `npm run dev`
 - Build: `npm run build`

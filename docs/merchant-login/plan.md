@@ -2,14 +2,14 @@
 
 ## Overview
 
-`SPEC-merchant-login.md` calls for gating the existing, currently-open
+`spec.md` calls for gating the existing, currently-open
 `/merchant` portal behind a hand-rolled, cookie-session login backed by a new
 Postgres+Prisma database — the repo's first database. Auth mirrors the
 existing `src/app/api/customer/*` route-handler convention (thin handler,
 `cookies()` from `next/headers`, generic errors); no Auth.js, no JWT. This
 plan breaks that spec into five dependency-ordered, vertically-sliced phases,
 each ending in a checkpoint that leaves the app in a working state. See
-`SPEC-merchant-login.md` for full behavior/boundaries detail and
+`spec.md` for full behavior/boundaries detail and
 `/Users/vu.nguyen/.claude/plans/serialized-wandering-hippo.md` for the
 reviewed/approved plan-mode summary this was generated from.
 
@@ -36,7 +36,7 @@ Exploration findings that shape the approach:
 
 ## Architecture Decisions
 
-(Already fixed by `SPEC-merchant-login.md` via the `/grill-me` interview —
+(Already fixed by `spec.md` via the `/grill-me` interview —
 recorded here for quick reference, not reopened.)
 
 1. **Opaque DB-backed sessions, not JWT.** `MerchantSession` rows in
@@ -107,11 +107,11 @@ recorded here for quick reference, not reopened.)
 
 ### Checkpoint: Feature complete
 - [ ] All acceptance criteria across Phases 1-5 met
-- [ ] All 10 steps in `SPEC-merchant-login.md`'s Testing Strategy pass fresh
+- [ ] All 10 steps in `spec.md`'s Testing Strategy pass fresh
 - [ ] Ready for human review / merge
 
 Full task detail (description, acceptance criteria, verification,
-dependencies, files, scope) lives in `tasks/todo-merchant-login.md`.
+dependencies, files, scope) lives in `todo.md`.
 
 ## Risks and Mitigations
 

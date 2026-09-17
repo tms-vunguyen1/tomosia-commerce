@@ -2,7 +2,7 @@
 
 ## Objective
 
-Gate the existing `/merchant` portal (`SPEC-merchant-portal.md`, currently a
+Gate the existing `/merchant` portal (`../merchant-portal/spec.md`, currently a
 fixture-only UI shell reachable by direct URL with **no auth**) behind a real
 login, so only a known store operator can open it.
 

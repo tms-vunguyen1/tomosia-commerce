@@ -1,7 +1,7 @@
 # Todo: Merchant Login
 
-See `tasks/plan-merchant-login.md` for full context and architecture
-decisions, `SPEC-merchant-login.md` for the full spec.
+See `plan.md` for full context and architecture
+decisions, `spec.md` for the full spec.
 
 ### Phase 1: Database Foundation
 
@@ -398,7 +398,7 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     `src/app/(merchant)/merchant/api/{login,logout}/route.ts` (URLs
     `/merchant/api/login`, `/merchant/api/logout`) so they share the
     cookie's path scope, and adding both to `middleware.ts`'s `PUBLIC_PATHS`
-    bypass list. `SPEC-merchant-login.md` amended to match — see its
+    bypass list. `spec.md` amended to match — see its
     "Amendment" note in Project Structure. Also fixed in the same pass: a
     real Chrome DevTools issue (missing `name` attributes on
     `MerchantLoginForm.tsx`'s email/password inputs, found via the
@@ -439,7 +439,7 @@ decisions, `SPEC-merchant-login.md` for the full spec.
           `@prisma/client` was added (`git diff package.json` shows exactly
           these four, nothing else).
   - **Verification:**
-    - [x] All 10 steps in `SPEC-merchant-login.md`'s Testing Strategy passed
+    - [x] All 10 steps in `spec.md`'s Testing Strategy passed
           fresh, re-run end to end (self-check script, migration status,
           duplicate-account rejection, logged-out redirect, wrong password,
           correct login, logout, session expiry, cookie isolation, lint +
@@ -464,7 +464,7 @@ decisions, `SPEC-merchant-login.md` for the full spec.
     `src/app/(merchant)/**`, `src/middleware.ts`, or `src/lib/merchant/**`
     ever reads `AUTH_COOKIE`, and no customer-side file ever reads
     `MERCHANT_AUTH_COOKIE` — each system reads only its own cookie by name.
-    `SPEC-merchant-login.md`'s Testing Strategy step 9 corrected to say this.
+    `spec.md`'s Testing Strategy step 9 corrected to say this.
 
 ### Checkpoint: Feature complete
 - [x] All acceptance criteria across Phases 1-5 met.

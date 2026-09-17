@@ -2,12 +2,12 @@
 
 ## Overview
 
-`SPEC.md` calls for a UI-only "Shopping Assistant" chat experience: a floating
+`spec.md` calls for a UI-only "Shopping Assistant" chat experience: a floating
 action button (FAB) that opens a centered modal dialog, with a scripted
 (non-AI) conversation — starter prompts, typewriter-streamed replies, a
 loading shimmer, and fixture product cards with a local-only "Add to cart"
 toggle. This plan breaks that spec into an ordered, vertically-sliced task
-list. See `SPEC.md` for full behavior/boundaries detail.
+list. See `spec.md` for full behavior/boundaries detail.
 
 Exploration findings that shape the approach:
 - No existing modal/dialog/focus-trap pattern in this repo (`CartModal.tsx` is
@@ -65,7 +65,7 @@ Exploration findings that shape the approach:
 
 ## Task List
 
-Tasks are tracked in `tasks/todo.md`. Ordered summary:
+Tasks are tracked in `todo.md`. Ordered summary:
 
 ### Phase 1: Foundation + empty shell
 - Task 1: Types, fixtures, and script data
@@ -91,7 +91,7 @@ Tasks are tracked in `tasks/todo.md`. Ordered summary:
 - Task 5: Accessibility, persistence, dark mode, and final pass
 
 ### Checkpoint: Complete
-- All `SPEC.md` success criteria met; lint/build clean; no file outside
+- All `spec.md` success criteria met; lint/build clean; no file outside
   `src/layouts/components/assistant/` and the single mount line in
   `src/app/layout.tsx` touched; no new npm dependency added.
 
@@ -101,10 +101,10 @@ Tasks are tracked in `tasks/todo.md`. Ordered summary:
 |---|---|---|
 | Native `<dialog>` centering/backdrop styling fights Tailwind defaults (browser UA styles) | Low | Reset with `p-0 m-auto border-none` on `<dialog>`, verify visually in Task 2 before building chat logic on top |
 | Typewriter `setInterval` effect trips `react-hooks/exhaustive-deps` (error, not warning, in this repo's ESLint config) | Med | Keep the interval effect scoped to one message id as its only dependency; clear on cleanup; verify `npm run lint` at the end of Task 3 |
-| Scope creep into real cart/backend integration | Med | Boundaries section in `SPEC.md` explicitly forbids this; Task 4's acceptance criteria explicitly checks the real cart is untouched |
+| Scope creep into real cart/backend integration | Med | Boundaries section in `spec.md` explicitly forbids this; Task 4's acceptance criteria explicitly checks the real cart is untouched |
 
 ## Open Questions
 
 None — starter copy and icon choices are locked in above (Architecture
-Decisions §3–4) rather than left as open questions, since `SPEC.md` explicitly
+Decisions §3–4) rather than left as open questions, since `spec.md` explicitly
 delegated that judgment call to planning/implementation.

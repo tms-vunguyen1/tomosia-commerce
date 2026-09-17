@@ -1,7 +1,7 @@
 # Implementation Plan: Merchant Portal UI Shell
 
-See `SPEC-merchant-portal.md` for the full spec (objective, tech stack,
-project structure, code style, boundaries) and `tasks/todo-merchant-portal.md`
+See `spec.md` for the full spec (objective, tech stack,
+project structure, code style, boundaries) and `todo.md`
 for the detailed task checklist. This document covers the plan's rationale
 and cross-cutting decisions only.
 
@@ -12,13 +12,13 @@ Build a UI-only `/merchant` route mirroring
 ACME-derived palette, four views (Home/Catalog/Orders/Inventory), a static
 assistant rail with three generative card types, and a static Inspector
 panel — all on fixture data, no backend. All design decisions were resolved
-in a prior `/grill-me` interview and written up in `SPEC-merchant-portal.md`;
+in a prior `/grill-me` interview and written up in `spec.md`;
 this plan turns that spec into an ordered, verifiable task list.
 
 Deliverables of this planning pass use this repo's existing feature-suffixed
-convention (`SPEC-merchant-portal.md` already does): `tasks/plan-merchant-portal.md`
-(this file) and `tasks/todo-merchant-portal.md`. The existing `tasks/plan.md`
-/ `tasks/todo.md` (the completed Shopping Assistant Modal work) are untouched.
+convention (`spec.md` already does): `plan.md`
+(this file) and `todo.md`. The existing `../shopping-assistant-ui-mock/plan.md`
+/ `../shopping-assistant-ui-mock/todo.md` (the completed Shopping Assistant Modal work) are untouched.
 
 ## Architecture Decisions
 
@@ -91,7 +91,7 @@ convention (`SPEC-merchant-portal.md` already does): `tasks/plan-merchant-portal
 
 ### Checkpoint: Complete
 
-See `tasks/todo-merchant-portal.md` for each task's description, acceptance
+See `todo.md` for each task's description, acceptance
 criteria, verification steps, dependencies, and files.
 
 ## Risks and Mitigations
@@ -104,6 +104,6 @@ criteria, verification steps, dependencies, and files.
 
 ## Open Questions
 
-None outstanding — `SPEC-merchant-portal.md`'s own open items (exact fixture
+None outstanding — `spec.md`'s own open items (exact fixture
 copy, the `not-found.tsx` resolution) are addressed by Task 1 (routing) and
 Tasks 4/12/13 (copy, drafted during implementation as the spec anticipated).

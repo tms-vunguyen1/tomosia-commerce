@@ -1,0 +1,102 @@
+# Render Blueprint for everything that isn't the Next.js app (that's on Vercel —
+# see docs/deployment.md). Deploy: Render Dashboard -> New -> Blueprint -> point at
+# this repo. Every `sync: false` var has no value here on purpose — fill it in from
+# the Render dashboard after the first deploy; docs/deployment.md lists what each
+# one needs to be.
+#
+# Both web services default to the `free` plan, which spins down after 15 minutes
+# idle (cold start on the next chat turn) and gets no persistent disk. Bump `plan`
+# once this carries real traffic — see docs/deployment.md.
+
+services:
+  - name: shopping-agent
+    type: web
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: shopping-agent/Dockerfile
+    dockerContext: shopping-agent
+    healthCheckPath: /api/health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      # The deployed Next.js app's URL (Vercel isn't part of this Blueprint).
+      - key: STOREFRONT_API_URL
+        sync: false
+      # Same value as the Next.js app's ASSISTANT_INTERNAL_TOKEN (Vercel env var).
+      - key: ASSISTANT_INTERNAL_TOKEN
+        sync: false
+      - key: STORE_NAME
+        value: Commerceplate
+      - key: ASSISTANT_NAME
+        value: the Commerceplate assistant
+      # Must include this service's own *.onrender.com hostname (or custom domain),
+      # not just the .env.example default — see docs/deployment.md.
+      - key: ASSISTANT_ALLOWED_HOSTS
+        sync: false
+      - key: ASSISTANT_SESSION_STORE
+        value: redis
+      - key: REDIS_URL
+        fromService:
+          name: shopping-agent-redis
+          property: connectionString
+
+  - name: shopping-agent-redis
+    type: keyvalue
+    plan: free
+    region: oregon
+    ipAllowList: [] # private network only — no service outside Render needs this one
+
+  - name: merchant-agent
+    type: web
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: merchant-agent/Dockerfile
+    dockerContext: merchant-agent
+    healthCheckPath: /api/health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: MERCHANT_STOREFRONT_API_URL
+        sync: false
+      - key: MERCHANT_ASSISTANT_INTERNAL_TOKEN
+        sync: false
+      - key: STORE_NAME
+        value: Commerceplate
+      - key: MERCHANT_ASSISTANT_NAME
+        value: the merchant assistant
+      - key: MERCHANT_ID
+        value: tomosia
+      - key: MERCHANT_ASSISTANT_ALLOWED_HOSTS
+        sync: false
+      - key: MERCHANT_LOW_STOCK_THRESHOLD
+        value: "10"
+      - key: MERCHANT_DELAYED_ORDER_DAYS
+        value: "3"
+      - key: MERCHANT_ASSISTANT_SESSION_STORE
+        value: redis
+      - key: REDIS_URL
+        fromService:
+          name: merchant-agent-redis
+          property: connectionString
+
+  - name: merchant-agent-redis
+    type: keyvalue
+    plan: free
+    region: oregon
+    ipAllowList: []
+
+databases:
+  # Used by the Next.js app (merchant login, Prisma) — not by either agent above.
+  # Vercel reaches this over the public internet, so it needs external access
+  # (ipAllowList below) and its *External* connection string (from the Render
+  # dashboard, not the `connectionString` a same-account Render service would get
+  # via fromDatabase) pasted into Vercel's DATABASE_URL — see docs/deployment.md.
+  - name: merchant-db
+    plan: free
+    region: oregon
+    postgresMajorVersion: "16"
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: Vercel has no static outbound IPs to allowlist more narrowly

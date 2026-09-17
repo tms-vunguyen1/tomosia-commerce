@@ -1,7 +1,7 @@
 # Todo: Merchant Portal UI Shell
 
-See `tasks/plan-merchant-portal.md` for full context and architecture
-decisions, `SPEC-merchant-portal.md` for the full spec.
+See `plan.md` for full context and architecture
+decisions, `spec.md` for the full spec.
 
 ### Phase 0: Routing foundation
 
@@ -66,7 +66,7 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
           (`MetricsPayload`, `DigestPayload`, `ChangePreviewPayload`).
     - [x] `lib/kinds.ts` defines `ISSUE_KINDS`, `INVENTORY_KINDS`,
           `LISTING_STATUS`, `ORDER_STATUS` with the fa6 icon mapping from
-          `SPEC-merchant-portal.md`'s Code Style table.
+          `spec.md`'s Code Style table.
     - [x] `lib/format.ts` exports the money/number/date/rate formatters the
           views need (the broader cross-view subset: money, number, rate,
           change-pct, date, day-month, plural, cover label, title case, and
@@ -74,7 +74,7 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
   - **Verification:**
     - [x] `npm run build` — clean (`npx tsc --noEmit` standalone hits the
           same pre-existing, unrelated `tsconfig.json` `baseUrl` deprecation
-          error noted in `tasks/todo.md`'s Task 1 — not caused by these
+          error noted in `../shopping-assistant-ui-mock/todo.md`'s Task 1 — not caused by these
           files; `npm run build`'s TypeScript pass is the real signal and is
           clean).
     - [x] `npm run lint` — clean. Found and fixed one real issue along the
@@ -602,10 +602,10 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
 ### Phase 5: Polish & verification
 
 - [x] Task 14: Full manual test pass + final lint/build
-  - **Description:** Run every step in `SPEC-merchant-portal.md`'s Testing
+  - **Description:** Run every step in `spec.md`'s Testing
     Strategy end to end and close out anything it surfaces.
   - **Acceptance criteria:**
-    - [x] All 10 steps in `SPEC-merchant-portal.md`'s Testing Strategy pass.
+    - [x] All 10 steps in `spec.md`'s Testing Strategy pass.
     - [x] No storefront route regressed from the Task 1 route split.
     - [x] `scripts/pull-merchant-fixtures.mjs` is confirmed unreachable from
           any runtime import path.
@@ -632,7 +632,7 @@ decisions, `SPEC-merchant-portal.md` for the full spec.
   - **Estimated scope:** Medium (verification-heavy, no fixes needed)
 
 ## Checkpoint: Complete
-- [x] All `SPEC-merchant-portal.md` success criteria met
+- [x] All `spec.md` success criteria met
 - [x] `npm run lint` && `npm run build` clean
 - [x] No file outside `src/app/(merchant)/**`, `src/app/(storefront)/**`
       (moved, unchanged), `src/layouts/merchant/**`, `src/styles/merchant.css`,

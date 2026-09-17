@@ -4,7 +4,7 @@ The storefront's assistant, built on the
 [`anthropics/commerce-agents`](https://github.com/anthropics/commerce-agents) packages.
 It serves a customer over a `StorefrontBackend`; the prompt, tool contracts, gates,
 grounding, fencing and turn loop are imported from those packages and are not
-reimplemented here. The decision record is in `../CLAUDE.md`.
+reimplemented here. See `ARCHITECTURE.md` for the full decision record.
 
 ## How the pieces sit
 
@@ -82,12 +82,9 @@ against the real store by calling the internal routes.
 
 Each case (`evals/cases/*.json`) runs against a fixture backend
 (`evals/fixtures.py`, real catalog ids, no live Shopify credential needed), so
-`runner.py` only needs `ANTHROPIC_API_KEY`. It records outcomes to
-`evals/recordings/*.json` (committed) and judges `rubric` cases live
-(`evals/judge.py`, pinned model); `replay.py` re-scores those recordings with
-the current `evals/scorers.py` and diffs against `evals/baseline.json`, keyed
-by case and scorer. See the decision record in `../CLAUDE.md` for why the
-backend is a fixture rather than live Shopify.
+`runner.py` only needs `ANTHROPIC_API_KEY`. See `evals/README.md` for the full
+15-case table, why the backend is a fixture rather than live Shopify, and
+authoring notes.
 
 ## Known limits
 
