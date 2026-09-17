@@ -1,106 +1,125 @@
 # Commerceplate
 
-A Shopify commerce project. The storefront is a Next.js 16 (App Router) site
-against the Shopify Storefront API (GraphQL), styled with Tailwind CSS v4. It's
-paired with two Python sidecars that Next.js proxies to, both built on the
-`anthropics/commerce-agents` packages: a shopping agent (`shopping-agent/`) for
-customers, and a merchant agent (`merchant-agent/`) for the store's own staff.
+Commerceplate is a Shopify storefront built with Next.js 16 and Tailwind CSS
+v4. It also ships two optional AI assistants: a **shopping agent** that helps
+customers on the storefront, and a **merchant agent** that powers an internal
+admin portal (`/merchant`) for store staff. Both assistants are separate
+Python services that the Next.js app talks to — you don't need them running
+just to work on the storefront itself.
 
-## Layout
+## Project structure
 
-| Path | What |
+| Path | What it is |
 |---|---|
-| `src/`, `scripts/` | The Next.js storefront (this README) |
-| `shopping-agent/` | Python FastAPI shopping assistant sidecar — see [`shopping-agent/README.md`](shopping-agent/README.md) |
-| `merchant-agent/` | Python FastAPI merchant assistant sidecar — see [`merchant-agent/README.md`](merchant-agent/README.md) |
-| `docs/` | Specs and task logs for past features, grouped by feature; see `docs/deployment.md` for the Vercel + Render setup |
+| `src/`, `scripts/` | The Next.js storefront |
+| `shopping-agent/` | Customer-facing assistant (Python/FastAPI) — [README](shopping-agent/README.md) |
+| `merchant-agent/` | Staff-facing assistant (Python/FastAPI) — [README](merchant-agent/README.md) |
+| `docs/` | Design docs, past feature specs, and the [deployment guide](docs/deployment.md) |
 
-## Requirements
+## Prerequisites
 
-- Node >= 22.20 (`.tool-versions` pins 26.5.0)
-- npm (the repo uses `package-lock.json`; ignore the `yarn` in `packageManager`)
-- A Shopify store with the **Headless** sales channel enabled (shopping agent) and a
-  Dev Dashboard app with Admin API access (merchant agent — see its README)
-- To run either agent: Python 3 + Docker (see each one's own README)
-- To use the merchant portal (`/merchant`): Docker, for its Postgres database
+- Node.js >= 22.20 (see `.tool-versions`)
+- npm (this repo uses `package-lock.json`, not the `yarn` in `packageManager`)
+- A Shopify store with the **Headless** sales channel enabled
+- Docker (only needed if you run the agents or the merchant portal locally)
 
-## Setup
+## Getting started
 
-Quick start (installs deps, starts Postgres, migrates, creates both agents'
-venvs):
+1. **Install and configure**
+
+   ```bash
+   make setup
+   ```
+
+   This installs npm packages, starts a local Postgres, runs database
+   migrations, and sets up a Python virtual environment for each agent.
+
+2. **Add your credentials**
+
+   Fill in `.env` (Shopify + database) — see `.env.example` for what's
+   needed. If you're also running an agent, fill in its `.env` too
+   (`shopping-agent/.env.example`, `merchant-agent/.env.example`).
+
+3. **Start the storefront**
+
+   ```bash
+   make dev
+   ```
+
+   Open <http://localhost:3000>.
+
+Don't have `make`? See [Setup without Make](#setup-without-make) below.
+
+### Optional: run the shopping agent
+
+Powers the storefront's chat assistant. Without it, the storefront still
+works, the assistant modal just won't respond.
 
 ```bash
-make setup
+make dev-shopping-agent
 ```
 
-Then fill in `.env`, `shopping-agent/.env` and `merchant-agent/.env` (Shopify +
-Anthropic credentials — see each `.env.example`) and run `make dev`. `make help`
-lists every target (`dev-shopping-agent`, `dev-merchant-agent`, `test`, `lint`,
-`seed-merchant`, ...).
+See [`shopping-agent/README.md`](shopping-agent/README.md) for configuration,
+running it without Docker, tests, and evals.
 
-Equivalent by hand, without `make`:
+### Optional: run the merchant agent + portal
+
+Powers `/merchant`, an internal dashboard and chat assistant for store staff
+(pricing, inventory, campaigns). It's not linked from the storefront —
+visiting `/merchant` directly redirects to a login screen.
+
+```bash
+make dev-merchant-agent
+make seed-merchant EMAIL=owner@example.com PASSWORD=yourpassword NAME="Your Name"
+```
+
+Then sign in at `/merchant`. See [`merchant-agent/README.md`](merchant-agent/README.md)
+for its Shopify Admin API credential setup, and `CLAUDE.md`'s "Merchant
+portal" section for how the login system works.
+
+## Everyday commands
+
+| Command | What it does |
+|---|---|
+| `make dev` | Run the storefront |
+| `make test` | Run both agents' test suites |
+| `make lint` | Lint the storefront and both agents |
+| `make help` | List every available command |
+
+The storefront itself has no automated tests; `shopping-agent/` and
+`merchant-agent/` each have their own `pytest` suite, run together via
+`make test`.
+
+## Deployment
+
+The storefront deploys to Vercel. The two agents, their Redis, and the
+merchant-login database deploy to Render, defined in `render.yaml`. Full
+walkthrough: [`docs/deployment.md`](docs/deployment.md).
+
+## Learn more
+
+`CLAUDE.md` has the full architecture write-up: how the Shopify data layer,
+auth, and cart cookies work, how the merchant portal and its login are built,
+and how the two AI agents are wired up.
+
+## Setup without Make
 
 ```bash
 npm install
 cp .env.example .env
 ```
 
-Fill in `.env` with your Shopify credentials (see `.env.example` for the required variables).
-
-### Shopping agent (optional)
-
-The storefront's assistant modal works only if this sidecar is running and
-`ASSISTANT_API_URL` + `ASSISTANT_INTERNAL_TOKEN` are set in the root `.env`
-too (same token value in both `.env` files): `make dev-shopping-agent`. See
-[`shopping-agent/README.md`](shopping-agent/README.md) for configuration,
-running without Docker, tests, and evals.
-
-### Merchant agent (optional)
-
-The merchant portal's assistant rail works only if this sidecar is running
-and `MERCHANT_ASSISTANT_API_URL` + `MERCHANT_ASSISTANT_INTERNAL_TOKEN` are set
-in the root `.env` too, plus `SHOPIFY_ADMIN_CLIENT_ID`/`SHOPIFY_ADMIN_CLIENT_SECRET`
-for its Shopify Admin API access: `make dev-merchant-agent`. See
-[`merchant-agent/README.md`](merchant-agent/README.md) for the Admin API
-credential setup, running without Docker, tests, and known limits.
-
-### Merchant portal (optional)
-
-`/merchant` is an internal portal gated by its own login (separate from
-Shopify customer accounts) — not linked from the storefront, direct URL
-only. `make setup` already starts Postgres and migrates; seed the first
-account with `make seed-merchant EMAIL=owner@example.com PASSWORD=yourpassword NAME="Your Name"`,
-then visit `/merchant`, which redirects to `/merchant/login` until you sign
-in. `DATABASE_URL` in `.env`/`.env.example` already points at the compose
-service's default credentials — change it if you're running Postgres
-yourself instead. See `CLAUDE.md`'s "Merchant portal" section and
-`docs/merchant-login/spec.md` for the full design.
-
-## Commands
+Fill in `.env`, then:
 
 ```bash
 npm run dev             # theme generator (watch) + next dev
 npm run build            # theme generator + next build
-npm run start             # start production server
-npm run lint               # eslint on src/**/*.{js,jsx,ts,tsx}
-npm run format               # prettier -w ./src
-npm run remove-darkmode        # strip dark-mode support, then format
+npm run start            # start production server
+npm run lint             # eslint on src/**/*.{js,jsx,ts,tsx}
+npm run format           # prettier -w ./src
+npm run remove-darkmode  # strip dark-mode support, then format
 ```
 
-There is no test runner configured for the Next.js app itself (`shopping-agent/` and
-`merchant-agent/` each have their own `pytest`/`ruff` setup — see their READMEs).
-`make test` and `make lint` run both agents' suites alongside `npm run lint`.
-
-## Deployment
-
-The Next.js app deploys to Vercel; the two agents, their Redis, and the
-merchant-login Postgres deploy to Render via `render.yaml`. See
-`docs/deployment.md` for the full walkthrough.
-
-## Architecture
-
-See `CLAUDE.md` for the full architecture notes: theme generation, the Shopify
-data layer, auth/cart cookie handling, the merchant portal and its own login,
-content pages, import aliases, lint/format conventions, and the commerce-agent
-decision record (identity binding, the internal API the agent calls back into,
-sessions, evals).
+For the agents and the merchant portal's database, see each one's own README
+(`shopping-agent/README.md`, `merchant-agent/README.md`) and the "Merchant
+portal" steps in `CLAUDE.md`.
