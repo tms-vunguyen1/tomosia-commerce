@@ -9,6 +9,8 @@ Routes, and who may call them:
     POST   /api/cart/add  the add button on an assistant product card
     GET    /api/cart      the session's Shopify cart
     GET    /api/orders    the signed-in customer's orders, newest first
+    GET    /api/memory    the caller's saved facts
+    DELETE /api/memory    retract one saved fact by key
     POST   /api/reset     drop the session
     GET    /api/health    (public)
 
@@ -24,7 +26,8 @@ import os
 from pathlib import Path
 from typing import Any
 
-from fastapi import Depends
+from commerce_common.memory import JsonFileMemoryStore, MemoryStore
+from fastapi import Depends, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 from shopping_agent import PageContext
@@ -56,11 +59,15 @@ _HELD_ADD_CODE = {
 }
 
 backend = ShopifyStorefront()
+# A JSON file on a volume (docker-compose.yml's `memory` volume), so the service runs
+# one worker — a second would race it (Dockerfile). Moving memory to Redis is what
+# unblocks more (see ../CLAUDE.md).
+memory_store: MemoryStore = JsonFileMemoryStore(Path("/srv/data/memory-store.json"))
 agent = ShoppingAgent(
     backend=backend,
     skills_dir=SKILLS_DIR,
     config=build_config(),
-    # No memory_store: memory is off (config.py), so there is nothing to store it in.
+    memory_store=memory_store,
     executor_class=ShoppingAssistantExecutor,
 )
 
@@ -103,6 +110,10 @@ class ChatRequest(BaseModel):
 class CartAddRequest(BaseModel):
     product_id: str = Field(min_length=1, max_length=256)
     quantity: int = Field(default=1, ge=1)
+
+
+class MemoryFactRef(BaseModel):
+    key: str = Field(min_length=1, max_length=64)
 
 
 def guest_id(cart_id: str | None) -> str:
@@ -213,6 +224,19 @@ async def reset(record: CurrentSession) -> dict:
         ),
     )
     return {"ok": True, "session_id": fresh.session_id}
+
+
+@app.get("/api/memory")
+async def list_memory(record: CurrentSession) -> dict:
+    facts = await memory_store.get_facts(record.user_id)
+    return {"facts": [fact.model_dump(mode="json") for fact in facts]}
+
+
+@app.delete("/api/memory")
+async def delete_memory_fact(ref: MemoryFactRef, record: CurrentSession) -> dict:
+    if not await memory_store.delete_fact(record.user_id, ref.key):
+        raise HTTPException(status_code=404, detail="No such fact")
+    return {"ok": True, "deleted": ref.key}
 
 
 @app.get("/api/health")

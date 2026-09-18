@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import CheckoutPopupHandoff from "@/components/assistant/CheckoutPopupHandoff";
 import CollectionsSlider from "@/components/CollectionsSlider";
 import HeroSlider from "@/components/HeroSlider";
 import SkeletonCategory from "@/components/loadings/skeleton/SkeletonCategory";
@@ -41,6 +42,7 @@ const Home = () => {
   return (
     <>
       <SeoMeta />
+      <CheckoutPopupHandoff />
       <section>
         <div className="container">
           <div className="bg-gradient py-10 rounded-md">

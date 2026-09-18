@@ -24,7 +24,7 @@ function Avatar({ name }: { name: string }) {
   return (
     <span
       aria-hidden
-      className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full bg-(--well) text-[12px] font-semibold text-(--ink) shadow-[inset_0_0_0_1px_var(--line)]"
+      className="grid h-7.5 w-7.5 shrink-0 place-items-center rounded-full bg-(--well) text-[12px] font-semibold text-(--ink) shadow-[inset_0_0_0_1px_var(--line)]"
     >
       {initials}
     </span>
@@ -72,7 +72,7 @@ export default function PortalShell<V extends string>({
 }) {
   return (
     <div className="flex h-dvh bg-(--ground) text-(--ink)">
-      <aside className="flex w-16 shrink-0 flex-col border-r border-(--line) bg-(--chrome) px-2 py-3.5 xl:w-[220px] xl:px-3">
+      <aside className="flex w-16 shrink-0 flex-col border-r border-(--line) bg-(--chrome) px-2 py-3.5 xl:w-55 xl:px-3">
         <div className="flex items-center gap-2.5 px-1 pb-4 xl:px-2">
           {brand.mark}
           <div className="hidden min-w-0 xl:block">
@@ -131,7 +131,7 @@ export default function PortalShell<V extends string>({
           ) : assistantOpen ? (
             <span
               aria-hidden
-              className="hidden h-[7px] w-[7px] rounded-full bg-(--accent) shadow-[0_0_0_3px_var(--accent-soft)] xl:block"
+              className="hidden h-1.75 w-1.75 rounded-full bg-(--accent) shadow-[0_0_0_3px_var(--accent-soft)] xl:block"
             />
           ) : null}
         </button>
@@ -146,7 +146,7 @@ export default function PortalShell<V extends string>({
             onClick={onLogout}
             aria-label="Log out"
             title="Log out"
-            className="shrink-0 rounded-[8px] p-1.5 text-(--ink-soft) transition-colors hover:bg-(--ground) hover:text-(--ink)"
+            className="shrink-0 rounded-md p-1.5 text-(--ink-soft) transition-colors hover:bg-(--ground) hover:text-(--ink)"
           >
             <DynamicIcon icon="FaArrowRightFromBracket" className="text-[15px]" />
           </button>

@@ -36,11 +36,7 @@ def build_config() -> ShoppingAgentConfig:
         assistant_name=require_env("ASSISTANT_NAME"),
         brand_voice="warm, concise, and plain about trade-offs",
         domain_search_notes=DOMAIN_SEARCH_NOTES,
-        # Off: nothing about a customer is kept between turns. The package leaves
-        # save_memory and recall_memory registered either way, so an ask to remember
-        # still reaches a tool — one that answers that memory is off rather than
-        # silently dropping the request.
-        enable_memory=False,
+        enable_memory=True,
         # enable_fulfillment stays at its default (True): the store does have delivery
         # options to quote (backend.py, over Shopify's own cart deliveryGroups), just
         # only for a signed-in customer with a default address on file.

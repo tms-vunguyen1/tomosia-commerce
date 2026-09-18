@@ -17,6 +17,8 @@ services:
     environment:
       STOREFRONT_API_URL: http://host.docker.internal:3000
       REDIS_URL: redis://redis:6379/0
+    volumes:
+      - memory:/srv/data
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -38,3 +40,4 @@ services:
 
 volumes:
   sessions:
+  memory:
